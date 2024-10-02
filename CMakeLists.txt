@@ -8,7 +8,7 @@ add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 project(KeystrokeBiometrics)
 add_library(key_logger STATIC WootingSDK/key-logger.cpp)
 
-add_executable(keystroke_biometrics main.cpp Logger/logger.cpp Utils/utils.cpp)
+add_executable(keystroke_biometrics main.cpp Logger/logger.cpp Utils/utils.cpp Config/config.cpp)
 
 find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(keystroke_biometrics PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libs/wooting_analog_sdk.lib")

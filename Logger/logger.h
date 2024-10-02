@@ -7,7 +7,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
-#include "../Utils/utils.h"
+#include "../Config/config.h"
 
 namespace logger
 {
