@@ -1,9 +1,4 @@
-#include <logger.h>
-
-#include <filesystem>
-#include <chrono>
-#include <iomanip>
-#include <sstream>
+#include "logger.h"
 
 std::shared_ptr<spdlog::logger> generalLogger;
 std::shared_ptr<spdlog::logger> hitLogger;
