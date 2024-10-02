@@ -1,6 +1,6 @@
 #include <key-logger.h>
 
-WootingSDK::KeyLogger::KeyLogger(int buffer_size)
+wooting_sdk::KeyLogger::KeyLogger(int buffer_size)
 {
     buffer_size_ = buffer_size;
     code_buffer_.resize(buffer_size);
@@ -8,7 +8,7 @@ WootingSDK::KeyLogger::KeyLogger(int buffer_size)
     Init();
 }
 
-void WootingSDK::KeyLogger::Init()
+void wooting_sdk::KeyLogger::Init()
 {
     int initialised = wooting_analog_initialise();
     if (initialised >= 0)
