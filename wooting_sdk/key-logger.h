@@ -11,7 +11,6 @@ namespace wooting_sdk
     {
     public:
         KeyLogger(int buffer_size = 64);
-        std::vector<KeyBuffer> ReadFullBuffer();
 
     private:
         int buffer_size_;
@@ -20,6 +19,7 @@ namespace wooting_sdk
         bool is_initialised_;
 
         void Init();
+        std::vector<KeyBuffer> ReadFullBuffer();
     };
 }
 
