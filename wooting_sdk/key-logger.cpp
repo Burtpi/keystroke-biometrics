@@ -1,5 +1,5 @@
 #include "key-logger.h"
-#include "../Logger/logger.h"
+#include "../logger/logger.h"
 
 wooting_sdk::KeyLogger::KeyLogger(int buffer_size)
 {

@@ -2,7 +2,7 @@
 #define CONFIG_H_
 
 #include <string>
-#include "../Utils/utils.h"
+#include "../utils/utils.h"
 
 namespace config
 {
