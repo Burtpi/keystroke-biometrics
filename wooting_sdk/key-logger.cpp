@@ -20,6 +20,7 @@ void wooting_sdk::KeyLogger::Init()
     else
     {
         logger::GetGeneralLogger()->error("Failed to initialise Wooting Analog SDK.");
+        exit(1);
     }
 }
 
