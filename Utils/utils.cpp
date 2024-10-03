@@ -9,6 +9,6 @@ std::string utils::GetCurrentDate()
     __time64_t time_now_in_t = std::chrono::system_clock::to_time_t(time_now);
 
     std::stringstream ss;
-    ss << std::put_time(std::localtime(&time_now_in_t), "%Y-%m-%d_%H-%M-%S");
+    ss << std::put_time(std::gmtime(&time_now_in_t), "%Y%m%dT%H%M%SZ");
     return ss.str();
 }

@@ -8,7 +8,7 @@ namespace config
     class ConfigManager
     {
     public:
-        AppConfig GetAppConfig();
+        AppConfig &GetAppConfig();
 
     private:
         AppConfig app_config_;
