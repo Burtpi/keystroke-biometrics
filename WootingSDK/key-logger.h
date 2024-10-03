@@ -8,6 +8,9 @@ namespace wooting_sdk
 {
     class KeyLogger
     {
+    public:
+        KeyLogger(int buffer_size = 64);
+
     private:
         int buffer_size_;
         std::vector<uint16_t> code_buffer_;
@@ -15,9 +18,6 @@ namespace wooting_sdk
         bool is_initialised_;
 
         void Init();
-
-    public:
-        KeyLogger(int buffer_size = 64);
     };
 }
 

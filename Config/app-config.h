@@ -8,12 +8,12 @@ namespace config
 {
     class AppConfig
     {
-    private:
-        std::string current_date_;
-
     public:
         std::string GetCurrentDate();
         AppConfig();
+
+    private:
+        std::string current_date_;
     };
 }
 #endif
