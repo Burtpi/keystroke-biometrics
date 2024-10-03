@@ -6,15 +6,14 @@
 
 namespace config
 {
-    class Config
+    class AppConfig
     {
     private:
         std::string current_date_;
 
     public:
         std::string GetCurrentDate();
-        Config();
+        AppConfig();
     };
 }
-extern config::Config CONFIG;
 #endif
