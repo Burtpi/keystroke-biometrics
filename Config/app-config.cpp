@@ -19,4 +19,5 @@ config::AppConfig::AppConfig()
     start_date_ = std::chrono::system_clock::now();
     key_logging_ = true;
     key_states_logging_ = true;
+    is_external_template_ = false;
 }
