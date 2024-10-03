@@ -8,6 +8,7 @@ namespace utils::time
 {
     std::string GetDateInString(std::chrono::time_point<std::chrono::system_clock> time);
     std::string CalculateElapsedTime();
+    void SleepHighResolution();
 }
 
 #endif

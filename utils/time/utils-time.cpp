@@ -3,6 +3,9 @@
 #include <chrono>
 #include <iomanip>
 #include <config/config-manager.h>
+#include <windows.h>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
 
 std::string utils::time::GetDateInString(std::chrono::time_point<std::chrono::system_clock> time)
 {
@@ -21,4 +24,11 @@ std::string utils::time::CalculateElapsedTime()
     std::stringstream ss;
     ss << elapsedTime.count();
     return ss.str();
+}
+
+void utils::time::SleepHighResolution()
+{
+    timeBeginPeriod(1);
+    Sleep(1);
+    timeEndPeriod(1);
 }

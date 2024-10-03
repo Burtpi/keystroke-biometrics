@@ -8,6 +8,7 @@
 namespace utils::key
 {
     std::vector<KeyBuffer> SortKeyStates(std::vector<KeyBuffer> key_states);
+    void LogKeyStates(std::vector<KeyBuffer> key_states);
 }
 
 #endif
