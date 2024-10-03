@@ -5,7 +5,8 @@ std::shared_ptr<spdlog::logger> hitLogger;
 
 void logger::InitLogger()
 {
-    std::string dateFolder = "logs/" + global_config.GetAppConfig().GetCurrentDate();
+    std::chrono::time_point<std::chrono::system_clock> date = global_config_manager.GetAppConfig().GetStartDate();
+    std::string dateFolder = "logs/" + utils::time::GetDateInString(date);
     std::filesystem::create_directories(dateFolder);
 
     generalLogger = spdlog::basic_logger_mt("general_logger", dateFolder + "/general_logs.txt");

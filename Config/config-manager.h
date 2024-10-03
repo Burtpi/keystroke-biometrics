@@ -16,6 +16,6 @@ namespace config
 
 }
 
-extern config::ConfigManager global_config;
+extern config::ConfigManager global_config_manager;
 
 #endif

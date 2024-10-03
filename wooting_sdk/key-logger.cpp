@@ -1,5 +1,5 @@
 #include "key-logger.h"
-#include "../logger/logger.h"
+#include <logger/logger.h>
 
 wooting_sdk::KeyLogger::KeyLogger(int buffer_size)
 {
@@ -21,4 +21,21 @@ void wooting_sdk::KeyLogger::Init()
     {
         logger::GetGeneralLogger()->error("Failed to initialise Wooting Analog SDK.");
     }
+}
+
+std::vector<KeyBuffer> wooting_sdk::KeyLogger::ReadFullBuffer()
+{
+    wooting_analog_read_full_buffer(&code_buffer_[0], &analog_buffer_[0], buffer_size_);
+
+    std::vector<KeyBuffer> buffer;
+    for (int i = 0; i < buffer_size_; i++)
+    {
+        if (code_buffer_[i] > 0)
+        {
+            buffer.emplace_back(code_buffer_[i], analog_buffer_[i]);
+        }
+    }
+    code_buffer_ = std::vector<uint16_t>();
+    code_buffer_.resize(buffer_size_);
+    return buffer;
 }

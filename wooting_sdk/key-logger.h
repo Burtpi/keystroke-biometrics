@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "include/wooting-analog-wrapper.h"
+#include <models/key-buffer.h>
 
 namespace wooting_sdk
 {
@@ -10,6 +11,7 @@ namespace wooting_sdk
     {
     public:
         KeyLogger(int buffer_size = 64);
+        std::vector<KeyBuffer> ReadFullBuffer();
 
     private:
         int buffer_size_;

@@ -1,6 +1,6 @@
 #include "config-manager.h"
 
-config::ConfigManager global_config;
+config::ConfigManager global_config_manager;
 
 config::AppConfig &config::ConfigManager::GetAppConfig()
 {

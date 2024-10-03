@@ -6,12 +6,15 @@ add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 project(KeystrokeBiometrics)
-add_library(key_logger STATIC WootingSDK/key-logger.cpp)
-add_library(utils STATIC Utils/utils.cpp)
-add_library(config STATIC Config/config-manager.cpp Config/app-config.cpp)
-add_library(logger STATIC Logger/logger.cpp)
+add_library(key_logger STATIC wooting_sdk/key-logger.cpp)
+add_library(utils STATIC utils/time/utils-time.cpp)
+add_library(config STATIC config/config-manager.cpp config/app-config.cpp)
+add_library(logger STATIC logger/logger.cpp)
 
 add_executable(keystroke_biometrics main.cpp)
+
+target_include_directories(keystroke_biometrics PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(keystroke_biometrics PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libs/wooting_analog_sdk.lib")
