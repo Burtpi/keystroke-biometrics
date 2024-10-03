@@ -10,7 +10,6 @@ namespace config
     class AppConfig
     {
     public:
-        std::string GetStartDateString();
         std::chrono::time_point<std::chrono::system_clock> GetStartDate();
         bool GetKeyLogging();
         void SetKeyLogging(bool key_logging);

@@ -1,7 +1,5 @@
 #include "app-config.h"
 
-std::string config::AppConfig::GetStartDateString() { return start_date_string_; }
-
 std::chrono::time_point<std::chrono::system_clock> config::AppConfig::GetStartDate() { return start_date_; }
 
 bool config::AppConfig::GetKeyLogging() { return key_logging_; }
