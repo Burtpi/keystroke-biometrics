@@ -1,5 +1,5 @@
-#ifndef UTILS_H_
-#define UTILS_H_
+#ifndef UTILS_TIME_H_
+#define UTILS_TIME_H_
 
 #include <sstream>
 #include <chrono>
