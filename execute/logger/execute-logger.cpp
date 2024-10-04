@@ -2,6 +2,7 @@
 #include <execute/logger/execute-logger.h>
 #include <models/key-buffer.h>
 #include <utils/key/utils-key.h>
+#include <utils/key/validators/utils-key-validators.h>
 #include <utils/time/utils-time.h>
 #include <wooting_sdk/key-logger.h>
 
@@ -17,6 +18,7 @@ void execute::logger::RunLogger() {
             if (global_config_manager.GetAppConfig().GetKeyStatesLogging())
                 utils::key::LogKeyStates(key_states);
         }
+        utils::key::validators::CheckIfExit(key_states);
         utils::time::SleepHighResolution();
     }
 }
