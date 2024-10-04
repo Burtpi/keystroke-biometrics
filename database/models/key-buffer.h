@@ -1,6 +1,7 @@
 #ifndef KEY_BUFFER_H_
 #define KEY_BUFFER_H_
 
+namespace database::models {
 struct KeyBuffer {
     int hid;
     float pressure;
@@ -15,5 +16,7 @@ struct KeyBuffer {
         return pressure < other.pressure;
     }
 };
+
+}  // namespace database::models
 
 #endif

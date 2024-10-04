@@ -1,7 +1,7 @@
 #ifndef KEY_LOGGER_H_
 #define KEY_LOGGER_H_
 
-#include <models/key-buffer.h>
+#include <database/models/key-buffer.h>
 #include <wooting_sdk/include/wooting-analog-wrapper.h>
 
 #include <vector>
@@ -10,7 +10,7 @@ namespace wooting_sdk {
 class KeyLogger {
    public:
     KeyLogger(int buffer_size = 64);
-    std::vector<KeyBuffer> ReadFullBuffer();
+    std::vector<database::models::KeyBuffer> ReadFullBuffer();
 
    private:
     int buffer_size_;

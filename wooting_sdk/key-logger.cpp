@@ -20,11 +20,12 @@ void wooting_sdk::KeyLogger::Init() {
     }
 }
 
-std::vector<KeyBuffer> wooting_sdk::KeyLogger::ReadFullBuffer() {
+std::vector<database::models::KeyBuffer>
+wooting_sdk::KeyLogger::ReadFullBuffer() {
     wooting_analog_read_full_buffer(&code_buffer_[0], &analog_buffer_[0],
                                     buffer_size_);
 
-    std::vector<KeyBuffer> buffer;
+    std::vector<database::models::KeyBuffer> buffer;
     for (int i = 0; i < buffer_size_; i++) {
         if (code_buffer_[i] > 0) {
             buffer.emplace_back(code_buffer_[i], analog_buffer_[i]);

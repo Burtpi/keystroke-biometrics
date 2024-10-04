@@ -4,15 +4,16 @@
 
 #include <string>
 
-std::vector<KeyBuffer> utils::key::SortKeyStates(
-    std::vector<KeyBuffer> key_states) {
-    std::vector<KeyBuffer> sorted_key_states = key_states;
+std::vector<database::models::KeyBuffer> utils::key::SortKeyStates(
+    std::vector<database::models::KeyBuffer> key_states) {
+    std::vector<database::models::KeyBuffer> sorted_key_states = key_states;
     std::sort(sorted_key_states.begin(), sorted_key_states.end());
     return sorted_key_states;
 }
 
-void utils::key::LogKeyStates(std::vector<KeyBuffer> key_states) {
-    std::vector<KeyBuffer> sorted_key_states =
+void utils::key::LogKeyStates(
+    std::vector<database::models::KeyBuffer> key_states) {
+    std::vector<database::models::KeyBuffer> sorted_key_states =
         utils::key::SortKeyStates(key_states);
     std::string elapsed_time = utils::time::CalculateElapsedTime();
 
@@ -25,7 +26,7 @@ void utils::key::LogKeyStates(std::vector<KeyBuffer> key_states) {
     std::map<int, std::string> hid_to_ascii =
         global_config_manager.GetLanguageConfig().GetHidToAscii();
 
-    for (KeyBuffer key : sorted_key_states) {
+    for (database::models::KeyBuffer key : sorted_key_states) {
         row << "{Key: ";
         auto it = hid_to_ascii.find(key.hid);
         if (it != hid_to_ascii.end()) {
