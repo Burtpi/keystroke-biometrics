@@ -3,10 +3,8 @@
 
 #include <config/config-manager.h>
 
-
-namespace execute
-{
-    void Run();
+namespace execute {
+void Run();
 }
 
 #endif

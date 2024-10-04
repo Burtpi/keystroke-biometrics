@@ -1,5 +1,3 @@
 #include "execute-external.h"
 
-void execute::external::RunExternal()
-{
-}
+void execute::external::RunExternal() {}

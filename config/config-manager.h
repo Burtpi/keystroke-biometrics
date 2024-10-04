@@ -3,18 +3,16 @@
 
 #include "app-config.h"
 
-namespace config
-{
-    class ConfigManager
-    {
-    public:
-        AppConfig &GetAppConfig();
+namespace config {
+class ConfigManager {
+   public:
+    AppConfig &GetAppConfig();
 
-    private:
-        AppConfig app_config_;
-    };
+   private:
+    AppConfig app_config_;
+};
 
-}
+}  // namespace config
 
 extern config::ConfigManager global_config_manager;
 

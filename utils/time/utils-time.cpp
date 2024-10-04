@@ -1,14 +1,17 @@
 #include "utils-time.h"
-#include <filesystem>
-#include <chrono>
-#include <iomanip>
-#include <config/config-manager.h>
+
 #include <windows.h>
+
+#include <config/config-manager.h>
 #include <mmsystem.h>
+
+#include <chrono>
+#include <filesystem>
+#include <iomanip>
 #pragma comment(lib, "winmm.lib")
 
-std::string utils::time::GetDateInString(std::chrono::time_point<std::chrono::system_clock> time)
-{
+std::string utils::time::GetDateInString(
+    std::chrono::time_point<std::chrono::system_clock> time) {
     __time64_t time_now_in_t = std::chrono::system_clock::to_time_t(time);
 
     std::stringstream ss;
@@ -16,18 +19,17 @@ std::string utils::time::GetDateInString(std::chrono::time_point<std::chrono::sy
     return ss.str();
 }
 
-std::string utils::time::CalculateElapsedTime()
-{
-    auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() -
-                                                                             global_config_manager.GetAppConfig().GetStartDate());
+std::string utils::time::CalculateElapsedTime() {
+    auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now() -
+        global_config_manager.GetAppConfig().GetStartDate());
 
     std::stringstream ss;
     ss << elapsedTime.count();
     return ss.str();
 }
 
-void utils::time::SleepHighResolution()
-{
+void utils::time::SleepHighResolution() {
     timeBeginPeriod(1);
     Sleep(1);
     timeEndPeriod(1);

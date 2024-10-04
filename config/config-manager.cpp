@@ -2,7 +2,4 @@
 
 config::ConfigManager global_config_manager;
 
-config::AppConfig &config::ConfigManager::GetAppConfig()
-{
-    return app_config_;
-}
+config::AppConfig &config::ConfigManager::GetAppConfig() { return app_config_; }

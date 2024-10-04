@@ -1,15 +1,12 @@
 #include "execute.h"
+
 #include <execute/external/execute-external.h>
 #include <execute/logger/execute-logger.h>
 
-void execute::Run()
-{
-    if (global_config_manager.GetAppConfig().GetIsExternalTemplate())
-    {
+void execute::Run() {
+    if (global_config_manager.GetAppConfig().GetIsExternalTemplate()) {
         execute::external::RunExternal();
-    }
-    else
-    {
+    } else {
         execute::logger::RunLogger();
     }
 }
