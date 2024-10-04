@@ -14,17 +14,13 @@ void execute::logger::RunLogger()
     {
         std::vector<KeyBuffer> key_states = key_logger.ReadFullBuffer();
 
-        if (key_states.size() == 0)
+        if (!key_states.empty())
         {
-            utils::time::SleepHighResolution();
-            continue;
-        }
+            if (global_config_manager.GetAppConfig().GetKeyStatesLogging())
+                utils::key::LogKeyStates(key_states);
 
-        if (global_config_manager.GetAppConfig().GetKeyStatesLogging())
-        {
-            utils::key::LogKeyStates(key_states);
+            
         }
-
         utils::time::SleepHighResolution();
     }
 }

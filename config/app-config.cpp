@@ -14,10 +14,15 @@ bool config::AppConfig::GetIsExternalTemplate() { return is_external_template_; 
 
 void config::AppConfig::SetIsExternalTemplate(bool is_external_template) { is_external_template_ = is_external_template; }
 
-config::AppConfig::AppConfig()
+int config::AppConfig::GetExitHid() { return exit_hid_; }
+
+void config::AppConfig::SetExitHid(int hid) { exit_hid_ = hid; }
+
+config::AppConfig::AppConfig(bool key_logging, bool key_sates_logging, bool is_external_template, int exit_hid)
 {
     start_date_ = std::chrono::system_clock::now();
-    key_logging_ = true;
-    key_states_logging_ = true;
-    is_external_template_ = false;
+    key_logging_ = key_logging;
+    key_states_logging_ = key_sates_logging;
+    is_external_template_ = is_external_template;
+    exit_hid_ = exit_hid;
 }

@@ -19,7 +19,7 @@ void utils::key::LogKeyStates(std::vector<KeyBuffer> key_states)
 
     row << "Elapsed Time: " << elapsed_time << ", Size: " << std::to_string(sorted_key_states.size()) << ", Keys: [";
 
-    for (auto key : sorted_key_states)
+    for (KeyBuffer key : sorted_key_states)
     {
         if (key.pressure > -1)
         {
