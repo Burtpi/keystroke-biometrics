@@ -1,5 +1,5 @@
-#ifndef CONFIG_H_
-#define CONFIG_H_
+#ifndef APP_CONFIG_H_
+#define APP_CONFIG_H_
 
 #include <chrono>
 #include <string>
