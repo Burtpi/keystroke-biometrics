@@ -22,10 +22,19 @@ void utils::key::LogKeyStates(std::vector<KeyBuffer> key_states) {
         << ", Size: " << std::to_string(sorted_key_states.size())
         << ", Keys: [";
 
+    std::map<int, std::string> hid_to_ascii =
+        global_config_manager.GetLanguageConfig().GetHidToAscii();
+
     for (KeyBuffer key : sorted_key_states) {
         if (key.pressure > -1) {
-            row << "{Key: " << key.hid << ", Pressure: " << key.pressure
-                << "}, ";
+            row << "{Key: ";
+            auto it = hid_to_ascii.find(key.hid);
+            if (it != hid_to_ascii.end()) {
+                row << hid_to_ascii.find(key.hid)->second;
+            } else {
+                row << key.hid;
+            }
+            row << ", Pressure: " << key.pressure << "}, ";
         }
     }
     row << "]";
