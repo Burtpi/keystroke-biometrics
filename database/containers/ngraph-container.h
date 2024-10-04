@@ -1,0 +1,4 @@
+#ifndef NGRAPH_CONTAINER_H_
+#define NGRAPH_CONTAINER_H_
+
+#endif
