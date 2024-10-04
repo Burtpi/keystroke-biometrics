@@ -1,7 +1,7 @@
 #ifndef CONFIG_MANAGER_H_
 #define CONFIG_MANAGER_H_
 
-#include "app-config.h"
+#include <config/app-config.h>
 
 namespace config {
 class ConfigManager {

@@ -2,10 +2,9 @@
 #define KEY_LOGGER_H_
 
 #include <models/key-buffer.h>
+#include <wooting_sdk/include/wooting-analog-wrapper.h>
 
 #include <vector>
-
-#include "include/wooting-analog-wrapper.h"
 
 namespace wooting_sdk {
 class KeyLogger {

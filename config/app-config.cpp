@@ -1,4 +1,4 @@
-#include "app-config.h"
+#include <config/app-config.h>
 
 std::chrono::time_point<std::chrono::system_clock>
 config::AppConfig::GetStartDate() {

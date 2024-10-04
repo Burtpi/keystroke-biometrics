@@ -1,4 +1,4 @@
-#include "config-manager.h"
+#include <config/config-manager.h>
 
 config::ConfigManager global_config_manager;
 
