@@ -26,16 +26,14 @@ void utils::key::LogKeyStates(std::vector<KeyBuffer> key_states) {
         global_config_manager.GetLanguageConfig().GetHidToAscii();
 
     for (KeyBuffer key : sorted_key_states) {
-        if (key.pressure > -1) {
-            row << "{Key: ";
-            auto it = hid_to_ascii.find(key.hid);
-            if (it != hid_to_ascii.end()) {
-                row << hid_to_ascii.find(key.hid)->second;
-            } else {
-                row << key.hid;
-            }
-            row << ", Pressure: " << key.pressure << "}, ";
+        row << "{Key: ";
+        auto it = hid_to_ascii.find(key.hid);
+        if (it != hid_to_ascii.end()) {
+            row << hid_to_ascii.find(key.hid)->second;
+        } else {
+            row << key.hid;
         }
+        row << ", Pressure: " << key.pressure << "}, ";
     }
     row << "]";
     logger::GetHitLogger()->info(row.str());

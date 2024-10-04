@@ -17,8 +17,9 @@ void execute::logger::RunLogger() {
         if (!key_states.empty()) {
             if (global_config_manager.GetAppConfig().GetKeyStatesLogging())
                 utils::key::LogKeyStates(key_states);
+            utils::key::validators::CheckIfExit(key_states);
         }
-        utils::key::validators::CheckIfExit(key_states);
+
         utils::time::SleepHighResolution();
     }
 }
