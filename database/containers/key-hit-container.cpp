@@ -1,16 +1,29 @@
 #include <database/containers/key-hit-container.h>
 
-database::container::KeyHitContainer key_hit_container;
+std::vector<database::models::KeyHit>
+database::containers::KeyHitContainer::GetKeyHits() {
+    return key_hits_;
+}
 
-void database::container::KeyHitContainer::AddKeyHit(
+database::models::KeyHit
+database::containers::KeyHitContainer::GetFirstKeyHit() {
+    return key_hits_.front();
+}
+
+database::models::KeyHit
+database::containers::KeyHitContainer::GetLastKeyHit() {
+    return key_hits_.back();
+}
+
+void database::containers::KeyHitContainer::AddKeyHit(
     database::models::KeyHit hit) {
-    key_hits.emplace_back(hit);
+    key_hits_.emplace_back(hit);
 }
 
-void database::container::KeyHitContainer::PushBackTimeStamp(int time_stamp) {
-    key_hits.back().PushBackTimeStamp(time_stamp);
+void database::containers::KeyHitContainer::PushBackTimeStamp(int time_stamp) {
+    key_hits_.back().PushBackTimeStamp(time_stamp);
 }
 
-void database::container::KeyHitContainer::PushBackPressure(float pressure) {
-    key_hits.back().PushBackPressure(pressure);
+void database::containers::KeyHitContainer::PushBackPressure(float pressure) {
+    key_hits_.back().PushBackPressure(pressure);
 }
