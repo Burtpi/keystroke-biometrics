@@ -25,7 +25,7 @@ void utils::key::LogKeyStates(
         << ", Size: " << std::to_string(sorted_key_states.size())
         << ", Keys: [";
 
-    std::map<int, std::string> hid_to_ascii =
+    const std::map<int, std::string>& hid_to_ascii =
         global_config_manager.GetLanguageConfig().GetHidToAscii();
 
     for (database::models::KeyBuffer key : sorted_key_states) {
@@ -42,12 +42,12 @@ void utils::key::LogKeyStates(
     logger::GetHitLogger()->info(row.str());
 }
 
-void utils::key::CreateKeyHits(database::models::KeyBuffer &key_state) {
+void utils::key::CreateKeyHits(database::models::KeyBuffer& key_state) {
     int elapsed_time =
         stoi(global_config_manager.GetAppConfig().GetElapsedTime());
     bool is_modifier = utils::key::validators::CheckIfModifierKey(key_state);
 
-    std::vector<database::models::KeyHit> key_hits =
+    const std::vector<database::models::KeyHit>& key_hits =
         is_modifier ? database_manager.GetKeyHitContainer().GetModifierKeys()
                     : database_manager.GetKeyHitContainer().GetKeyHits();
 

@@ -8,7 +8,7 @@ namespace config {
 class ConfigManager {
    public:
     AppConfig &GetAppConfig();
-    LanguageConfig &GetLanguageConfig();
+    const LanguageConfig &GetLanguageConfig() const;
 
    private:
     AppConfig app_config_;

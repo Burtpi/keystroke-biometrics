@@ -7,8 +7,8 @@
 namespace database {
 class DatabaseManager {
    public:
-    database::containers::KeyHitContainer &GetKeyHitContainer();
-    database::containers::NgraphContainer &GetNgraphContainer();
+    database::containers::KeyHitContainer GetKeyHitContainer() const;
+    const database::containers::NgraphContainer &GetNgraphContainer() const;
 
    private:
     database::containers::KeyHitContainer key_hit_container_;

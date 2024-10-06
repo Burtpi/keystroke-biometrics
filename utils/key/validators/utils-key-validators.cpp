@@ -24,51 +24,52 @@ utils::key::validators::KeyHitIterator utils::key::validators::CheckIfExists(
 }
 
 bool utils::key::validators::CheckIfSpecialChar(int hid) {
-    KeyHitIterator ralt = std::find_if(
-        database_manager.GetKeyHitContainer().GetModifierKeys().begin(),
-        database_manager.GetKeyHitContainer().GetModifierKeys().end(),
-        [](database::models::KeyHit &key_hit) {
-            return key_hit.GetHid() == 230 && key_hit.GetIsPressed() == true;
-        });
-    auto special_char =
-        global_config_manager.GetLanguageConfig().GetSpecialCharsAscii().find(
-            hid);
+    const std::vector<database::models::KeyHit> &modifier_keys =
+        database_manager.GetKeyHitContainer().GetModifierKeys();
 
-    return special_char != global_config_manager.GetLanguageConfig()
-                               .GetSpecialCharsAscii()
-                               .end() &&
-           ralt !=
-               database_manager.GetKeyHitContainer().GetModifierKeys().end();
+    const std::map<int, std::string> &special_chars_ascii =
+        global_config_manager.GetLanguageConfig().GetSpecialCharsAscii();
+
+    auto ralt = std::find_if(modifier_keys.begin(), modifier_keys.end(),
+                             [](database::models::KeyHit &key_hit) {
+                                 return key_hit.GetHid() == 230 &&
+                                        key_hit.GetIsPressed() == true;
+                             });
+    auto special_char = special_chars_ascii.find(hid);
+
+    return special_char != special_chars_ascii.end() &&
+           ralt != modifier_keys.end();
 }
 
 bool utils::key::validators::CheckIfBigChar() {
-    KeyHitIterator shift = std::find_if(
-        database_manager.GetKeyHitContainer().GetModifierKeys().begin(),
-        database_manager.GetKeyHitContainer().GetModifierKeys().end(),
+    const std::vector<database::models::KeyHit> &modifier_keys =
+        database_manager.GetKeyHitContainer().GetModifierKeys();
+
+    auto shift = std::find_if(
+        modifier_keys.begin(), modifier_keys.end(),
         [](database::models::KeyHit &key_hit) {
             return (key_hit.GetHid() == 225 || key_hit.GetHid() == 229) &&
                    key_hit.GetIsPressed() == true;
         });
-    return shift !=
-           database_manager.GetKeyHitContainer().GetModifierKeys().end();
+    return shift != modifier_keys.end();
 }
 
 bool utils::key::validators::CheckIfModifierKey(
     database::models::KeyBuffer key_state) {
-    auto modifier_key =
-        global_config_manager.GetLanguageConfig().GetModifierKeys().find(
-            key_state.hid);
-    return modifier_key !=
-           global_config_manager.GetLanguageConfig().GetModifierKeys().end();
+    const std::map<int, std::string> &modifier_keys =
+        global_config_manager.GetLanguageConfig().GetModifierKeys();
+
+    auto modifier_key = modifier_keys.find(key_state.hid);
+    return modifier_key != modifier_keys.end();
 }
 
 void utils::key::validators::CheckIfNgraph(database::models::KeyHit key_hit) {
-    std::vector<database::models::KeyHit> key_hits =
+    const std::vector<database::models::KeyHit> &key_hits =
         database_manager.GetKeyHitContainer().GetKeyHits();
 
     if (key_hits.size() <= 3) return;
 
-    config::LanguageConfig language_config =
+    const config::LanguageConfig &language_config =
         global_config_manager.GetLanguageConfig();
 
     auto get_char = [&](database::models::KeyHit key_hit) -> std::string {
@@ -106,12 +107,13 @@ void utils::key::validators::CheckIfNgraph(database::models::KeyHit key_hit) {
 
 void utils::key::validators::CheckIfKeyIsPressed(
     database::models::KeyBuffer &key_state) {
-    std::vector<database::models::KeyHit> key_hits_ =
+    const std::vector<database::models::KeyHit> &key_hits =
         utils::key::validators::CheckIfModifierKey(key_state)
             ? database_manager.GetKeyHitContainer().GetModifierKeys()
             : database_manager.GetKeyHitContainer().GetKeyHits();
+
     if (key_state.pressure == 0) {
-        for (database::models::KeyHit &key_hit : key_hits_) {
+        for (database::models::KeyHit key_hit : key_hits) {
             if (key_hit.GetHid() == key_state.hid && key_hit.GetIsPressed()) {
                 key_hit.SetIsPressed(false);
                 key_hit.Calculate();

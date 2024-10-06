@@ -8,8 +8,8 @@
 namespace database::containers {
 class KeyHitContainer {
    public:
-    std::vector<database::models::KeyHit> GetKeyHits();
-    std::vector<database::models::KeyHit> GetModifierKeys();
+    const std::vector<database::models::KeyHit>& GetKeyHits();
+    const std::vector<database::models::KeyHit>& GetModifierKeys() const;
     database::models::KeyHit GetFirstKeyHit();
     database::models::KeyHit GetLastKeyHit();
     void AddKeyHit(bool is_modifier, int hid, int elapsed_time, float pressure);

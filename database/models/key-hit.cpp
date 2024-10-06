@@ -14,8 +14,8 @@ database::models::KeyHit::KeyHit(int hid, int elapsed_time, float pressure,
     is_big_char_ = is_big;
     is_interpolated_ = false;
 }
-int database::models::KeyHit::GetHid() { return hid_; }
-bool database::models::KeyHit::GetIsPressed() { return is_pressed_; }
+int database::models::KeyHit::GetHid() const { return hid_; }
+bool database::models::KeyHit::GetIsPressed() const { return is_pressed_; }
 bool database::models::KeyHit::GetIsSpecial() { return is_special_char_; }
 void database::models::KeyHit::PushBackTimeStamp(int time_stamp) {
     time_stamps_.push_back(time_stamp);

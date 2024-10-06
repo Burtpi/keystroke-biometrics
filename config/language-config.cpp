@@ -9,23 +9,26 @@ config::LanguageConfig::LanguageConfig(std::string model_language) {
     modifier_keys_ascii_ = SetModifierKeys();
 }
 
-std::map<int, std::string> config::LanguageConfig::GetHidToAscii() {
+const std::map<int, std::string>& config::LanguageConfig::GetHidToAscii()
+    const {
     return hid_to_ascii_;
 }
 
-std::map<int, std::string> config::LanguageConfig::GetSpecialCharsAscii() {
+const std::map<int, std::string>& config::LanguageConfig::GetSpecialCharsAscii()
+    const {
     return special_chars_ascii_;
 }
 
-std::map<int, std::string> config::LanguageConfig::GetModifierKeys() {
+const std::map<int, std::string>& config::LanguageConfig::GetModifierKeys()
+    const {
     return modifier_keys_ascii_;
 }
 
-std::vector<std::string> config::LanguageConfig::GetDigraph() {
+const std::vector<std::string>& config::LanguageConfig::GetDigraph() const {
     return digraph_;
 }
 
-std::vector<std::string> config::LanguageConfig::GetTrigraph() {
+const std::vector<std::string>& config::LanguageConfig::GetTrigraph() const {
     return trigraph_;
 }
 

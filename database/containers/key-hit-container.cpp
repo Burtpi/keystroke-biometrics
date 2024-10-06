@@ -1,13 +1,13 @@
 #include <database/containers/key-hit-container.h>
 #include <utils/key/validators/utils-key-validators.h>
 
-std::vector<database::models::KeyHit>
+const std::vector<database::models::KeyHit>&
 database::containers::KeyHitContainer::GetKeyHits() {
     return key_hits_;
 }
 
-std::vector<database::models::KeyHit>
-database::containers::KeyHitContainer::GetModifierKeys() {
+const std::vector<database::models::KeyHit>&
+database::containers::KeyHitContainer::GetModifierKeys() const {
     return modifier_key_hits_;
 }
 

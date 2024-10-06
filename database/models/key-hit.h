@@ -8,8 +8,8 @@ class KeyHit {
    public:
     KeyHit(int hid, int elapsed_time, float pressure, bool is_big,
            bool is_special);
-    int GetHid();
-    bool GetIsPressed();
+    int GetHid() const;
+    bool GetIsPressed() const;
     bool GetIsSpecial();
     void PushBackTimeStamp(int time_stamp);
     void PushBackPressure(float pressure);

@@ -9,11 +9,11 @@ namespace config {
 class LanguageConfig {
    public:
     LanguageConfig(std::string model_language = "EN");
-    std::map<int, std::string> GetHidToAscii();
-    std::map<int, std::string> GetSpecialCharsAscii();
-    std::map<int, std::string> GetModifierKeys();
-    std::vector<std::string> GetDigraph();
-    std::vector<std::string> GetTrigraph();
+    const std::map<int, std::string>& GetHidToAscii() const;
+    const std::map<int, std::string>& GetSpecialCharsAscii() const;
+    const std::map<int, std::string>& GetModifierKeys() const;
+    const std::vector<std::string>& GetDigraph() const;
+    const std::vector<std::string>& GetTrigraph() const;
 
    private:
     std::string model_language_;
