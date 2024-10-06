@@ -19,7 +19,10 @@ void execute::logger::RunLogger() {
         if (!key_states.empty()) {
             if (global_config_manager.GetAppConfig().GetKeyStatesLogging())
                 utils::key::LogKeyStates(key_states);
-            utils::key::validators::CheckIfExit(key_states);
+            for (database::models::KeyBuffer key_state : key_states) {
+                utils::key::validators::CheckIfExit(key_state);
+                utils::key::CreateKeyHits(key_state);
+            }
         }
 
         utils::time::SleepHighResolution();

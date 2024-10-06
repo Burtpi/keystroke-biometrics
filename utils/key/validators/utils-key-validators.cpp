@@ -2,12 +2,13 @@
 #include <database/database.h>
 #include <utils/key/validators/utils-key-validators.h>
 
+#include <algorithm>
+#include <iterator>
+
 void utils::key::validators::CheckIfExit(
-    std::vector<database::models::KeyBuffer> key_states) {
-    for (database::models::KeyBuffer key : key_states) {
-        if (key.hid == global_config_manager.GetAppConfig().GetExitHid())
-            global_config_manager.GetAppConfig().SetKeyLogging(false);
-    }
+    database::models::KeyBuffer &key_state) {
+    if (key_state.hid == global_config_manager.GetAppConfig().GetExitHid())
+        global_config_manager.GetAppConfig().SetKeyLogging(false);
 }
 
 utils::key::validators::KeyHitIterator utils::key::validators::CheckIfExists(
@@ -100,5 +101,22 @@ void utils::key::validators::CheckIfNgraph(database::models::KeyHit key_hit) {
                                    get_char(key_hits[key_hits.size() - 2]) +
                                    get_char(key_hit);
         process_n_graph(trigraph_str, 3);
+    }
+}
+
+void utils::key::validators::CheckIfKeyIsPressed(
+    database::models::KeyBuffer &key_state) {
+    std::vector<database::models::KeyHit> key_hits_ =
+        utils::key::validators::CheckIfModifierKey(key_state)
+            ? database_manager.GetKeyHitContainer().GetModifierKeys()
+            : database_manager.GetKeyHitContainer().GetKeyHits();
+    if (key_state.pressure == 0) {
+        for (database::models::KeyHit &key_hit : key_hits_) {
+            if (key_hit.GetHid() == key_state.hid && key_hit.GetIsPressed()) {
+                key_hit.SetIsPressed(false);
+                key_hit.Calculate();
+                break;
+            }
+        }
     }
 }

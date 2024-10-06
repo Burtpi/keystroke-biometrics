@@ -10,7 +10,7 @@ namespace utils::key {
 std::vector<database::models::KeyBuffer> SortKeyStates(
     std::vector<database::models::KeyBuffer> key_states);
 void LogKeyStates(std::vector<database::models::KeyBuffer> key_states);
-void CreateKeyHits(std::vector<database::models::KeyBuffer> key_states);
+void CreateKeyHits(database::models::KeyBuffer &key_state);
 }  // namespace utils::key
 
 #endif
