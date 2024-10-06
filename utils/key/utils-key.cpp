@@ -30,7 +30,8 @@ void utils::key::LogKeyStates(
 
     for (database::models::KeyBuffer key : sorted_key_states) {
         row << "{Key: ";
-        auto it = hid_to_ascii.find(key.hid);
+        std::_Tree<std::map<int, std::string>>::const_iterator it =
+            hid_to_ascii.find(key.hid);
         if (it != hid_to_ascii.end()) {
             row << hid_to_ascii.find(key.hid)->second;
         } else {

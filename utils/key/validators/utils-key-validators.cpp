@@ -30,12 +30,13 @@ bool utils::key::validators::CheckIfSpecialChar(int hid) {
     const std::map<int, std::string> &special_chars_ascii =
         global_config_manager.GetLanguageConfig().GetSpecialCharsAscii();
 
-    auto ralt = std::find_if(modifier_keys.begin(), modifier_keys.end(),
-                             [](database::models::KeyHit &key_hit) {
-                                 return key_hit.GetHid() == 230 &&
-                                        key_hit.GetIsPressed() == true;
-                             });
-    auto special_char = special_chars_ascii.find(hid);
+    std::vector<database::models::KeyHit>::const_iterator ralt = std::find_if(
+        modifier_keys.begin(), modifier_keys.end(),
+        [](database::models::KeyHit &key_hit) {
+            return key_hit.GetHid() == 230 && key_hit.GetIsPressed() == true;
+        });
+    std::_Tree<std::map<int, std::string>>::const_iterator special_char =
+        special_chars_ascii.find(hid);
 
     return special_char != special_chars_ascii.end() &&
            ralt != modifier_keys.end();
@@ -45,7 +46,7 @@ bool utils::key::validators::CheckIfBigChar() {
     const std::vector<database::models::KeyHit> &modifier_keys =
         database_manager.GetKeyHitContainer().GetModifierKeys();
 
-    auto shift = std::find_if(
+    std::vector<database::models::KeyHit>::const_iterator shift = std::find_if(
         modifier_keys.begin(), modifier_keys.end(),
         [](database::models::KeyHit &key_hit) {
             return (key_hit.GetHid() == 225 || key_hit.GetHid() == 229) &&
@@ -59,7 +60,8 @@ bool utils::key::validators::CheckIfModifierKey(
     const std::map<int, std::string> &modifier_keys =
         global_config_manager.GetLanguageConfig().GetModifierKeys();
 
-    auto modifier_key = modifier_keys.find(key_state.hid);
+    std::_Tree<std::map<int, std::string>>::const_iterator modifier_key =
+        modifier_keys.find(key_state.hid);
     return modifier_key != modifier_keys.end();
 }
 
@@ -82,10 +84,10 @@ void utils::key::validators::CheckIfNgraph(database::models::KeyHit key_hit) {
     };
 
     auto process_n_graph = [&](const std::string &ngraph_str, int n) {
-        std::vector<std::string> ngraph_size =
+        const std::vector<std::string> &ngraph_size =
             n == 2 ? language_config.GetDigraph()
                    : language_config.GetTrigraph();
-        std::vector<std::string>::iterator ngraph_find =
+        std::vector<std::string>::const_iterator ngraph_find =
             std::find(ngraph_size.begin(), ngraph_size.end(), ngraph_str);
         if (ngraph_find != ngraph_size.end()) {
             database_manager.GetNgraphContainer().GetNgraphs().emplace_back(

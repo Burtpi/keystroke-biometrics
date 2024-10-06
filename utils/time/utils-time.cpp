@@ -19,9 +19,10 @@ std::string utils::time::GetDateInString(
 }
 
 std::string utils::time::CalculateElapsedTime() {
-    auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now() -
-        global_config_manager.GetAppConfig().GetStartDate());
+    std::chrono::milliseconds elapsedTime =
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now() -
+            global_config_manager.GetAppConfig().GetStartDate());
 
     std::stringstream ss;
     ss << elapsedTime.count();
