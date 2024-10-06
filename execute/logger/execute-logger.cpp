@@ -12,6 +12,7 @@ void execute::logger::RunLogger() {
     wooting_sdk::KeyLogger key_logger;
 
     while (global_config_manager.GetAppConfig().GetKeyLogging()) {
+        global_config_manager.GetAppConfig().SetElapsedTime();
         std::vector<database::models::KeyBuffer> key_states =
             key_logger.ReadFullBuffer();
 
