@@ -14,6 +14,8 @@ class AppConfig {
     void SetKeyStatesLogging(bool key_states_logging);
     bool GetIsExternalTemplate();
     void SetIsExternalTemplate(bool is_external_template);
+    std::string GetElapsedTime();
+    void SetElapsedTime();
     int GetExitHid();
     void SetExitHid(int hid);
     AppConfig(bool key_logging = true, bool key_sates_logging = true,
@@ -26,6 +28,7 @@ class AppConfig {
     bool key_states_logging_;
     bool is_external_template_;
     int exit_hid_;
+    std::string elapsed_time_;
 };
 }  // namespace config
 #endif

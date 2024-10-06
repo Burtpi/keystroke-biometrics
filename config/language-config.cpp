@@ -6,6 +6,7 @@ config::LanguageConfig::LanguageConfig(std::string model_language) {
     special_chars_ascii_ = SetSpecialCharsAscii();
     digraph_ = SetDigraph();
     trigraph_ = SetTrigraph();
+    modifier_keys_ascii_ = SetModifierKeys();
 }
 
 std::map<int, std::string> config::LanguageConfig::GetHidToAscii() {
@@ -15,9 +16,15 @@ std::map<int, std::string> config::LanguageConfig::GetHidToAscii() {
 std::map<int, std::string> config::LanguageConfig::GetSpecialCharsAscii() {
     return special_chars_ascii_;
 }
+
+std::map<int, std::string> config::LanguageConfig::GetModifierKeys() {
+    return modifier_keys_ascii_;
+}
+
 std::vector<std::string> config::LanguageConfig::GetDigraph() {
     return digraph_;
 }
+
 std::vector<std::string> config::LanguageConfig::GetTrigraph() {
     return trigraph_;
 }
@@ -69,6 +76,16 @@ std::map<int, std::string> config::LanguageConfig::SetHidToAscii() {
         {1033, "Fn"},       {101, "Menu"}};
 
     return hid_to_ascii;
+}
+
+std::map<int, std::string> config::LanguageConfig::SetModifierKeys() {
+    std::map<int, std::string> modifier_keys_ascii = {
+        {229, "RShift"},
+        {230, "RAlt"},
+        {225, "LShift"},
+    };
+
+    return modifier_keys_ascii;
 }
 
 std::map<int, std::string> config::LanguageConfig::SetSpecialCharsAscii() {
