@@ -9,13 +9,18 @@ database::models::KeyHit::KeyHit(int hid, int elapsed_time, float pressure,
     flight_time_ = 0;
     total_energy_ = 0;
     is_pressed_ = true;
+    was_pressed_ = true;
     is_calculated_ = false;
     is_special_char_ = is_special;
     is_big_char_ = is_big;
     is_interpolated_ = false;
 }
 int database::models::KeyHit::GetHid() const { return hid_; }
+std::vector<float> database::models::KeyHit::GetPressures() {
+    return pressures_;
+}
 bool database::models::KeyHit::GetIsPressed() const { return is_pressed_; }
+bool database::models::KeyHit::GetWasPressed() const { return was_pressed_; }
 bool database::models::KeyHit::GetIsSpecial() { return is_special_char_; }
 void database::models::KeyHit::PushBackTimeStamp(int time_stamp) {
     time_stamps_.push_back(time_stamp);
@@ -26,6 +31,10 @@ void database::models::KeyHit::PushBackPressure(float pressure) {
 
 void database::models::KeyHit::SetIsPressed(bool is_pressed) {
     is_pressed_ = is_pressed;
+}
+
+void database::models::KeyHit::SetWasPressed(bool was_pressed) {
+    was_pressed_ = was_pressed;
 }
 
 void database::models::KeyHit::SetIsCalculated(bool is_calculated) {

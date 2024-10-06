@@ -8,6 +8,7 @@ namespace config {
 class AppConfig {
    public:
     std::chrono::time_point<std::chrono::system_clock> GetStartDate();
+    int GetActuationPoint();
     bool GetKeyLogging();
     void SetKeyLogging(bool key_logging);
     bool GetKeyStatesLogging();
@@ -29,6 +30,7 @@ class AppConfig {
     bool is_external_template_;
     int exit_hid_;
     std::string elapsed_time_;
+    float actuation_point_;
 };
 }  // namespace config
 #endif

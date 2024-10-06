@@ -6,6 +6,8 @@ config::AppConfig::GetStartDate() {
     return start_date_;
 }
 
+int config::AppConfig::GetActuationPoint() { return actuation_point_; }
+
 bool config::AppConfig::GetKeyLogging() { return key_logging_; }
 
 void config::AppConfig::SetKeyLogging(bool key_logging) {
@@ -44,4 +46,5 @@ config::AppConfig::AppConfig(bool key_logging, bool key_sates_logging,
     is_external_template_ = is_external_template;
     exit_hid_ = exit_hid;
     elapsed_time_ = "";
+    actuation_point_ = 0.4;
 }

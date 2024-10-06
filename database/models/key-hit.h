@@ -9,11 +9,14 @@ class KeyHit {
     KeyHit(int hid, int elapsed_time, float pressure, bool is_big,
            bool is_special);
     int GetHid() const;
+    std::vector<float> GetPressures();
     bool GetIsPressed() const;
+    bool GetWasPressed() const;
     bool GetIsSpecial();
     void PushBackTimeStamp(int time_stamp);
     void PushBackPressure(float pressure);
     void SetIsPressed(bool is_special);
+    void SetWasPressed(bool was_pressed);
     void SetIsCalculated(bool is_calculated);
     void SetIsInterpolated(bool is_interpolated);
     void Calculate();
@@ -24,6 +27,7 @@ class KeyHit {
     std::vector<int> time_stamps_interp_;
     std::vector<float> pressure_interp_;
     bool is_special_char_;
+    bool was_pressed_;
     bool is_pressed_;
     bool is_big_char_;
     bool is_calculated_;

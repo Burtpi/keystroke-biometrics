@@ -55,13 +55,12 @@ bool utils::key::validators::CheckIfBigChar() {
     return shift != modifier_keys.end();
 }
 
-bool utils::key::validators::CheckIfModifierKey(
-    database::models::KeyBuffer key_state) {
+bool utils::key::validators::CheckIfModifierKey(int hid) {
     const std::map<int, std::string> &modifier_keys =
         global_config_manager.GetLanguageConfig().GetModifierKeys();
 
     std::_Tree<std::map<int, std::string>>::const_iterator modifier_key =
-        modifier_keys.find(key_state.hid);
+        modifier_keys.find(hid);
     return modifier_key != modifier_keys.end();
 }
 
@@ -110,17 +109,29 @@ void utils::key::validators::CheckIfNgraph(database::models::KeyHit key_hit) {
 void utils::key::validators::CheckIfKeyIsPressed(
     database::models::KeyBuffer &key_state) {
     const std::vector<database::models::KeyHit> &key_hits =
-        utils::key::validators::CheckIfModifierKey(key_state)
+        utils::key::validators::CheckIfModifierKey(key_state.hid)
             ? database_manager.GetKeyHitContainer().GetModifierKeys()
             : database_manager.GetKeyHitContainer().GetKeyHits();
 
     if (key_state.pressure == 0) {
         for (database::models::KeyHit key_hit : key_hits) {
             if (key_hit.GetHid() == key_state.hid && key_hit.GetIsPressed()) {
-                key_hit.SetIsPressed(false);
-                key_hit.Calculate();
+                utils::key::validators::CheckIfKeyWasPressed(key_hit);
+                if (key_hit.GetWasPressed()) {
+                    key_hit.SetIsPressed(false);
+                    key_hit.Calculate();
+                }
                 break;
             }
         }
     }
+}
+
+void utils::key::validators::CheckIfKeyWasPressed(
+    database::models::KeyHit &key_hit) {
+    for (float pressure : key_hit.GetPressures()) {
+        if (pressure > global_config_manager.GetAppConfig().GetActuationPoint())
+            return;
+    }
+    key_hit.SetWasPressed(false);
 }

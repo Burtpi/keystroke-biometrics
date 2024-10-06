@@ -15,9 +15,10 @@ KeyHitIterator CheckIfExists(database::models::KeyBuffer key_state,
                              std::vector<database::models::KeyHit> key_hits);
 bool CheckIfBigChar();
 bool CheckIfSpecialChar(int hid);
-bool CheckIfModifierKey(database::models::KeyBuffer key_hit);
+bool CheckIfModifierKey(int hid);
 void CheckIfNgraph(database::models::KeyHit key_hit);
 void CheckIfKeyIsPressed(database::models::KeyBuffer& key_state);
+void CheckIfKeyWasPressed(database::models::KeyHit& key_hit);
 }  // namespace utils::key::validators
 
 #endif
