@@ -8,6 +8,8 @@
 namespace database::containers {
 class NgraphContainer {
    public:
+    std::vector<database::models::Ngraph> GetNgraphs();
+
    private:
     std::vector<database::models::Ngraph> ngraphs_;
 };

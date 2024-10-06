@@ -6,14 +6,14 @@
 namespace database::models {
 class KeyHit {
    public:
-    KeyHit(int hid);
+    KeyHit(int hid, int elapsed_time, float pressure, bool is_big,
+           bool is_special);
     int GetHid();
     bool GetIsPressed();
+    bool GetIsSpecial();
     void PushBackTimeStamp(int time_stamp);
     void PushBackPressure(float pressure);
-    void SetIsPressed();
-    void SetIsSpecialChar(bool is_special);
-    void SetIsBig(bool is_big);
+    void SetIsPressed(bool is_special);
     void SetIsCalculated(bool is_calculated);
     void SetIsInterpolated(bool is_interpolated);
     void Calculate();
