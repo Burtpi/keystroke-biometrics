@@ -25,7 +25,7 @@ class KeyHit {
     std::vector<int> time_stamps_;
     std::vector<float> pressures_;
     std::vector<int> time_stamps_interp_;
-    std::vector<float> pressure_interp_;
+    std::vector<float> pressures_interp_;
     bool is_special_char_;
     bool was_pressed_;
     bool is_pressed_;
@@ -38,11 +38,11 @@ class KeyHit {
     double total_energy_;
     float magnitude_;
 
+    void Interpolate();
     void CalculateDwellTime();
-    void CalcualteFlightTime();
     void CalculateDFTOfPressure();
-    void CalculateMagnitude();
-    void CalculateTotalEnergy();
+    void CalculateMagnitude(fftw_complex *out, int size);
+    void CalculateTotalEnergy(fftw_complex *out, int size);
 };
 }  // namespace database::models
 

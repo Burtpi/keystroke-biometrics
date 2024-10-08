@@ -23,6 +23,7 @@ void execute::logger::RunLogger() {
             for (database::models::KeyBuffer key_state : key_states) {
                 utils::key::validators::CheckIfExit(key_state);
                 utils::key::CreateKeyHits(key_state);
+                utils::key::validators::CheckIfKeyIsPressed(key_state);
             }
             utils::key::RemoveNotPressedHits();
         }

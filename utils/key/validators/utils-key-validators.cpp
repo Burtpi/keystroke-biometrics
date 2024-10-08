@@ -129,6 +129,10 @@ void utils::key::validators::CheckIfKeyIsPressed(
 
 void utils::key::validators::CheckIfKeyWasPressed(
     database::models::KeyHit &key_hit) {
+    if (key_hit.GetPressures().size() < 8) {
+        key_hit.SetWasPressed(false);
+        return;
+    }
     for (float pressure : key_hit.GetPressures()) {
         if (pressure > global_config_manager.GetAppConfig().GetActuationPoint())
             return;

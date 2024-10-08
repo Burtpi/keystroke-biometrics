@@ -2,7 +2,7 @@
 #define KEY_LOGGER_H_
 
 #include <database/models/key-buffer.h>
-#include <wooting_sdk/include/wooting-analog-wrapper.h>
+#include <include/wooting-analog-wrapper.h>
 
 #include <vector>
 
