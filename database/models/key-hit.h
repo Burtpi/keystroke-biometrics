@@ -1,6 +1,8 @@
 #ifndef KEY_HIT_H_
 #define KEY_HIT_H_
 
+#include <include/fftw3.h>
+
 #include <vector>
 
 namespace database::models {

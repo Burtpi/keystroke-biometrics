@@ -32,7 +32,7 @@ bool utils::key::validators::CheckIfSpecialChar(int hid) {
 
     std::vector<database::models::KeyHit>::const_iterator ralt = std::find_if(
         modifier_keys.begin(), modifier_keys.end(),
-        [](database::models::KeyHit &key_hit) {
+        [](const database::models::KeyHit &key_hit) {
             return key_hit.GetHid() == 230 && key_hit.GetIsPressed() == true;
         });
     std::_Tree<std::map<int, std::string>>::const_iterator special_char =
@@ -48,7 +48,7 @@ bool utils::key::validators::CheckIfBigChar() {
 
     std::vector<database::models::KeyHit>::const_iterator shift = std::find_if(
         modifier_keys.begin(), modifier_keys.end(),
-        [](database::models::KeyHit &key_hit) {
+        [](const database::models::KeyHit &key_hit) {
             return (key_hit.GetHid() == 225 || key_hit.GetHid() == 229) &&
                    key_hit.GetIsPressed() == true;
         });

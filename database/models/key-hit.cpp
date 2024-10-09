@@ -50,10 +50,6 @@ void database::models::KeyHit::SetIsInterpolated(bool is_interpolated) {
     is_interpolated_ = is_interpolated;
 }
 
-void database::models::KeyHit::SetIsPressed(bool is_pressed) {
-    is_pressed_ = is_pressed;
-}
-
 void database::models::KeyHit::Calculate() {
     CalculateDwellTime();
     Interpolate();
@@ -134,6 +130,12 @@ void database::models::KeyHit::CalculateMagnitude(fftw_complex *out, int size) {
             std::sqrt(std::pow(out[i][0], 2) + std::pow(out[i][1], 2)));
         magnitudes.push_back(magnitude);
     }
-    magnitude_ =
-        static_cast<float>(utils::math::CalculateMean<float>(magnitudes));
+    magnitude_ = static_cast<float>(utils::math::CalculateMean(magnitudes));
+}
+
+void database::models::KeyHit::CalculateTotalEnergy(fftw_complex *out,
+                                                    int size) {
+    for (int i = 0; i < size; i++) {
+        total_energy_ += std::pow(out[i][0], 2) + std::pow(out[i][1], 2);
+    }
 }

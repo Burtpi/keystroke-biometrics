@@ -1,12 +1,32 @@
 #ifndef UTILS_MATH_
 #define UTILS_MATH_
 
+#include <cmath>
 #include <vector>
 namespace utils::math {
 template <typename T>
-double CalculateMean(const std::vector<T> &values);
+double CalculateMean(const std::vector<T> &values) {
+    T sum = 0;
+    for (T value : values) {
+        sum += value;
+    }
+    return sum / values.size();
+}
 template <typename T>
-double CalculateStandardDeviation(const std::vector<T> &values);
-double CalculateZScore(double value, double mean, double std_deviation);
+double CalculateStandardDeviation(const std::vector<T> &values) {
+    double mean = CalculateMean<T>(values);
+    double sum = 0.0;
+
+    for (T value : values) {
+        double diff = value - mean;
+        sum += diff * diff;
+    }
+
+    return std::sqrt(sum / values.size());
+}
+double CalculateZScore(double value, double mean, double std_deviation) {
+    return (value - mean) / std_deviation;
+}
+
 }  // namespace utils::math
 #endif

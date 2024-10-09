@@ -15,7 +15,8 @@ void database::containers::KeyHitContainer::AddKeyHit(bool is_modifier, int hid,
                                                       int elapsed_time,
                                                       float pressure) {
     if (is_modifier == true) {
-        modifier_key_hits_.emplace_back(hid, elapsed_time, pressure);
+        modifier_key_hits_.emplace_back(hid, elapsed_time, pressure, false,
+                                        false);
     } else {
         bool is_big = utils::key::validators::CheckIfBigChar();
         bool is_special = utils::key::validators::CheckIfSpecialChar(hid);

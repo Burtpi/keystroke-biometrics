@@ -3,6 +3,7 @@
 
 #include <config/config-manager.h>
 #include <database/models/key-buffer.h>
+#include <database/models/key-hit.h>
 
 #include <vector>
 
