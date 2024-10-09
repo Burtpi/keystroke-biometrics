@@ -11,16 +11,6 @@ database::containers::KeyHitContainer::GetModifierKeys() const {
     return modifier_key_hits_;
 }
 
-database::models::KeyHit
-database::containers::KeyHitContainer::GetFirstKeyHit() {
-    return key_hits_.front();
-}
-
-database::models::KeyHit
-database::containers::KeyHitContainer::GetLastKeyHit() {
-    return key_hits_.back();
-}
-
 void database::containers::KeyHitContainer::AddKeyHit(bool is_modifier, int hid,
                                                       int elapsed_time,
                                                       float pressure) {
