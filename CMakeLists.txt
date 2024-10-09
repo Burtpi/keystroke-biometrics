@@ -9,7 +9,7 @@ project(KeystrokeBiometrics)
 add_library(key_logger STATIC wooting_sdk/key-logger.cpp)
 add_library(execute STATIC execute/execute.cpp execute/external/execute-external.cpp execute/logger/execute-logger.cpp)
 add_library(utils STATIC utils/time/utils-time.cpp utils/key/utils-key.cpp utils/key/validators/utils-key-validators.cpp utils/math/utils-math.cpp)
-add_library(config STATIC config/config-manager.cpp config/app-config.cpp config/language-config.cpp)
+add_library(config STATIC config/config-manager.cpp config/app-config.cpp config/language-config.cpp config/calc-config.cpp)
 add_library(logger STATIC logger/logger.cpp)
 
 add_executable(keystroke_biometrics main.cpp)
