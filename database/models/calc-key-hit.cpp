@@ -20,8 +20,7 @@ void database::models::CalcKeyHit::Calculate(
         total_energy.emplace_back(key_hit.GetTotalEnergy());
     }
 
-    if (dwell_times.size() > 0 && magnitudes.size() > 0 &&
-        total_energy.size() > 0) {
+    if (!dwell_times.empty() && !magnitudes.empty() && !total_energy.empty()) {
         dwell_time_ = utils::math::CalculateDescriptor(dwell_times);
         total_energy_ = utils::math::CalculateDescriptor(total_energy);
         magnitude_ = utils::math::CalculateDescriptor(magnitudes);

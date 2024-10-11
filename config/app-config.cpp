@@ -37,11 +37,11 @@ int config::AppConfig::GetExitHid() { return exit_hid_; }
 void config::AppConfig::SetExitHid(int hid) { exit_hid_ = hid; }
 
 config::AppConfig::AppConfig(bool key_logging, bool key_sates_logging,
-                             bool is_external_template, int exit_hid) {
+                             bool is_external_data_, int exit_hid) {
     start_date_ = std::chrono::system_clock::now();
     key_logging_ = key_logging;
     key_states_logging_ = key_sates_logging;
-    is_external_template_ = is_external_template;
+    is_external_data_ = is_external_data_;
     exit_hid_ = exit_hid;
     elapsed_time_ = "";
     actuation_point_ = 0.4;

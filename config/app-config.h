@@ -20,7 +20,7 @@ class AppConfig {
     int GetExitHid();
     void SetExitHid(int hid);
     AppConfig(bool key_logging = true, bool key_sates_logging = true,
-              bool is_external_template = false, int exit_hid = 41);
+              bool is_external_data_ = false, int exit_hid = 41);
 
    private:
     std::chrono::time_point<std::chrono::system_clock> start_date_;

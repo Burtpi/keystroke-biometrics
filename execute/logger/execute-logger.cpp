@@ -26,8 +26,14 @@ void execute::logger::RunLogger() {
                 utils::key::validators::CheckIfKeyIsPressed(key_state);
             }
             utils::key::RemoveNotPressedHits();
+
+            if (!global_config_manager.GetCalcConfig().GetIsTemplateInit()) {
+            }
         }
 
         utils::time::SleepHighResolution();
+    }
+
+    if (global_config_manager.GetCalcConfig().GetIsTemplateInit()) {
     }
 }
