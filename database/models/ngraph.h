@@ -8,6 +8,7 @@ namespace database::models {
 class Ngraph {
    public:
     Ngraph(std::string chars, std::vector<int> time_stamps);
+    std::string GetChars() const;
     void SetIsCalculated(bool is_calculated);
     int GetFlightTime() const;
 

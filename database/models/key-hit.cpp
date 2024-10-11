@@ -17,6 +17,7 @@ database::models::KeyHit::KeyHit(int hid, int elapsed_time, float pressure,
     is_special_char_ = is_special;
     is_big_char_ = is_big;
 }
+
 int database::models::KeyHit::GetHid() const { return hid_; }
 std::vector<float> database::models::KeyHit::GetPressures() {
     return pressures_;
@@ -26,12 +27,14 @@ int database::models::KeyHit::GetFirstTimeStamp() const {
     return time_stamps_.front();
 }
 bool database::models::KeyHit::GetWasPressed() const { return was_pressed_; }
-bool database::models::KeyHit::GetIsSpecial() { return is_special_char_; }
+bool database::models::KeyHit::GetIsSpecial() const { return is_special_char_; }
+bool database::models::KeyHit::GetIsSpecial() const { return is_big_char_; }
 int database::models::KeyHit::GetDwellTime() const { return dwell_time_; }
 double database::models::KeyHit::GetTotalEnergy() const {
     return total_energy_;
 }
 float database::models::KeyHit::GetMagnitude() const { return magnitude_; }
+
 void database::models::KeyHit::PushBackTimeStamp(int time_stamp) {
     time_stamps_.push_back(time_stamp);
 }

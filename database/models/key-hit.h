@@ -14,7 +14,8 @@ class KeyHit {
     std::vector<float> GetPressures();
     bool GetIsPressed() const;
     bool GetWasPressed() const;
-    bool GetIsSpecial();
+    bool GetIsSpecial() const;
+    bool GetIsBig() const;
     int GetFirstTimeStamp() const;
     int GetDwellTime() const;
     double GetTotalEnergy() const;

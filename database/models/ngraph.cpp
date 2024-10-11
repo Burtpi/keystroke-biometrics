@@ -7,6 +7,7 @@ database::models::Ngraph::Ngraph(std::string chars,
     flight_time_ = CalculateFlightTime();
 }
 
+std::string database::models::Ngraph::GetChars() const { return chars_; }
 int database::models::Ngraph::GetFlightTime() const { return flight_time_; }
 
 int database::models::Ngraph::CalculateFlightTime() {

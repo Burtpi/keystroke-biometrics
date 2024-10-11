@@ -1,6 +1,7 @@
 #include <config/config-manager.h>
 #include <database/models/key-buffer.h>
 #include <execute/logger/execute-logger.h>
+#include <utils/biometric_template/utils-template.h>
 #include <utils/key/utils-key.h>
 #include <utils/key/validators/utils-key-validators.h>
 #include <utils/time/utils-time.h>
@@ -35,5 +36,6 @@ void execute::logger::RunLogger() {
     }
 
     if (global_config_manager.GetCalcConfig().GetIsTemplateInit()) {
+        utils::biometric_template::CreateTemplate();
     }
 }

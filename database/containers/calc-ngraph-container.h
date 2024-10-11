@@ -5,7 +5,11 @@
 #include <database/models/calc-ngraph.h>
 
 namespace database::containers {
-class CalcNgraphContainer : public Container<database::models::CalcNgraph> {};
+class CalcNgraphContainer : public Container<database::models::CalcNgraph> {
+   public:
+    void AddEntry(std::string ngraph,
+                  std::vector<database::models::Ngraph> ngraph_data);
+};
 }  // namespace database::containers
 
 #endif
