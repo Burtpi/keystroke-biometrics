@@ -7,7 +7,7 @@ database::DatabaseManager::GetKeyHitContainer() const {
     return key_hit_container_;
 }
 
-const database::containers::NgraphContainer&
+database::containers::NgraphContainer
 database::DatabaseManager::GetNgraphContainer() const {
     return ngraph_container_;
 }

@@ -23,6 +23,7 @@ class KeyHit {
     void PushBackPressure(float pressure);
     void SetIsPressed(bool is_special);
     void SetWasPressed(bool was_pressed);
+    void UpdateKeyHit(int elapsed_time, float pressure);
     void Calculate();
 
    private:

@@ -47,6 +47,11 @@ void database::models::KeyHit::SetWasPressed(bool was_pressed) {
     was_pressed_ = was_pressed;
 }
 
+void database::models::KeyHit::UpdateKeyHit(int elapsed_time, float pressure) {
+    time_stamps_.push_back(elapsed_time);
+    pressures_.push_back(pressure);
+}
+
 void database::models::KeyHit::Calculate() {
     CalculateDwellTime();
     Interpolate();

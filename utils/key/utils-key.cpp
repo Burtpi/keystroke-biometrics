@@ -57,8 +57,7 @@ void utils::key::CreateKeyHits(database::models::KeyBuffer& key_state) {
         utils::key::validators::CheckIfExists(key_state, key_hits);
 
     if (existing_key != key_hits.end()) {
-        existing_key->PushBackTimeStamp(elapsed_time);
-        existing_key->PushBackPressure(key_state.pressure);
+        existing_key->UpdateKeyHit(elapsed_time, key_state.pressure);
     } else {
         database_manager.GetKeyHitContainer().AddKeyHit(
             is_modifier, key_state.hid, elapsed_time, key_state.pressure);
