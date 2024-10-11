@@ -7,16 +7,16 @@
 namespace database::models {
 class Ngraph {
    public:
-    Ngraph(std::string chars);
+    Ngraph(std::string chars, std::vector<int> time_stamps);
     void SetIsCalculated(bool is_calculated);
-    void Calculate();
+    int GetFlightTime() const;
 
    private:
     std::string chars_;
     std::vector<int> time_stamps_;
     bool is_calculated_;
     int flight_time_;
-    void CalculateFlightTime();
+    int CalculateFlightTime();
 };
 }  // namespace database::models
 #endif

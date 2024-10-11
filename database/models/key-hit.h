@@ -15,12 +15,14 @@ class KeyHit {
     bool GetIsPressed() const;
     bool GetWasPressed() const;
     bool GetIsSpecial();
+    int GetFirstTimeStamp() const;
+    int GetDwellTime() const;
+    double GetTotalEnergy() const;
+    float GetMagnitude() const;
     void PushBackTimeStamp(int time_stamp);
     void PushBackPressure(float pressure);
     void SetIsPressed(bool is_special);
     void SetWasPressed(bool was_pressed);
-    void SetIsCalculated(bool is_calculated);
-    void SetIsInterpolated(bool is_interpolated);
     void Calculate();
 
    private:
@@ -32,11 +34,8 @@ class KeyHit {
     bool was_pressed_;
     bool is_pressed_;
     bool is_big_char_;
-    bool is_calculated_;
-    bool is_interpolated_;
     int hid_;
     int dwell_time_;
-    int flight_time_;
     double total_energy_;
     float magnitude_;
 

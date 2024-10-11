@@ -89,8 +89,11 @@ void utils::key::validators::CheckIfNgraph(database::models::KeyHit key_hit) {
         std::vector<std::string>::const_iterator ngraph_find =
             std::find(ngraph_size.begin(), ngraph_size.end(), ngraph_str);
         if (ngraph_find != ngraph_size.end()) {
-            database_manager.GetNgraphContainer().GetNgraphs().emplace_back(
-                ngraph_str);
+            std::vector<int> time_stamps = {
+                key_hits[key_hits.size() - n].GetFirstTimeStamp(),
+                key_hit.GetFirstTimeStamp()};
+            database_manager.GetNgraphContainer().AddNgraph(ngraph_str,
+                                                            time_stamps);
         }
     };
 
@@ -129,13 +132,12 @@ void utils::key::validators::CheckIfKeyIsPressed(
 
 void utils::key::validators::CheckIfKeyWasPressed(
     database::models::KeyHit &key_hit) {
-    if (key_hit.GetPressures().size() < 8) {
-        key_hit.SetWasPressed(false);
-        return;
-    }
-    for (float pressure : key_hit.GetPressures()) {
-        if (pressure > global_config_manager.GetAppConfig().GetActuationPoint())
-            return;
+    if (key_hit.GetPressures().size() > 8) {
+        for (float pressure : key_hit.GetPressures()) {
+            if (pressure >
+                global_config_manager.GetAppConfig().GetActuationPoint())
+                return;
+        }
     }
     key_hit.SetWasPressed(false);
 }

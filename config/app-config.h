@@ -13,8 +13,8 @@ class AppConfig {
     void SetKeyLogging(bool key_logging);
     bool GetKeyStatesLogging();
     void SetKeyStatesLogging(bool key_states_logging);
-    bool GetIsExternalTemplate();
-    void SetIsExternalTemplate(bool is_external_template);
+    bool GetIsExternalData();
+    void SetIsExternalData(bool is_external_data);
     std::string GetElapsedTime();
     void SetElapsedTime();
     int GetExitHid();
@@ -27,7 +27,7 @@ class AppConfig {
     std::string start_date_string_;
     bool key_logging_;
     bool key_states_logging_;
-    bool is_external_template_;
+    bool is_external_data_;
     int exit_hid_;
     std::string elapsed_time_;
     float actuation_point_;
