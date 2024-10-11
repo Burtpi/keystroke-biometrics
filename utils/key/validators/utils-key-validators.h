@@ -17,7 +17,7 @@ KeyHitIterator CheckIfExists(database::models::KeyBuffer key_state,
 bool CheckIfBigChar();
 bool CheckIfSpecialChar(int hid);
 bool CheckIfModifierKey(int hid);
-void CheckIfNgraph(database::models::KeyHit key_hit);
+void CheckIfNgraph();
 void CheckIfKeyIsPressed(database::models::KeyBuffer& key_state);
 void CheckIfKeyWasPressed(database::models::KeyHit& key_hit);
 }  // namespace utils::key::validators

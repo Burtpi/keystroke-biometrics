@@ -62,6 +62,7 @@ void utils::key::CreateKeyHits(database::models::KeyBuffer& key_state) {
     } else {
         database_manager.GetKeyHitContainer().AddKeyHit(
             is_modifier, key_state.hid, elapsed_time, key_state.pressure);
+        utils::key::validators::CheckIfNgraph();
     }
 }
 
@@ -73,8 +74,8 @@ void utils::key::RemoveNotPressedHits() {
 
     while (modifier_key != modifier_keys.end()) {
         if (!modifier_key->GetWasPressed()) {
-            modifier_key =
-                database_manager.GetKeyHitContainer().RemoveKeyHit(modifier_key);
+            modifier_key = database_manager.GetKeyHitContainer().RemoveKeyHit(
+                modifier_key);
         } else {
             ++modifier_key;
         }

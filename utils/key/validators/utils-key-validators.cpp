@@ -64,9 +64,11 @@ bool utils::key::validators::CheckIfModifierKey(int hid) {
     return modifier_key != modifier_keys.end();
 }
 
-void utils::key::validators::CheckIfNgraph(database::models::KeyHit key_hit) {
+void utils::key::validators::CheckIfNgraph() {
     const std::vector<database::models::KeyHit> &key_hits =
         database_manager.GetKeyHitContainer().GetKeyHits();
+
+    database::models::KeyHit key_hit = key_hits.back();
 
     if (key_hits.size() <= 3) return;
 
