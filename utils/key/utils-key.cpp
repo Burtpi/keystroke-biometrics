@@ -50,8 +50,8 @@ void utils::key::CreateKeyHits(database::models::KeyBuffer& key_state) {
         utils::key::validators::CheckIfModifierKey(key_state.hid);
 
     const std::vector<database::models::KeyHit>& key_hits =
-        is_modifier ? database_manager.GetKeyHitContainer().GetModifierKeys()
-                    : database_manager.GetKeyHitContainer().GetKeyHits();
+        is_modifier ? database_manager.GetModifierKeyHitContainer().GetEntries()
+                    : database_manager.GetKeyHitContainer().GetEntries();
 
     utils::key::validators::KeyHitIterator existing_key =
         utils::key::validators::CheckIfExists(key_state, key_hits);
@@ -59,34 +59,39 @@ void utils::key::CreateKeyHits(database::models::KeyBuffer& key_state) {
     if (existing_key != key_hits.end()) {
         existing_key->UpdateKeyHit(elapsed_time, key_state.pressure);
     } else {
-        database_manager.GetKeyHitContainer().AddKeyHit(
-            is_modifier, key_state.hid, elapsed_time, key_state.pressure);
-        utils::key::validators::CheckIfNgraph();
+        if (is_modifier) {
+            database_manager.GetModifierKeyHitContainer().AddEntry(
+                key_state.hid, elapsed_time, key_state.pressure);
+        } else {
+            database_manager.GetKeyHitContainer().AddEntry(
+                key_state.hid, elapsed_time, key_state.pressure);
+            utils::key::validators::CheckIfNgraph();
+        }
     }
 }
 
 void utils::key::RemoveNotPressedHits() {
     const std::vector<database::models::KeyHit>& modifier_keys =
-        database_manager.GetKeyHitContainer().GetModifierKeys();
+        database_manager.GetModifierKeyHitContainer().GetEntries();
 
     auto modifier_key = modifier_keys.begin();
 
     while (modifier_key != modifier_keys.end()) {
         if (!modifier_key->GetWasPressed()) {
-            modifier_key = database_manager.GetKeyHitContainer().RemoveKeyHit(
-                modifier_key);
+            modifier_key =
+                database_manager.GetKeyHitContainer().RemoveEntry(modifier_key);
         } else {
             ++modifier_key;
         }
     }
 
     const std::vector<database::models::KeyHit>& key_hits =
-        database_manager.GetKeyHitContainer().GetKeyHits();
+        database_manager.GetKeyHitContainer().GetEntries();
     auto key_hit = key_hits.begin();
     while (key_hit != key_hits.end()) {
         if (!key_hit->GetWasPressed()) {
             key_hit =
-                database_manager.GetKeyHitContainer().RemoveKeyHit(key_hit);
+                database_manager.GetKeyHitContainer().RemoveEntry(key_hit);
         } else {
             ++key_hit;
         }

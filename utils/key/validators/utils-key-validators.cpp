@@ -25,7 +25,7 @@ utils::key::validators::KeyHitIterator utils::key::validators::CheckIfExists(
 
 bool utils::key::validators::CheckIfSpecialChar(int hid) {
     const std::vector<database::models::KeyHit> &modifier_keys =
-        database_manager.GetKeyHitContainer().GetModifierKeys();
+        database_manager.GetModifierKeyHitContainer().GetEntries();
 
     const std::map<int, std::string> &special_chars_ascii =
         global_config_manager.GetLanguageConfig().GetSpecialCharsAscii();
@@ -44,7 +44,7 @@ bool utils::key::validators::CheckIfSpecialChar(int hid) {
 
 bool utils::key::validators::CheckIfBigChar() {
     const std::vector<database::models::KeyHit> &modifier_keys =
-        database_manager.GetKeyHitContainer().GetModifierKeys();
+        database_manager.GetModifierKeyHitContainer().GetEntries();
 
     std::vector<database::models::KeyHit>::const_iterator shift = std::find_if(
         modifier_keys.begin(), modifier_keys.end(),
@@ -66,7 +66,7 @@ bool utils::key::validators::CheckIfModifierKey(int hid) {
 
 void utils::key::validators::CheckIfNgraph() {
     const std::vector<database::models::KeyHit> &key_hits =
-        database_manager.GetKeyHitContainer().GetKeyHits();
+        database_manager.GetKeyHitContainer().GetEntries();
 
     database::models::KeyHit key_hit = key_hits.back();
 
@@ -94,8 +94,8 @@ void utils::key::validators::CheckIfNgraph() {
             std::vector<int> time_stamps = {
                 key_hits[key_hits.size() - n].GetFirstTimeStamp(),
                 key_hit.GetFirstTimeStamp()};
-            database_manager.GetNgraphContainer().AddNgraph(ngraph_str,
-                                                            time_stamps);
+            database_manager.GetNgraphContainer().AddEntry(ngraph_str,
+                                                           time_stamps);
         }
     };
 
@@ -115,8 +115,8 @@ void utils::key::validators::CheckIfKeyIsPressed(
     database::models::KeyBuffer &key_state) {
     const std::vector<database::models::KeyHit> &key_hits =
         utils::key::validators::CheckIfModifierKey(key_state.hid)
-            ? database_manager.GetKeyHitContainer().GetModifierKeys()
-            : database_manager.GetKeyHitContainer().GetKeyHits();
+            ? database_manager.GetModifierKeyHitContainer().GetEntries()
+            : database_manager.GetKeyHitContainer().GetEntries();
 
     if (key_state.pressure == 0) {
         for (database::models::KeyHit key_hit : key_hits) {

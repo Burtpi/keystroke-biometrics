@@ -11,3 +11,16 @@ database::containers::NgraphContainer
 database::DatabaseManager::GetNgraphContainer() const {
     return ngraph_container_;
 }
+
+database::containers::CalcKeyHitContainer
+database::DatabaseManager::GetCalcKeyHitContainer() const {
+    return calc_key_hit_container_;
+}
+database::containers::CalcNgraphContainer
+database::DatabaseManager::GetCalcNgraphContainer() const {
+    return calc_ngraph_container_;
+}
+database::containers::KeyHitContainer
+database::DatabaseManager::GetModifierKeyHitContainer() const {
+    return modifier_key_hit_container_;
+}
