@@ -11,6 +11,7 @@ namespace database::models {
 class CalcNgraph {
    public:
     CalcNgraph(std::string ngraph, std::vector<Ngraph>& ngraph_data);
+    CalcNgraph(std::vector<std::string> row);
     void SaveCalcNgraphToCsv(std::ofstream& file);
 
    private:

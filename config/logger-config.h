@@ -17,7 +17,7 @@ class LoggerConfig {
     LoggerConfig();
     const std::shared_ptr<spdlog::logger>& GetGeneralLogger() const;
     const std::shared_ptr<spdlog::logger>& GetHitLogger() const;
-    std::string& GetDateFolder();
+    const std::string& GetDateFolder() const;
 
    private:
     std::shared_ptr<spdlog::logger> general_logger_;

@@ -10,7 +10,9 @@ const std::shared_ptr<spdlog::logger>& config::LoggerConfig::GetHitLogger()
     return hit_logger_;
 }
 
-std::string& config::LoggerConfig::GetDateFolder() { return date_folder_; }
+const std::string& config::LoggerConfig::GetDateFolder() const {
+    return date_folder_;
+}
 
 config::LoggerConfig::LoggerConfig() {
     date_folder_ =

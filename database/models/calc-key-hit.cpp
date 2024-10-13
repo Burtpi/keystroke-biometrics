@@ -1,12 +1,27 @@
 #include <database/models/calc-key-hit.h>
 #include <utils/math/utils-math.h>
 
+#include <sstream>
+#include <string>
+
 database::models::CalcKeyHit::CalcKeyHit(std::tuple<int, bool, bool> key_hit,
                                          std::vector<KeyHit>& key_hit_data) {
     hid_ = std::get<0>(key_hit);
     is_special_ = std::get<1>(key_hit);
     is_big_ = std::get<2>(key_hit);
     Calculate(key_hit_data);
+}
+
+database::models::CalcKeyHit::CalcKeyHit(std::vector<std::string> row) {
+    hid_ = stoi(row[0]);
+    std::istringstream(row[1]) >> is_special_;
+    std::istringstream(row[2]) >> is_big_;
+    dwell_time_.mean = stod(row[3]);
+    dwell_time_.std_deviation = stod(row[4]);
+    total_energy_.mean = stod(row[5]);
+    total_energy_.std_deviation = stod(row[6]);
+    magnitude_.mean = stod(row[7]);
+    magnitude_.std_deviation = stod(row[8]);
 }
 
 void database::models::CalcKeyHit::Calculate(

@@ -1,24 +1,20 @@
 #ifndef TEMPLATE_CONTAINER_H_
 #define TEMPLATE_CONTAINER_H_
 
-#include <database/containers/calc-key-hit-container.h>
-#include <database/containers/calc-ngraph-container.h>
+#include <database/models/calc-template.h>
 
 #include <vector>
 
 namespace database::templates {
 class TemplateContainer {
    public:
-    const std::vector<database::containers::CalcKeyHitContainer>&
-    GetCalcKeyHitContainer();
-    const std::vector<database::containers::CalcNgraphContainer>&
-    GetNgraphContainer();
+    database::models::CalcTemplate& GetCalcTemplate();
+    void LoadTemplates();
 
    private:
-    std::vector<database::containers::CalcKeyHitContainer>
-        calc_key_hit_containers_;
-    std::vector<database::containers::CalcNgraphContainer>
-        calc_ngraph_containers_;
+    database::models::CalcTemplate calc_template_;
+    void LoadAllCalcKeyHitContainers(std::string csv_file_path);
+    void LoadAllCalcNGraphs(std::string csv_file_path);
 };
 }  // namespace database::templates
 

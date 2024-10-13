@@ -1,7 +1,11 @@
 #include <config/config-manager.h>
 #include <database/containers/calc-key-hit-container.h>
 #include <database/database.h>
+#include <utils/biometric_template/utils-template.h>
 #include <utils/time/utils-time.h>
+
+#include <fstream>
+#include <string>
 
 void database::containers::CalcKeyHitContainer::AddEntry(
     std::tuple<int, bool, bool> key_hit,
@@ -22,4 +26,19 @@ void database::containers::CalcKeyHitContainer::SaveToFile() {
         calc_key_hit.SaveCalcKeyHitToCsv(file_key_hits);
     }
     file_key_hits.close();
+}
+
+void database::containers::CalcKeyHitContainer::LoadFromFile(
+    std::string csv_file_path) {
+    std::ifstream csv_calc_key_hits(csv_file_path);
+    std::string line;
+
+    while (std::getline(csv_calc_key_hits, line)) {
+        std::vector<std::string> row =
+            utils::biometric_template::SplitLine(line, ',');
+
+        if (row.size() == 9) {
+            entries_.emplace_back(row);
+        }
+    }
 }

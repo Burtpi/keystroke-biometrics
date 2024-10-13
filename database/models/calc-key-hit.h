@@ -12,6 +12,7 @@ class CalcKeyHit {
    public:
     CalcKeyHit(std::tuple<int, bool, bool> key_hit,
                std::vector<KeyHit>& key_hit_data);
+    CalcKeyHit(std::vector<std::string> row);
     void SaveCalcKeyHitToCsv(std::ofstream& file);
 
    private:

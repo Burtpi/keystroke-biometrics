@@ -1,7 +1,11 @@
 #include <config/config-manager.h>
 #include <database/containers/calc-ngraph-container.h>
 #include <database/database.h>
+#include <utils/biometric_template/utils-template.h>
 #include <utils/time/utils-time.h>
+
+#include <fstream>
+#include <string>
 
 void database::containers::CalcNgraphContainer::AddEntry(
     std::string ngraph, std::vector<database::models::Ngraph> ngraph_data) {
@@ -19,4 +23,19 @@ void database::containers::CalcNgraphContainer::SaveToFile() {
         calc_ngraph.SaveCalcNgraphToCsv(file_ngraphs);
     }
     file_ngraphs.close();
+}
+
+void database::containers::CalcNgraphContainer::LoadFromFile(
+    std::string csv_file_path) {
+    std::ifstream csv_calc_ngraphs(csv_file_path);
+    std::string line;
+
+    while (std::getline(csv_calc_ngraphs, line)) {
+        std::vector<std::string> row =
+            utils::biometric_template::SplitLine(line, ',');
+
+        if (row.size() == 3) {
+            entries_.emplace_back(row);
+        }
+    }
 }

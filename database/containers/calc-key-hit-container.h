@@ -13,6 +13,7 @@ class CalcKeyHitContainer : public Container<database::models::CalcKeyHit> {
     void AddEntry(std::tuple<int, bool, bool> key_hit,
                   std::vector<database::models::KeyHit> key_hit_data);
     void SaveToFile();
+    void LoadFromFile(std::string csv_file_path);
 };
 }  // namespace database::containers
 

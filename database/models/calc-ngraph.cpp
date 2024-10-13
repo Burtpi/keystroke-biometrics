@@ -7,6 +7,12 @@ database::models::CalcNgraph::CalcNgraph(std::string ngraph,
     Calculate(ngraph_data);
 }
 
+database::models::CalcNgraph::CalcNgraph(std::vector<std::string> row) {
+    ngraph_ = row[0];
+    flight_time_.mean = stod(row[1]);
+    flight_time_.std_deviation = stod(row[2]);
+}
+
 void database::models::CalcNgraph::Calculate(std::vector<Ngraph>& ngraph_data) {
     std::vector<int> flight_times;
     for (const auto& ngraph : ngraph_data) {

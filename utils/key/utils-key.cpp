@@ -1,5 +1,4 @@
 #include <database/database.h>
-#include <logger/logger.h>
 #include <utils/key/utils-key.h>
 #include <utils/key/validators/utils-key-validators.h>
 #include <utils/time/utils-time.h>

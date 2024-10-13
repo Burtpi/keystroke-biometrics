@@ -24,3 +24,7 @@ database::containers::KeyHitContainer&
 database::DatabaseManager::GetModifierKeyHitContainer() {
     return modifier_key_hit_container_;
 }
+database::templates::TemplateContainer&
+database::DatabaseManager::GetTemplateContainer() {
+    return template_container_;
+}

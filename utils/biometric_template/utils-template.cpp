@@ -77,3 +77,14 @@ void utils::biometric_template::SaveToFile() {
     database_manager.GetCalcKeyHitContainer().SaveToFile();
     database_manager.GetCalcNgraphContainer().SaveToFile();
 }
+
+std::vector<std::string> utils::biometric_template::SplitLine(
+    const std::string& line, char delimiter) {
+    std::vector<std::string> strings;
+    std::string string;
+    std::istringstream string_stream(line);
+    while (getline(string_stream, string, delimiter)) {
+        strings.push_back(string);
+    }
+    return strings;
+}

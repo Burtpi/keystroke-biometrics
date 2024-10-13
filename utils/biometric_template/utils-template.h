@@ -22,6 +22,7 @@ void ProcessKeyHits();
 void ProcessNgraphs();
 void SaveToFile();
 void ReadFromFile();
+std::vector<std::string> SplitLine(const std::string& line, char delimiter);
 GroupedKeyHits GroupKeyHits();
 GroupedNgraphs GroupNgraphs();
 
