@@ -1,4 +1,5 @@
 #include <config/config-manager.h>
+#include <database/database.h>
 #include <database/models/key-buffer.h>
 #include <execute/logger/execute-logger.h>
 #include <utils/biometric_template/utils-template.h>
@@ -7,6 +8,7 @@
 #include <utils/time/utils-time.h>
 #include <wooting_sdk/key-logger.h>
 
+#include <iostream>
 #include <vector>
 
 void execute::logger::RunLogger() {
@@ -37,5 +39,6 @@ void execute::logger::RunLogger() {
 
     if (global_config_manager.GetCalcConfig().GetIsTemplateInit()) {
         utils::biometric_template::CreateTemplate();
+        utils::biometric_template::SaveToFile();
     }
 }

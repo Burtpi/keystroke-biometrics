@@ -10,11 +10,11 @@
 namespace database {
 class DatabaseManager {
    public:
-    database::containers::KeyHitContainer GetKeyHitContainer() const;
-    database::containers::NgraphContainer GetNgraphContainer() const;
-    database::containers::CalcKeyHitContainer GetCalcKeyHitContainer() const;
-    database::containers::CalcNgraphContainer GetCalcNgraphContainer() const;
-    database::containers::KeyHitContainer GetModifierKeyHitContainer() const;
+    database::containers::KeyHitContainer& GetKeyHitContainer();
+    database::containers::NgraphContainer& GetNgraphContainer();
+    database::containers::CalcKeyHitContainer& GetCalcKeyHitContainer();
+    database::containers::CalcNgraphContainer& GetCalcNgraphContainer();
+    database::containers::KeyHitContainer& GetModifierKeyHitContainer();
 
    private:
     database::containers::KeyHitContainer key_hit_container_;

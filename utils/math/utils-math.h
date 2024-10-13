@@ -26,9 +26,8 @@ double CalculateStandardDeviation(const std::vector<T> &values) {
 
     return std::sqrt(sum / values.size());
 }
-double CalculateZScore(double value, double mean, double std_deviation) {
-    return (value - mean) / std_deviation;
-}
+
+double CalculateZScore(double value, double mean, double std_deviation);
 
 template <typename T>
 database::models::Statistics CalculateDescriptor(
@@ -36,7 +35,8 @@ database::models::Statistics CalculateDescriptor(
     double mean = utils::math::CalculateMean(descriptor_data);
     double std_deviation =
         utils::math::CalculateStandardDeviation(descriptor_data);
-    return mean, std_deviation;
+    database::models::Statistics values(mean, std_deviation);
+    return values;
 }
 
 }  // namespace utils::math

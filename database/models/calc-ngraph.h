@@ -4,12 +4,14 @@
 #include <database/models/ngraph.h>
 #include <database/models/statistics.h>
 
+#include <fstream>
 #include <string>
 
 namespace database::models {
 class CalcNgraph {
    public:
     CalcNgraph(std::string ngraph, std::vector<Ngraph>& ngraph_data);
+    void SaveCalcNgraphToCsv(std::ofstream& file);
 
    private:
     std::string ngraph_;

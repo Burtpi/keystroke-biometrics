@@ -1,8 +1,14 @@
+#include <config/config-manager.h>
 #include <database/database.h>
+#include <database/models/calc-key-hit.h>
+#include <database/models/calc-ngraph.h>
 #include <database/models/key-hit.h>
 #include <database/models/ngraph.h>
 #include <utils/biometric_template/utils-template.h>
+#include <utils/time/utils-time.h>
 
+#include <fstream>
+#include <iostream>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -13,6 +19,12 @@ void utils::biometric_template::CreateTemplate() {
 }
 
 void utils::biometric_template::ProcessKeyHits() {
+    // for (auto obj : database_manager.GetKeyHitContainer().GetEntries()) {
+    //     std::cout << obj.GetHid() << " " << obj.GetDwellTime() << " "
+    //               << obj.GetMagnitude() << " " << obj.GetTotalEnergy()
+    //               << std::endl;
+    // }
+    // while (1);
     std::unordered_map<KeyHitType, std::vector<database::models::KeyHit>>
         grouped_key_hits = GroupKeyHits();
 
@@ -41,11 +53,14 @@ utils::biometric_template::GroupKeyHits() {
         database_manager.GetModifierKeyHitContainer().GetEntries();
     std::vector<database::models::KeyHit> merged_key_hits;
 
-    merged_key_hits.insert(key_hits.end(), modifier_keys.begin(),
+    merged_key_hits.insert(merged_key_hits.end(), key_hits.begin(),
+                           key_hits.end());
+
+    merged_key_hits.insert(merged_key_hits.end(), modifier_keys.begin(),
                            modifier_keys.end());
 
     for (const database::models::KeyHit& key_hit : merged_key_hits) {
-        KeyHitType key = std::make_tuple(
+        utils::biometric_template::KeyHitType key = std::make_tuple(
             key_hit.GetHid(), key_hit.GetIsSpecial(), key_hit.GetIsBig());
         grouped_key_hits[key].push_back(key_hit);
     }
@@ -62,4 +77,31 @@ utils::biometric_template::GroupNgraphs() {
         grouped_ngraphs[ngraph.GetChars()].push_back(ngraph);
     }
     return grouped_ngraphs;
+}
+
+void utils::biometric_template::SaveToFile() {
+    std::chrono::time_point<std::chrono::system_clock> date =
+        global_config_manager.GetAppConfig().GetStartDate();
+    std::string dateFolder = "logs/" + utils::time::GetDateInString(date);
+
+    std::ofstream file_key_hits(dateFolder + "/template_hits.csv");
+
+    file_key_hits << "hid,is_special,is_big,dwell_time_mean,dwell_time_std_"
+                     "deviation,total_energy_mean,total_energy_std_deviation,"
+                     "magnitude_mean,magnitude_std_deviation\n";
+    for (database::models::CalcKeyHit calc_key_hit :
+         database_manager.GetCalcKeyHitContainer().GetEntries()) {
+        calc_key_hit.SaveCalcKeyHitToCsv(file_key_hits);
+    }
+    file_key_hits.close();
+
+    std::ofstream file_ngraphs(dateFolder + "/template_ngraph.csv");
+
+    file_ngraphs << "ngraph,flight_time_mean,flight_time_std_deviation\n";
+
+    for (database::models::CalcNgraph calc_ngraph :
+         database_manager.GetCalcNgraphContainer().GetEntries()) {
+        calc_ngraph.SaveCalcNgraphToCsv(file_ngraphs);
+    }
+    file_ngraphs.close();
 }

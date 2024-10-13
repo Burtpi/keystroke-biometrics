@@ -28,7 +28,7 @@ int database::models::KeyHit::GetFirstTimeStamp() const {
 }
 bool database::models::KeyHit::GetWasPressed() const { return was_pressed_; }
 bool database::models::KeyHit::GetIsSpecial() const { return is_special_char_; }
-bool database::models::KeyHit::GetIsSpecial() const { return is_big_char_; }
+bool database::models::KeyHit::GetIsBig() const { return is_big_char_; }
 int database::models::KeyHit::GetDwellTime() const { return dwell_time_; }
 double database::models::KeyHit::GetTotalEnergy() const {
     return total_energy_;

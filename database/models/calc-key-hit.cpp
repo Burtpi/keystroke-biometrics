@@ -26,3 +26,10 @@ void database::models::CalcKeyHit::Calculate(
         magnitude_ = utils::math::CalculateDescriptor(magnitudes);
     }
 }
+
+void database::models::CalcKeyHit::SaveCalcKeyHitToCsv(std::ofstream& file) {
+    file << hid_ << "," << is_special_ << "," << is_big_ << ","
+         << dwell_time_.mean << "," << dwell_time_.std_deviation << ","
+         << total_energy_.mean << "," << total_energy_.std_deviation << ","
+         << magnitude_.mean << "," << magnitude_.std_deviation << "\n";
+}

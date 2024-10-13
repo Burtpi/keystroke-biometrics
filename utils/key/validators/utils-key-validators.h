@@ -13,7 +13,7 @@ typedef std::vector<database::models::KeyHit>::iterator KeyHitIterator;
 
 void CheckIfExit(database::models::KeyBuffer& key_state);
 KeyHitIterator CheckIfExists(database::models::KeyBuffer key_state,
-                             std::vector<database::models::KeyHit> key_hits);
+                             std::vector<database::models::KeyHit>& key_hits);
 bool CheckIfBigChar();
 bool CheckIfSpecialChar(int hid);
 bool CheckIfModifierKey(int hid);

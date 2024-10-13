@@ -3,6 +3,7 @@
 #include <utils/key/validators/utils-key-validators.h>
 
 #include <algorithm>
+#include <iostream>
 #include <iterator>
 
 void utils::key::validators::CheckIfExit(
@@ -13,7 +14,7 @@ void utils::key::validators::CheckIfExit(
 
 utils::key::validators::KeyHitIterator utils::key::validators::CheckIfExists(
     database::models::KeyBuffer key_state,
-    std::vector<database::models::KeyHit> key_hits) {
+    std::vector<database::models::KeyHit> &key_hits) {
     KeyHitIterator key =
         std::find_if(key_hits.begin(), key_hits.end(),
                      [key_state](database::models::KeyHit &key_hit) {
@@ -68,9 +69,9 @@ void utils::key::validators::CheckIfNgraph() {
     const std::vector<database::models::KeyHit> &key_hits =
         database_manager.GetKeyHitContainer().GetEntries();
 
-    database::models::KeyHit key_hit = key_hits.back();
-
     if (key_hits.size() <= 3) return;
+
+    database::models::KeyHit key_hit = key_hits.back();
 
     const config::LanguageConfig &language_config =
         global_config_manager.GetLanguageConfig();
@@ -113,13 +114,13 @@ void utils::key::validators::CheckIfNgraph() {
 
 void utils::key::validators::CheckIfKeyIsPressed(
     database::models::KeyBuffer &key_state) {
-    const std::vector<database::models::KeyHit> &key_hits =
+    std::vector<database::models::KeyHit> &key_hits =
         utils::key::validators::CheckIfModifierKey(key_state.hid)
             ? database_manager.GetModifierKeyHitContainer().GetEntries()
             : database_manager.GetKeyHitContainer().GetEntries();
 
     if (key_state.pressure == 0) {
-        for (database::models::KeyHit key_hit : key_hits) {
+        for (database::models::KeyHit &key_hit : key_hits) {
             if (key_hit.GetHid() == key_state.hid && key_hit.GetIsPressed()) {
                 utils::key::validators::CheckIfKeyWasPressed(key_hit);
                 if (key_hit.GetWasPressed()) {

@@ -4,6 +4,7 @@
 #include <database/models/key-hit.h>
 #include <database/models/statistics.h>
 
+#include <fstream>
 #include <vector>
 
 namespace database::models {
@@ -11,6 +12,7 @@ class CalcKeyHit {
    public:
     CalcKeyHit(std::tuple<int, bool, bool> key_hit,
                std::vector<KeyHit>& key_hit_data);
+    void SaveCalcKeyHitToCsv(std::ofstream& file);
 
    private:
     int hid_;

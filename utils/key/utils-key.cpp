@@ -4,6 +4,7 @@
 #include <utils/key/validators/utils-key-validators.h>
 #include <utils/time/utils-time.h>
 
+#include <iostream>
 #include <string>
 
 std::vector<database::models::KeyBuffer> utils::key::SortKeyStates(
@@ -49,7 +50,7 @@ void utils::key::CreateKeyHits(database::models::KeyBuffer& key_state) {
     bool is_modifier =
         utils::key::validators::CheckIfModifierKey(key_state.hid);
 
-    const std::vector<database::models::KeyHit>& key_hits =
+    std::vector<database::models::KeyHit>& key_hits =
         is_modifier ? database_manager.GetModifierKeyHitContainer().GetEntries()
                     : database_manager.GetKeyHitContainer().GetEntries();
 

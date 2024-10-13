@@ -17,3 +17,8 @@ void database::models::CalcNgraph::Calculate(std::vector<Ngraph>& ngraph_data) {
         flight_time_ = utils::math::CalculateDescriptor(flight_times);
     }
 }
+
+void database::models::CalcNgraph::SaveCalcNgraphToCsv(std::ofstream& file) {
+    file << ngraph_ << "," << flight_time_.mean << ","
+         << flight_time_.std_deviation << "\n";
+}
