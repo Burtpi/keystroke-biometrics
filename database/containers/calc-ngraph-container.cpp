@@ -9,10 +9,9 @@ void database::containers::CalcNgraphContainer::AddEntry(
 }
 
 void database::containers::CalcNgraphContainer::SaveToFile() {
-    std::chrono::time_point<std::chrono::system_clock> date =
-        global_config_manager.GetAppConfig().GetStartDate();
-    std::string dateFolder = "logs/" + utils::time::GetDateInString(date);
-    std::ofstream file_ngraphs(dateFolder + "/template_ngraph.csv");
+    std::string date_folder =
+        global_config_manager.GetLoggerConfig().GetDateFolder();
+    std::ofstream file_ngraphs(date_folder + "/template_ngraph.csv");
 
     file_ngraphs << "ngraph,flight_time_mean,flight_time_std_deviation\n";
 

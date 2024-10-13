@@ -10,11 +10,10 @@ void database::containers::CalcKeyHitContainer::AddEntry(
 }
 
 void database::containers::CalcKeyHitContainer::SaveToFile() {
-    std::chrono::time_point<std::chrono::system_clock> date =
-        global_config_manager.GetAppConfig().GetStartDate();
-    std::string dateFolder = "logs/" + utils::time::GetDateInString(date);
+    std::string date_folder =
+        global_config_manager.GetLoggerConfig().GetDateFolder();
 
-    std::ofstream file_key_hits(dateFolder + "/template_hits.csv");
+    std::ofstream file_key_hits(date_folder + "/template_hits.csv");
 
     file_key_hits << "hid,is_special,is_big,dwell_time_mean,dwell_time_std_"
                      "deviation,total_energy_mean,total_energy_std_deviation,"
