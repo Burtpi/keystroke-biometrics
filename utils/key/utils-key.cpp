@@ -41,7 +41,7 @@ void utils::key::LogKeyStates(
         row << ", Pressure: " << key.pressure << "}, ";
     }
     row << "]";
-    logger::GetHitLogger()->info(row.str());
+    global_config_manager.GetLoggerConfig().GetHitLogger()->info(row.str());
 }
 
 void utils::key::CreateKeyHits(database::models::KeyBuffer& key_state) {

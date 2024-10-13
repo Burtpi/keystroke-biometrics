@@ -10,3 +10,7 @@ const config::LanguageConfig &config::ConfigManager::GetLanguageConfig() const {
 const config::CalcConfig &config::ConfigManager::GetCalcConfig() const {
     return calc_config_;
 }
+
+const config::LoggerConfig &config::ConfigManager::GetLoggerConfig() const {
+    return logger_config_;
+}

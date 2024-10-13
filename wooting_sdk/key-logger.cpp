@@ -1,4 +1,4 @@
-#include <logger/logger.h>
+#include <config/config-manager.h>
 #include <wooting_sdk/key-logger.h>
 
 wooting_sdk::KeyLogger::KeyLogger(int buffer_size) {
@@ -12,9 +12,10 @@ void wooting_sdk::KeyLogger::Init() {
     int initialised = wooting_analog_initialise();
     if (initialised >= 0) {
         is_initialised_ = true;
-        logger::GetGeneralLogger()->info("Wooting Analog SDK initialised.");
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+            "Wooting Analog SDK initialised.");
     } else {
-        logger::GetGeneralLogger()->error(
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->error(
             "Failed to initialise Wooting Analog SDK.");
         exit(1);
     }
