@@ -33,6 +33,8 @@ void database::containers::CalcKeyHitContainer::LoadFromFile(
     std::ifstream csv_calc_key_hits(csv_file_path);
     std::string line;
 
+    std::getline(csv_calc_key_hits, line);
+
     while (std::getline(csv_calc_key_hits, line)) {
         std::vector<std::string> row =
             utils::biometric_template::SplitLine(line, ',');

@@ -30,6 +30,8 @@ void database::containers::CalcNgraphContainer::LoadFromFile(
     std::ifstream csv_calc_ngraphs(csv_file_path);
     std::string line;
 
+    std::getline(csv_calc_ngraphs, line);
+
     while (std::getline(csv_calc_ngraphs, line)) {
         std::vector<std::string> row =
             utils::biometric_template::SplitLine(line, ',');

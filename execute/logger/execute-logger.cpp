@@ -31,6 +31,7 @@ void execute::logger::RunLogger() {
             utils::key::RemoveNotPressedHits();
 
             if (!global_config_manager.GetCalcConfig().GetIsTemplateInit()) {
+                
             }
         }
 
