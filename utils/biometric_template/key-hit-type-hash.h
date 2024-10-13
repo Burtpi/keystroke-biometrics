@@ -9,10 +9,10 @@ template <>
 struct hash<std::tuple<int, bool, bool>> {
     std::size_t operator()(const std::tuple<int, bool, bool>& key) const {
         auto [a, b, c] = key;
-        std::size_t h1 = std::hash<int>{}(a);
-        std::size_t h2 = std::hash<bool>{}(b);
-        std::size_t h3 = std::hash<bool>{}(c);
-        return h1 ^ (h2 << 1) ^ (h3 << 2);
+        std::size_t hash1 = std::hash<int>{}(a);
+        std::size_t hash2 = std::hash<bool>{}(b);
+        std::size_t hash3 = std::hash<bool>{}(c);
+        return hash1 ^ (hash2 << 1) ^ (hash3 << 2);
     }
 };
 }  // namespace std

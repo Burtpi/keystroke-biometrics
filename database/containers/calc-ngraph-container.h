@@ -9,6 +9,7 @@ class CalcNgraphContainer : public Container<database::models::CalcNgraph> {
    public:
     void AddEntry(std::string ngraph,
                   std::vector<database::models::Ngraph> ngraph_data);
+    void SaveToFile();
 };
 }  // namespace database::containers
 

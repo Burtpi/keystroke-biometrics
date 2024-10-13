@@ -3,7 +3,7 @@
 
 #include <database/models/key-hit.h>
 #include <database/models/ngraph.h>
-#include <utils/biometric_template/key_hit_type_hash.h>
+#include <utils/biometric_template/key-hit-type-hash.h>
 
 #include <string>
 #include <tuple>
@@ -21,8 +21,10 @@ void CreateTemplate();
 void ProcessKeyHits();
 void ProcessNgraphs();
 void SaveToFile();
+void ReadFromFile();
 GroupedKeyHits GroupKeyHits();
 GroupedNgraphs GroupNgraphs();
+
 }  // namespace utils::biometric_template
 
 #endif
