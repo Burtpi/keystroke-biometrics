@@ -19,7 +19,9 @@ void utils::biometric_template::CreateTemplate() {
 }
 
 void utils::biometric_template::ProcessKeyHits() {
-    std::unordered_map<KeyHitType, std::vector<database::models::KeyHit>>
+    std::unordered_map<KeyHitType, std::vector<database::models::KeyHit>,
+                       utils::biometric_template::TupleHash,
+                       utils::biometric_template::TupleEqual>
         grouped_key_hits = GroupKeyHits();
 
     for (const auto& grouped_key_hit : grouped_key_hits) {

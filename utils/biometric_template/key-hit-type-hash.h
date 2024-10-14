@@ -1,12 +1,12 @@
+
 #ifndef KEY_HIT_TYPE_HASH_H
 #define KEY_HIT_TYPE_HASH_H
 
 #include <functional>
 #include <tuple>
 
-namespace std {
-template <>
-struct hash<std::tuple<int, bool, bool>> {
+namespace utils::biometric_template {
+struct TupleHash {
     std::size_t operator()(const std::tuple<int, bool, bool>& key) const {
         auto [a, b, c] = key;
         std::size_t hash1 = std::hash<int>{}(a);
@@ -15,6 +15,13 @@ struct hash<std::tuple<int, bool, bool>> {
         return hash1 ^ (hash2 << 1) ^ (hash3 << 2);
     }
 };
-}  // namespace std
+
+struct TupleEqual {
+    bool operator()(const std::tuple<int, bool, bool>& left_hash,
+                    const std::tuple<int, bool, bool>& right_hash) const {
+        return left_hash == right_hash;
+    }
+};
+}  // namespace utils::biometric_template
 
 #endif

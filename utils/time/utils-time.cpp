@@ -22,7 +22,7 @@ std::string utils::time::CalculateElapsedTime() {
     std::chrono::milliseconds elapsed_time =
         std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now() -
-            global_config_manager.GetAppConfig().GetStartDate());
+            global_config_manager.GetLoggerConfig().GetStartDate());
 
     std::stringstream ss;
     ss << elapsed_time.count();

@@ -12,6 +12,8 @@ database::models::CalcKeyHit::CalcKeyHit(std::tuple<int, bool, bool> key_hit,
     Calculate(key_hit_data);
 }
 
+database::models::CalcKeyHit::CalcKeyHit() {}
+
 database::models::CalcKeyHit::CalcKeyHit(std::vector<std::string> row) {
     hid_ = stoi(row[0]);
     std::istringstream(row[1]) >> is_special_;

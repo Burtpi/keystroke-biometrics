@@ -10,6 +10,7 @@
 namespace database::models {
 class CalcKeyHit {
    public:
+    CalcKeyHit();
     CalcKeyHit(std::tuple<int, bool, bool> key_hit,
                std::vector<KeyHit>& key_hit_data);
     CalcKeyHit(std::vector<std::string> row);

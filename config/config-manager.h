@@ -6,8 +6,6 @@
 #include <config/language-config.h>
 #include <config/logger-config.h>
 
-config::LoggerConfig test;
-
 namespace config {
 class ConfigManager {
    public:

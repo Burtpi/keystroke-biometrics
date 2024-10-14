@@ -4,8 +4,11 @@
 #include <database/containers/container.h>
 #include <database/models/calc-key-hit.h>
 #include <database/models/key-hit.h>
+#include <utils/biometric_template/key-hit-type-hash.h>
 
 #include <optional>
+#include <tuple>
+#include <unordered_map>
 #include <vector>
 
 namespace database::containers {
@@ -21,7 +24,9 @@ class CalcKeyHitContainer : public Container<database::models::CalcKeyHit> {
 
    private:
     std::unordered_map<std::tuple<int, bool, bool>,
-                       database::models::CalcKeyHit>
+                       database::models::CalcKeyHit,
+                       utils::biometric_template::TupleHash,
+                       utils::biometric_template::TupleEqual>
         calc_key_hit_hash_map;
 };
 }  // namespace database::containers
