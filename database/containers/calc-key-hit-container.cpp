@@ -59,12 +59,12 @@ void database::containers::CalcKeyHitContainer::GenerateCalcKeyHitHashMap() {
 std::optional<database::models::CalcKeyHit>
 database::containers::CalcKeyHitContainer::FindEntry(
     database::models::KeyHit key_hit) const {
-    for (database::models::CalcKeyHit calc_key_hit : entries_) {
-        std::tuple<int, bool, bool> key = std::make_tuple(
-            key_hit.GetHid(), key_hit.GetIsBig(), key_hit.GetIsSpecial());
-        if (calc_key_hit_hash_map.find(key) != calc_key_hit_hash_map.end()) {
-            return calc_key_hit;
-        }
+    std::tuple<int, bool, bool> key = std::make_tuple(
+        key_hit.GetHid(), key_hit.GetIsBig(), key_hit.GetIsSpecial());
+    auto it = calc_key_hit_hash_map.find(key);
+    if (it != calc_key_hit_hash_map.end()) {
+        return it->second;
+    } else {
+        return std::nullopt;
     }
-    return std::nullopt;
 }

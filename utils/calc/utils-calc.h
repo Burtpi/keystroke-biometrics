@@ -11,7 +11,14 @@ void CalculateKeyHitTemplateScore(database::models::CalcTemplate& calc_template,
                                   database::models::KeyHit& key_hit);
 
 void CalculateNgraphs();
+void CalculateNgraph(
+    database::models::Ngraph& ngraph,
+    std::vector<database::models::CalcTemplate>& calc_templates);
+void CalculateNgraphTemplateScore(database::models::CalcTemplate& calc_template,
+                                  database::models::Ngraph& ngraph);
 double CalculateScore(double score);
+void CalculateZScores(std::vector<double> z_scores,
+                      database::models::CalcTemplate& calc_template);
 }  // namespace utils::calc
 
 #endif

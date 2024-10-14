@@ -41,3 +41,19 @@ void database::containers::CalcNgraphContainer::LoadFromFile(
         }
     }
 }
+
+std::optional<database::models::CalcNgraph>
+database::containers::CalcNgraphContainer::FindEntry(
+    database::models::Ngraph ngraph) const {
+    std::vector<database::models::CalcNgraph>::const_iterator
+        calc_ngraph_iterator = std::find_if(
+            entries_.begin(), entries_.end(),
+            [&ngraph](const database::models::CalcNgraph& calc_ngraph) {
+                return calc_ngraph.GetNgraph() == ngraph.GetChars();
+            });
+    if (calc_ngraph_iterator != entries_.end()) {
+        return *calc_ngraph_iterator;
+    } else {
+        return std::nullopt;
+    }
+}

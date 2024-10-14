@@ -28,3 +28,8 @@ void database::models::CalcNgraph::SaveCalcNgraphToCsv(std::ofstream& file) {
     file << ngraph_ << "," << flight_time_.mean << ","
          << flight_time_.std_deviation << "\n";
 }
+
+std::string database::models::CalcNgraph::GetNgraph() const { return ngraph_; }
+database::models::Statistics database::models::CalcNgraph::GetFlightTime() {
+    return flight_time_;
+}

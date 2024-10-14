@@ -3,6 +3,10 @@
 
 #include <database/containers/container.h>
 #include <database/models/calc-ngraph.h>
+#include <database/models/ngraph.h>
+
+#include <optional>
+#include <vector>
 
 namespace database::containers {
 class CalcNgraphContainer : public Container<database::models::CalcNgraph> {
@@ -11,6 +15,8 @@ class CalcNgraphContainer : public Container<database::models::CalcNgraph> {
                   std::vector<database::models::Ngraph> ngraph_data);
     void SaveToFile();
     void LoadFromFile(std::string csv_file_path);
+    std::optional<database::models::CalcNgraph> FindEntry(
+        database::models::Ngraph ngraph) const;
 };
 }  // namespace database::containers
 

@@ -68,12 +68,49 @@ void utils::calc::CalculateKeyHitTemplateScore(
                 calc_key_hit->GetMagnitude().std_deviation);
             z_scores.push_back(CalculateScore(score));
         }
-        if (!z_scores.empty()) {
-            double z_score =
-                round(std::abs(utils::math::CalculateMean(z_scores)) * 10000) /
-                10000;
-            calc_template.score += (1 - z_score);
+        CalculateZScores(z_scores, calc_template);
+    }
+}
+
+void utils::calc::CalculateNgraphs() {
+    std::vector<database::models::Ngraph>& ngraphs =
+        database_manager.GetNgraphContainer().GetEntries();
+    std::vector<database::models::CalcTemplate>& calc_templates =
+        database_manager.GetTemplateContainer().GetCalcTemplate();
+
+    for (database::models::Ngraph& ngraph : ngraphs) {
+        if (!ngraph.GetIsCalculated()) {
+            CalculateNgraph(ngraph, calc_templates);
         }
+    }
+}
+
+void utils::calc::CalculateNgraph(
+    database::models::Ngraph& ngraph,
+    std::vector<database::models::CalcTemplate>& calc_templates) {
+    for (database::models::CalcTemplate& calc_template : calc_templates) {
+        CalculateNgraphTemplateScore(calc_template, ngraph);
+    }
+    ngraph.SetIsCalculated(true);
+}
+
+void utils::calc::CalculateNgraphTemplateScore(
+    database::models::CalcTemplate& calc_template,
+    database::models::Ngraph& ngraph) {
+    std::vector<double> z_scores;
+
+    std::optional<database::models::CalcNgraph>& calc_ngraph =
+        calc_template.calc_ngraph_container.FindEntry(ngraph);
+
+    if (calc_ngraph) {
+        double score;
+        if (global_config_manager.GetCalcConfig().GetNgraph()) {
+            score = utils::math::CalculateZScore(
+                ngraph.GetFlightTime(), calc_ngraph->GetFlightTime().mean,
+                calc_ngraph->GetFlightTime().std_deviation);
+            z_scores.push_back(CalculateScore(score));
+        }
+        CalculateZScores(z_scores, calc_template);
     }
 }
 
@@ -84,4 +121,15 @@ double utils::calc::CalculateScore(double score) {
         return -3;
     else if (score < 3 && score > -3)
         return score;
+}
+
+void utils::calc::CalculateZScores(
+    std::vector<double> z_scores,
+    database::models::CalcTemplate& calc_template) {
+    if (!z_scores.empty()) {
+        double z_score =
+            round(std::abs(utils::math::CalculateMean(z_scores)) * 10000) /
+            10000;
+        calc_template.score += (1 - z_score);
+    }
 }

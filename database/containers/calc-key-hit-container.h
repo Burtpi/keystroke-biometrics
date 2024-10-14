@@ -5,6 +5,7 @@
 #include <database/models/calc-key-hit.h>
 #include <database/models/key-hit.h>
 
+#include <optional>
 #include <vector>
 
 namespace database::containers {
