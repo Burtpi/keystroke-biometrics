@@ -1,10 +1,12 @@
 #include <config/config-manager.h>
 #include <database/containers/calc-key-hit-container.h>
 #include <database/database.h>
+#include <utils/biometric_template/key-hit-type-hash.h>
 #include <utils/biometric_template/utils-template.h>
 #include <utils/time/utils-time.h>
 
 #include <fstream>
+#include <optional>
 #include <string>
 
 void database::containers::CalcKeyHitContainer::AddEntry(
@@ -43,4 +45,26 @@ void database::containers::CalcKeyHitContainer::LoadFromFile(
             entries_.emplace_back(row);
         }
     }
+}
+
+void database::containers::CalcKeyHitContainer::GenerateCalcKeyHitHashMap() {
+    for (database::models::CalcKeyHit& calc_key_hit : entries_) {
+        std::tuple<int, bool, bool> key =
+            std::make_tuple(calc_key_hit.GetHid(), calc_key_hit.GetIsBig(),
+                            calc_key_hit.GetIsSpecial());
+        calc_key_hit_hash_map[key] = calc_key_hit;
+    }
+}
+
+std::optional<database::models::CalcKeyHit>
+database::containers::CalcKeyHitContainer::FindEntry(
+    database::models::KeyHit key_hit) const {
+    for (database::models::CalcKeyHit calc_key_hit : entries_) {
+        std::tuple<int, bool, bool> key = std::make_tuple(
+            key_hit.GetHid(), key_hit.GetIsBig(), key_hit.GetIsSpecial());
+        if (calc_key_hit_hash_map.find(key) != calc_key_hit_hash_map.end()) {
+            return calc_key_hit;
+        }
+    }
+    return std::nullopt;
 }

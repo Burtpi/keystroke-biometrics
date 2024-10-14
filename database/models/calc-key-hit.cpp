@@ -48,3 +48,16 @@ void database::models::CalcKeyHit::SaveCalcKeyHitToCsv(std::ofstream& file) {
          << total_energy_.mean << "," << total_energy_.std_deviation << ","
          << magnitude_.mean << "," << magnitude_.std_deviation << "\n";
 }
+
+int database::models::CalcKeyHit::GetHid() { return hid_; }
+bool database::models::CalcKeyHit::GetIsSpecial() { return is_special_; }
+bool database::models::CalcKeyHit::GetIsBig() { return is_big_; }
+database::models::Statistics database::models::CalcKeyHit::GetDwellTime() {
+    return dwell_time_;
+}
+database::models::Statistics database::models::CalcKeyHit::GetTotalEnergy() {
+    return total_energy_;
+}
+database::models::Statistics database::models::CalcKeyHit::GetMagnitude() {
+    return magnitude_;
+}

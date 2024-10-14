@@ -14,6 +14,12 @@ class CalcKeyHit {
                std::vector<KeyHit>& key_hit_data);
     CalcKeyHit(std::vector<std::string> row);
     void SaveCalcKeyHitToCsv(std::ofstream& file);
+    int GetHid();
+    bool GetIsSpecial();
+    bool GetIsBig();
+    database::models::Statistics GetDwellTime();
+    database::models::Statistics GetTotalEnergy();
+    database::models::Statistics GetMagnitude();
 
    private:
     int hid_;

@@ -14,6 +14,14 @@ class CalcKeyHitContainer : public Container<database::models::CalcKeyHit> {
                   std::vector<database::models::KeyHit> key_hit_data);
     void SaveToFile();
     void LoadFromFile(std::string csv_file_path);
+    void GenerateCalcKeyHitHashMap();
+    std::optional<database::models::CalcKeyHit> FindEntry(
+        database::models::KeyHit key_hit) const;
+
+   private:
+    std::unordered_map<std::tuple<int, bool, bool>,
+                       database::models::CalcKeyHit>
+        calc_key_hit_hash_map;
 };
 }  // namespace database::containers
 

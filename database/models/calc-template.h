@@ -8,10 +8,14 @@
 
 namespace database::models {
 struct CalcTemplate {
-    std::vector<database::containers::CalcKeyHitContainer>
-        calc_key_hit_containers_;
-    std::vector<database::containers::CalcNgraphContainer>
-        calc_ngraph_containers_;
+    CalcTemplate(database::containers::CalcKeyHitContainer calc_key_hit,
+                 database::containers::CalcNgraphContainer calc_ngraph)
+        : calc_key_hit_container(calc_key_hit),
+          calc_ngraph_container(calc_ngraph),
+          score(100) {};
+    database::containers::CalcKeyHitContainer calc_key_hit_container;
+    database::containers::CalcNgraphContainer calc_ngraph_container;
+    double score;
 };
 }  // namespace database::models
 

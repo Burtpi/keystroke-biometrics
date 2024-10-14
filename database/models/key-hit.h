@@ -16,6 +16,7 @@ class KeyHit {
     bool GetWasPressed() const;
     bool GetIsSpecial() const;
     bool GetIsBig() const;
+    bool GetIsCalculated() const;
     int GetFirstTimeStamp() const;
     int GetDwellTime() const;
     double GetTotalEnergy() const;
@@ -24,6 +25,7 @@ class KeyHit {
     void PushBackPressure(float pressure);
     void SetIsPressed(bool is_special);
     void SetWasPressed(bool was_pressed);
+    void SetIsCalculated(bool is_calculated);
     void UpdateKeyHit(int elapsed_time, float pressure);
     void Calculate();
 
@@ -36,6 +38,7 @@ class KeyHit {
     bool was_pressed_;
     bool is_pressed_;
     bool is_big_char_;
+    bool is_calculated_;
     int hid_;
     int dwell_time_;
     double total_energy_;

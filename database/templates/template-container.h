@@ -8,13 +8,15 @@
 namespace database::templates {
 class TemplateContainer {
    public:
-    database::models::CalcTemplate& GetCalcTemplate();
+    std::vector<database::models::CalcTemplate>& GetCalcTemplate();
     void LoadTemplates();
 
    private:
-    database::models::CalcTemplate calc_template_;
-    void LoadAllCalcKeyHitContainers(std::string csv_file_path);
-    void LoadAllCalcNGraphs(std::string csv_file_path);
+    std::vector<database::models::CalcTemplate> calc_templates_;
+    database::containers::CalcKeyHitContainer LoadAllCalcKeyHitContainers(
+        std::string csv_file_path);
+    database::containers::CalcNgraphContainer LoadAllCalcNGraphs(
+        std::string csv_file_path);
 };
 }  // namespace database::templates
 

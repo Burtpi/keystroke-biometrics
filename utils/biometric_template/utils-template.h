@@ -1,5 +1,5 @@
-#ifndef UTILS_TEMPLATE_
-#define UTILS_TEMPLATE_
+#ifndef UTILS_TEMPLATE_H_
+#define UTILS_TEMPLATE_H_
 
 #include <database/models/key-hit.h>
 #include <database/models/ngraph.h>
@@ -21,7 +21,6 @@ void CreateTemplate();
 void ProcessKeyHits();
 void ProcessNgraphs();
 void SaveToFile();
-void ReadFromFile();
 std::vector<std::string> SplitLine(const std::string& line, char delimiter);
 GroupedKeyHits GroupKeyHits();
 GroupedNgraphs GroupNgraphs();

@@ -29,6 +29,9 @@ int database::models::KeyHit::GetFirstTimeStamp() const {
 bool database::models::KeyHit::GetWasPressed() const { return was_pressed_; }
 bool database::models::KeyHit::GetIsSpecial() const { return is_special_char_; }
 bool database::models::KeyHit::GetIsBig() const { return is_big_char_; }
+bool database::models::KeyHit::GetIsCalculated() const {
+    return is_calculated_;
+}
 int database::models::KeyHit::GetDwellTime() const { return dwell_time_; }
 double database::models::KeyHit::GetTotalEnergy() const {
     return total_energy_;
@@ -48,6 +51,10 @@ void database::models::KeyHit::SetIsPressed(bool is_pressed) {
 
 void database::models::KeyHit::SetWasPressed(bool was_pressed) {
     was_pressed_ = was_pressed;
+}
+
+void database::models::KeyHit::SetIsCalculated(bool is_calculated) {
+    is_calculated_ = is_calculated;
 }
 
 void database::models::KeyHit::UpdateKeyHit(int elapsed_time, float pressure) {

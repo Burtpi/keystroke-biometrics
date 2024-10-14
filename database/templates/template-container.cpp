@@ -3,9 +3,9 @@
 #include <filesystem>
 #include <fstream>
 
-database::models::CalcTemplate&
+std::vector<database::models::CalcTemplate>&
 database::templates::TemplateContainer::GetCalcTemplate() {
-    return calc_template_;
+    return calc_templates_;
 }
 
 void database::templates::TemplateContainer::LoadTemplates() {
@@ -19,29 +19,36 @@ void database::templates::TemplateContainer::LoadTemplates() {
                 entry.path().string() + "/template_hits.csv";
             std::string csv_template_ngraphs_path =
                 entry.path().string() + "/template_hits.csv";
-            LoadAllCalcKeyHitContainers(csv_template_key_hits_path);
-            LoadAllCalcNGraphs(csv_template_ngraphs_path);
+            database::containers::CalcKeyHitContainer calc_key_hit_container =
+                LoadAllCalcKeyHitContainers(csv_template_key_hits_path);
+            database::containers::CalcNgraphContainer calc_ngraph_container =
+                LoadAllCalcNGraphs(csv_template_ngraphs_path);
+            database::models::CalcTemplate calc_template(calc_key_hit_container,
+                                                         calc_ngraph_container);
+            calc_templates_.push_back(calc_template);
         }
     }
 }
 
-void database::templates::TemplateContainer::LoadAllCalcKeyHitContainers(
+database::containers::CalcKeyHitContainer
+database::templates::TemplateContainer::LoadAllCalcKeyHitContainers(
     std::string csv_file_path) {
     if (std::filesystem::exists(csv_file_path)) {
         database::containers::CalcKeyHitContainer calc_key_hit_container;
 
         calc_key_hit_container.LoadFromFile(csv_file_path);
-        calc_template_.calc_key_hit_containers_.push_back(
-            calc_key_hit_container);
+        calc_key_hit_container.GenerateCalcKeyHitHashMap();
+        return calc_key_hit_container;
     }
 }
 
-void database::templates::TemplateContainer::LoadAllCalcNGraphs(
+database::containers::CalcNgraphContainer
+database::templates::TemplateContainer::LoadAllCalcNGraphs(
     std::string csv_file_path) {
     if (std::filesystem::exists(csv_file_path)) {
         database::containers::CalcNgraphContainer calc_ngraph_container;
 
         calc_ngraph_container.LoadFromFile(csv_file_path);
-        calc_template_.calc_ngraph_containers_.push_back(calc_ngraph_container);
+        return calc_ngraph_container;
     }
 }
