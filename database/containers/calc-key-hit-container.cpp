@@ -52,7 +52,7 @@ void database::containers::CalcKeyHitContainer::GenerateCalcKeyHitHashMap() {
         std::tuple<int, bool, bool> key =
             std::make_tuple(calc_key_hit.GetHid(), calc_key_hit.GetIsBig(),
                             calc_key_hit.GetIsSpecial());
-        calc_key_hit_hash_map[key] = calc_key_hit;
+        calc_key_hit_hash_map_[key] = calc_key_hit;
     }
 }
 
@@ -61,8 +61,8 @@ database::containers::CalcKeyHitContainer::FindEntry(
     database::models::KeyHit key_hit) const {
     std::tuple<int, bool, bool> key = std::make_tuple(
         key_hit.GetHid(), key_hit.GetIsBig(), key_hit.GetIsSpecial());
-    auto it = calc_key_hit_hash_map.find(key);
-    if (it != calc_key_hit_hash_map.end()) {
+    auto it = calc_key_hit_hash_map_.find(key);
+    if (it != calc_key_hit_hash_map_.end()) {
         return it->second;
     } else {
         return std::nullopt;

@@ -45,10 +45,14 @@ void database::models::CalcKeyHit::Calculate(
 }
 
 void database::models::CalcKeyHit::SaveCalcKeyHitToCsv(std::ofstream& file) {
-    file << hid_ << "," << is_special_ << "," << is_big_ << ","
-         << dwell_time_.mean << "," << dwell_time_.std_deviation << ","
-         << total_energy_.mean << "," << total_energy_.std_deviation << ","
-         << magnitude_.mean << "," << magnitude_.std_deviation << "\n";
+    if (dwell_time_.mean > 0 && dwell_time_.std_deviation > 0 &&
+        total_energy_.mean > 0 && total_energy_.std_deviation > 0 &&
+        magnitude_.mean > 0 && magnitude_.std_deviation > 0) {
+        file << hid_ << "," << is_special_ << "," << is_big_ << ","
+             << dwell_time_.mean << "," << dwell_time_.std_deviation << ","
+             << total_energy_.mean << "," << total_energy_.std_deviation << ","
+             << magnitude_.mean << "," << magnitude_.std_deviation << "\n";
+    }
 }
 
 int database::models::CalcKeyHit::GetHid() { return hid_; }

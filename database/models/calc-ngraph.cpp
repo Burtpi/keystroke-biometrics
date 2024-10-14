@@ -25,8 +25,10 @@ void database::models::CalcNgraph::Calculate(std::vector<Ngraph>& ngraph_data) {
 }
 
 void database::models::CalcNgraph::SaveCalcNgraphToCsv(std::ofstream& file) {
-    file << ngraph_ << "," << flight_time_.mean << ","
-         << flight_time_.std_deviation << "\n";
+    if (flight_time_.mean > 0 && flight_time_.std_deviation > 0) {
+        file << ngraph_ << "," << flight_time_.mean << ","
+             << flight_time_.std_deviation << "\n";
+    }
 }
 
 std::string database::models::CalcNgraph::GetNgraph() const { return ngraph_; }

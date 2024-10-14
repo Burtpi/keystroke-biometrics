@@ -14,6 +14,7 @@ database::models::KeyHit::KeyHit(int hid, int elapsed_time, float pressure,
     total_energy_ = 0;
     is_pressed_ = true;
     was_pressed_ = true;
+    is_calculated_ = false;
     is_special_char_ = is_special;
     is_big_char_ = is_big;
 }
@@ -70,7 +71,6 @@ void database::models::KeyHit::Calculate() {
 
 void database::models::KeyHit::CalculateDwellTime() {
     dwell_time_ = time_stamps_.back() - time_stamps_.front();
-    if (dwell_time_ > 500) was_pressed_ = false;
 }
 
 void database::models::KeyHit::Interpolate() {

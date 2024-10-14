@@ -8,7 +8,7 @@
 namespace config {
 class LanguageConfig {
    public:
-    LanguageConfig(std::string model_language = "EN");
+    LanguageConfig(std::string model_language = "PL");
     const std::map<int, std::string>& GetHidToAscii() const;
     const std::map<int, std::string>& GetSpecialCharsAscii() const;
     const std::map<int, std::string>& GetModifierKeys() const;

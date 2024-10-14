@@ -10,6 +10,7 @@ namespace database::containers {
 class KeyHitContainer : public Container<database::models::KeyHit> {
    public:
     void AddEntry(int hid, int elapsed_time, float pressure);
+    void AddModifierEntry(int hid, int elapsed_time, float pressure);
 };
 }  // namespace database::containers
 

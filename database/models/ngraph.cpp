@@ -4,6 +4,7 @@ database::models::Ngraph::Ngraph(std::string chars,
                                  std::vector<int> time_stamps) {
     chars_ = chars;
     time_stamps_ = time_stamps;
+    is_calculated_ = false;
     flight_time_ = CalculateFlightTime();
 }
 

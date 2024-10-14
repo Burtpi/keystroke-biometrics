@@ -1,4 +1,5 @@
 #include <config/config-manager.h>
+#include <database/database.h>
 #include <database/models/key-buffer.h>
 #include <execute/logger/execute-logger.h>
 #include <utils/biometric_template/utils-template.h>
@@ -32,6 +33,11 @@ void execute::logger::RunLogger() {
 
             if (!global_config_manager.GetCalcConfig().GetIsTemplateInit()) {
                 utils::calc::CalculateCurrentObjects();
+                if (database_manager.GetKeyHitContainer().GetEntries().size() >
+                    200) {
+                    database_manager.GetTemplateContainer().LogScores();
+                    break;
+                }
             }
         }
 

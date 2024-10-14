@@ -6,6 +6,7 @@
 #include <utils/calc/utils-calc.h>
 #include <utils/math/utils-math.h>
 
+#include <iostream>
 #include <optional>
 #include <vector>
 
@@ -48,28 +49,30 @@ void utils::calc::CalculateKeyHitTemplateScore(
 
     std::optional<database::models::CalcKeyHit> calc_key_hit =
         calc_template.calc_key_hit_container.FindEntry(key_hit);
-
-    if (calc_key_hit) {
+    if (calc_key_hit.has_value()) {
         double score;
-        if (global_config_manager.GetCalcConfig().GetDwellTime()) {
+        if (global_config_manager.GetCalcConfig().GetDwellTime() &&
+            key_hit.GetDwellTime() <= 500) {
             score = utils::math::CalculateZScore(
                 key_hit.GetDwellTime(), calc_key_hit->GetDwellTime().mean,
                 calc_key_hit->GetDwellTime().std_deviation);
             std::optional<double> z_score_dwell = CalculateScore(score);
-            if (z_score_dwell) z_scores.push_back(z_score_dwell.value());
+            if (z_score_dwell.has_value())
+                z_scores.push_back(z_score_dwell.value());
         }
         if (global_config_manager.GetCalcConfig().GetPressure()) {
             score = utils::math::CalculateZScore(
                 key_hit.GetTotalEnergy(), calc_key_hit->GetTotalEnergy().mean,
                 calc_key_hit->GetTotalEnergy().std_deviation);
             std::optional<double> z_score_energy = CalculateScore(score);
-            if (z_score_energy) z_scores.push_back(z_score_energy.value());
+            if (z_score_energy.has_value())
+                z_scores.push_back(z_score_energy.value());
 
             score = utils::math::CalculateZScore(
                 key_hit.GetMagnitude(), calc_key_hit->GetMagnitude().mean,
                 calc_key_hit->GetMagnitude().std_deviation);
             std::optional<double> z_score_magnitude = CalculateScore(score);
-            if (z_score_magnitude)
+            if (z_score_magnitude.has_value())
                 z_scores.push_back(z_score_magnitude.value());
         }
         CalculateZScores(z_scores, calc_template);
@@ -106,14 +109,15 @@ void utils::calc::CalculateNgraphTemplateScore(
     std::optional<database::models::CalcNgraph> calc_ngraph =
         calc_template.calc_ngraph_container.FindEntry(ngraph);
 
-    if (calc_ngraph) {
+    if (calc_ngraph.has_value()) {
         double score;
-        if (global_config_manager.GetCalcConfig().GetNgraph()) {
+        if (global_config_manager.GetCalcConfig().GetNgraph() &&
+            ngraph.GetFlightTime() <= 1000) {
             score = utils::math::CalculateZScore(
                 ngraph.GetFlightTime(), calc_ngraph->GetFlightTime().mean,
                 calc_ngraph->GetFlightTime().std_deviation);
             std::optional<double> z_score = CalculateScore(score);
-            if (z_score) z_scores.push_back(z_score.value());
+            if (z_score.has_value()) z_scores.push_back(z_score.value());
         }
         CalculateZScores(z_scores, calc_template);
     }
@@ -138,5 +142,11 @@ void utils::calc::CalculateZScores(
             round(std::abs(utils::math::CalculateMean(z_scores)) * 10000) /
             10000;
         calc_template.score += (1 - z_score);
+
+        if (calc_template.score >= 100) {
+            calc_template.score = 100;
+        } else if (calc_template.score <= 0) {
+            calc_template.score = 0;
+        }
     }
 }

@@ -11,6 +11,7 @@ class TemplateContainer {
    public:
     std::vector<database::models::CalcTemplate>& GetCalcTemplate();
     void LoadTemplates();
+    void LogScores();
 
    private:
     std::vector<database::models::CalcTemplate> calc_templates_;

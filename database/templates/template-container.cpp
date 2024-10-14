@@ -1,3 +1,4 @@
+#include <config/config-manager.h>
 #include <database/templates/template-container.h>
 
 #include <filesystem>
@@ -61,4 +62,16 @@ database::templates::TemplateContainer::LoadAllCalcNGraphs(
     } else {
         return std::nullopt;
     }
+}
+
+void database::templates::TemplateContainer::LogScores() {
+    std::string date_folder =
+        global_config_manager.GetLoggerConfig().GetDateFolder();
+
+    std::ofstream file_scores(date_folder + "/scores.txt");
+
+    for (auto calc_template : calc_templates_) {
+        file_scores << calc_template.score << std::endl;
+    }
+    file_scores.close();
 }

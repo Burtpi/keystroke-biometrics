@@ -5,7 +5,7 @@ namespace config {
 class CalcConfig {
    public:
     CalcConfig(bool dwell_time = true, bool ngraph = true, bool pressure = true,
-               bool is_template_init = true);
+               bool is_template_init = false);
     const bool GetDwellTime() const;
     const bool GetNgraph() const;
     const bool GetPressure() const;

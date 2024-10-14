@@ -27,7 +27,7 @@ class CalcKeyHitContainer : public Container<database::models::CalcKeyHit> {
                        database::models::CalcKeyHit,
                        utils::biometric_template::TupleHash,
                        utils::biometric_template::TupleEqual>
-        calc_key_hit_hash_map;
+        calc_key_hit_hash_map_;
 };
 }  // namespace database::containers
 

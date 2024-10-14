@@ -60,7 +60,7 @@ void utils::key::CreateKeyHits(database::models::KeyBuffer& key_state) {
         existing_key->UpdateKeyHit(elapsed_time, key_state.pressure);
     } else {
         if (is_modifier) {
-            database_manager.GetModifierKeyHitContainer().AddEntry(
+            database_manager.GetModifierKeyHitContainer().AddModifierEntry(
                 key_state.hid, elapsed_time, key_state.pressure);
         } else {
             database_manager.GetKeyHitContainer().AddEntry(
