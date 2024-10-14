@@ -1,11 +1,6 @@
 #include <config/app-config.h>
 #include <utils/time/utils-time.h>
 
-std::chrono::time_point<std::chrono::system_clock>
-config::AppConfig::GetStartDate() {
-    return start_date_;
-}
-
 int config::AppConfig::GetActuationPoint() { return actuation_point_; }
 
 bool config::AppConfig::GetKeyLogging() { return key_logging_; }
@@ -38,7 +33,6 @@ void config::AppConfig::SetExitHid(int hid) { exit_hid_ = hid; }
 
 config::AppConfig::AppConfig(bool key_logging, bool key_sates_logging,
                              bool is_external_data_, int exit_hid) {
-    start_date_ = std::chrono::system_clock::now();
     key_logging_ = key_logging;
     key_states_logging_ = key_sates_logging;
     is_external_data_ = is_external_data_;

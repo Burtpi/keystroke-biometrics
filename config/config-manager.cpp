@@ -11,6 +11,6 @@ const config::CalcConfig &config::ConfigManager::GetCalcConfig() const {
     return calc_config_;
 }
 
-const config::LoggerConfig &config::ConfigManager::GetLoggerConfig() const {
+config::LoggerConfig &config::ConfigManager::GetLoggerConfig() {
     return logger_config_;
 }

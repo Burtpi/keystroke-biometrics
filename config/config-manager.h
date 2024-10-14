@@ -6,13 +6,15 @@
 #include <config/language-config.h>
 #include <config/logger-config.h>
 
+config::LoggerConfig test;
+
 namespace config {
 class ConfigManager {
    public:
     AppConfig &GetAppConfig();
     const LanguageConfig &GetLanguageConfig() const;
     const CalcConfig &GetCalcConfig() const;
-    const LoggerConfig &GetLoggerConfig() const;
+    LoggerConfig &GetLoggerConfig();
 
    private:
     AppConfig app_config_;
