@@ -13,6 +13,7 @@ class ConfigManager {
     const LanguageConfig &GetLanguageConfig() const;
     const CalcConfig &GetCalcConfig() const;
     LoggerConfig &GetLoggerConfig();
+    bool ReadTerminalFlags(int argc, char *argv[]);
 
    private:
     AppConfig app_config_;
