@@ -11,6 +11,8 @@ class KeyHitContainer : public Container<database::models::KeyHit> {
    public:
     void AddEntry(int hid, int elapsed_time, float pressure);
     void AddModifierEntry(int hid, int elapsed_time, float pressure);
+    void SaveToFile();
+    void LoadFromFile();
 };
 }  // namespace database::containers
 

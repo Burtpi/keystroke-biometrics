@@ -11,6 +11,8 @@ namespace database::containers {
 class NgraphContainer : public Container<database::models::Ngraph> {
    public:
     void AddEntry(std::string ngraph, std::vector<int>& time_stamps);
+    void SaveToFile();
+    void LoadFromFile();
 };
 }  // namespace database::containers
 

@@ -14,7 +14,7 @@ std::string utils::time::GetDateInString(
     __time64_t time_now_in_t = std::chrono::system_clock::to_time_t(time);
 
     std::stringstream ss;
-    ss << std::put_time(std::gmtime(&time_now_in_t), "%Y%m%dT%H%M%SZ");
+    ss << std::put_time(std::gmtime(&time_now_in_t), "%Y%m%d_%H%M%S");
     return ss.str();
 }
 

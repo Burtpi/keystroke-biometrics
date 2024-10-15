@@ -21,6 +21,22 @@ void config::AppConfig::SetIsExternalData(bool is_external_data) {
     is_external_data_ = is_external_data;
 }
 
+std::string config::AppConfig::GetExternalDataKeyHitsPath() {
+    return external_data_key_hits_path_;
+}
+
+std::string config::AppConfig::GetExternalDataNgraphsPath() {
+    return external_data_ngraphs_path_;
+}
+
+void config::AppConfig::SetExternalDataKeyHitsPath(std::string path) {
+    external_data_key_hits_path_ = path;
+}
+
+void config::AppConfig::SetExternalDataNgraphsPath(std::string path) {
+    external_data_ngraphs_path_ = path;
+}
+
 std::string config::AppConfig::GetElapsedTime() { return elapsed_time_; }
 
 void config::AppConfig::SetElapsedTime() {

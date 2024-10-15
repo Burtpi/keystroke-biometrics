@@ -4,6 +4,7 @@
 #include <utils/math/utils-math.h>
 
 #include <cmath>
+#include <iostream>
 
 database::models::KeyHit::KeyHit(int hid, int elapsed_time, float pressure,
                                  bool is_big, bool is_special) {
@@ -17,6 +18,12 @@ database::models::KeyHit::KeyHit(int hid, int elapsed_time, float pressure,
     is_calculated_ = false;
     is_special_char_ = is_special;
     is_big_char_ = is_big;
+}
+
+database::models::KeyHit::KeyHit() {
+    is_pressed_ = false;
+    was_pressed_ = true;
+    is_calculated_ = false;
 }
 
 int database::models::KeyHit::GetHid() const { return hid_; }
@@ -44,6 +51,26 @@ void database::models::KeyHit::PushBackTimeStamp(int time_stamp) {
 }
 void database::models::KeyHit::PushBackPressure(float pressure) {
     pressures_.push_back(pressure);
+}
+
+void database::models::KeyHit::SetHid(int hid) { hid_ = hid; }
+
+void database::models::KeyHit::SetIsSpecial(bool is_special) {
+    is_special_char_ = is_special;
+}
+
+void database::models::KeyHit::SetIsBig(bool is_big) { is_big_char_ = is_big; }
+
+void database::models::KeyHit::SetDwellTime(int dwell_time) {
+    dwell_time_ = dwell_time;
+}
+
+void database::models::KeyHit::SetTotalEnergy(double total_energy) {
+    total_energy_ = total_energy;
+}
+
+void database::models::KeyHit::SetMagnitude(float magnitude) {
+    magnitude_ = magnitude;
 }
 
 void database::models::KeyHit::SetIsPressed(bool is_pressed) {
@@ -149,5 +176,30 @@ void database::models::KeyHit::CalculateTotalEnergy(fftw_complex *out,
                                                     int size) {
     for (int i = 0; i < size; i++) {
         total_energy_ += std::pow(out[i][0], 2) + std::pow(out[i][1], 2);
+    }
+}
+
+void database::models::KeyHit::SaveKeyHitToCsv(std::ofstream &file) const {
+    if (dwell_time_ > 0 && dwell_time_ <= 500 && total_energy_ > 0 &&
+        magnitude_ > 0) {
+        file << hid_ << "," << is_special_char_ << "," << is_big_char_ << ","
+             << dwell_time_ << "," << total_energy_ << "," << magnitude_
+             << ",{";
+        bool first_iter = true;
+
+        auto save_iter = [&file, &first_iter](auto entries) {
+            for (const auto &entry : entries) {
+                if (!first_iter) {
+                    file << ",";
+                }
+                file << entry;
+                first_iter = false;
+            }
+        };
+        save_iter(time_stamps_);
+        file << "},{";
+        first_iter = true;
+        save_iter(pressures_);
+        file << "}\n";
     }
 }

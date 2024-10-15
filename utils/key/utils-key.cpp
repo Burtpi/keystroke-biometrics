@@ -97,3 +97,13 @@ void utils::key::RemoveNotPressedHits() {
         }
     }
 }
+
+void utils::key::LogAllHits() {
+    database_manager.GetKeyHitContainer().SaveToFile();
+    database_manager.GetNgraphContainer().SaveToFile();
+}
+
+void utils::key::LoadAllHits() {
+    database_manager.GetKeyHitContainer().LoadFromFile();
+    database_manager.GetNgraphContainer().LoadFromFile();
+}

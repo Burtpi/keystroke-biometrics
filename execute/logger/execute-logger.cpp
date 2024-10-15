@@ -43,6 +43,7 @@ void execute::logger::RunLogger() {
 
         utils::time::SleepHighResolution();
     }
+    utils::key::LogAllHits();
 
     if (global_config_manager.GetCalcConfig().GetIsTemplateInit()) {
         utils::biometric_template::CreateTemplate();

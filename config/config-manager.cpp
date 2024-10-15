@@ -1,5 +1,6 @@
 #include <config/config-manager.h>
 
+#include <fstream>
 #include <iostream>
 
 config::ConfigManager global_config_manager;
@@ -59,11 +60,55 @@ bool config::ConfigManager::ReadTerminalFlags(int argc, char *argv[]) {
                     DisplayHelp();
                     return false;
                 }
+            } else if (strcmp(argv[i], "-eh") == 0 ||
+                       strcmp(argv[i], "--external-hits") == 0) {
+                if (i + 1 < argc) {
+                    i++;
+                    app_config_.SetExternalDataKeyHitsPath(argv[i]);
+                    std::ifstream file(argv[i]);
+                    if (!file.good()) {
+                        std::cerr << "File " << argv[i] << " not found."
+                                  << std::endl;
+                        DisplayHelp();
+                        return false;
+                    }
+                    app_config_.SetIsExternalData(true);
+
+                } else {
+                    std::cerr << "Missing value for " << argv[i] << " flag."
+                              << std::endl;
+                    DisplayHelp();
+                    return false;
+                }
+            } else if (strcmp(argv[i], "-en") == 0 ||
+                       strcmp(argv[i], "--external-ngraphs") == 0) {
+                if (i + 1 < argc) {
+                    i++;
+                    app_config_.SetExternalDataNgraphsPath(argv[i]);
+                    std::ifstream file(argv[i]);
+                    if (!file.good()) {
+                        std::cerr << "File " << argv[i] << " not found."
+                                  << std::endl;
+                        DisplayHelp();
+                        return false;
+                    }
+                    app_config_.SetIsExternalData(true);
+
+                } else {
+                    std::cerr << "Missing value for " << argv[i] << " flag."
+                              << std::endl;
+                    DisplayHelp();
+                    return false;
+                }
             } else {
                 std::cout << "Option not found " << argv[i] << std::endl;
                 DisplayHelp();
                 return false;
             }
+        } else {
+            std::cout << "No option specified. " << argv[i] << std::endl;
+            DisplayHelp();
+            return false;
         }
     }
     return true;
@@ -72,20 +117,27 @@ bool config::ConfigManager::ReadTerminalFlags(int argc, char *argv[]) {
 void config::ConfigManager::DisplayHelp() {
     std::cout << "Usage: .\\keystroke_biometrics.exe [OPTIONS]\n";
     std::cout << "Options:\n";
-    std::cout << "  -h or --help\t\t\t Display this help message.\n";
-    std::cout << "  --no-logs\t\t\t Logs from hit logger will not be saved.\n";
-    std::cout << "  -nn or --no-ngraph\t\t Ngraph feature will not be "
+    std::cout << "  -h or --help\t\t\t\t Display this help message.\n";
+    std::cout
+        << "  --no-logs\t\t\t\t Logs from hit logger will not be saved.\n";
+    std::cout << "  -nn or --no-ngraph\t\t\t Ngraph feature will not be "
                  "calculated in identifying and verification scenario.\n";
-    std::cout << "  -nd or --no-dwell\t\t Dwell Time feature will not be "
+    std::cout << "  -nd or --no-dwell\t\t\t Dwell Time feature will not be "
                  "calculated in identifying and verification scenario.\n";
-    std::cout << "  -np or --no-pressure\t\t Pressure feature will not be "
+    std::cout << "  -np or --no-pressure\t\t\t Pressure feature will not be "
                  "calculated in identifying and verification scenario.\n";
-    std::cout << "  -i or --init\t\t\t Create template with your keystroke "
+    std::cout << "  -i or --init\t\t\t\t Create template with your keystroke "
                  "dynamics biometrics features.\n";
-    std::cout << "  -l <arg> or --language <arg>\t Choose language that will "
+    std::cout << "  -l <arg> or --language <arg>\t\t Choose language that will "
                  "be used in evaluation. It needs languages directory with "
                  "it's corresponding language given as argument. Default is "
-                 "en (English).\n";
+                 "'en' (English).\n";
+    std::cout << "  -en <arg> or --external-ngraph <arg>\t Choose external "
+                 "file with ngraphs that will "
+                 "be used in evaluation.\n";
+    std::cout << "  -eh <arg> or --external-hits <arg>\t Choose external "
+                 "file with key hits that will "
+                 "be used in evaluation.\n";
     std::cout << "Example:\n";
     std::cout << "  .\\keystroke_biometrics.exe --language pl\n";
 }

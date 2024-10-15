@@ -3,6 +3,7 @@
 
 #include <include/fftw3.h>
 
+#include <fstream>
 #include <vector>
 
 namespace database::models {
@@ -10,6 +11,7 @@ class KeyHit {
    public:
     KeyHit(int hid, int elapsed_time, float pressure, bool is_big,
            bool is_special);
+    KeyHit();
     int GetHid() const;
     std::vector<float> GetPressures();
     bool GetIsPressed() const;
@@ -23,11 +25,19 @@ class KeyHit {
     float GetMagnitude() const;
     void PushBackTimeStamp(int time_stamp);
     void PushBackPressure(float pressure);
+    void SetHid(int hid);
+    void SetIsSpecial(bool is_special);
+    void SetIsBig(bool is_big);
+    void SetDwellTime(int dwell_time);
+    void SetTotalEnergy(double total_energy);
+    void SetMagnitude(float magnitude);
     void SetIsPressed(bool is_special);
     void SetWasPressed(bool was_pressed);
     void SetIsCalculated(bool is_calculated);
     void UpdateKeyHit(int elapsed_time, float pressure);
     void Calculate();
+    void SaveKeyHitToCsv(std::ofstream &file) const;
+    void Interpolate();
 
    private:
     std::vector<int> time_stamps_;
@@ -44,7 +54,6 @@ class KeyHit {
     double total_energy_;
     float magnitude_;
 
-    void Interpolate();
     void CalculateDwellTime();
     void CalculateDFTOfPressure();
     void CalculateMagnitude(fftw_complex *out, int size);

@@ -12,6 +12,8 @@ std::vector<database::models::KeyBuffer> SortKeyStates(
 void LogKeyStates(std::vector<database::models::KeyBuffer> key_states);
 void CreateKeyHits(database::models::KeyBuffer &key_state);
 void RemoveNotPressedHits();
+void LogAllHits();
+void LoadAllHits();
 }  // namespace utils::key
 
 #endif
