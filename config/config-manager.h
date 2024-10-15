@@ -20,6 +20,7 @@ class ConfigManager {
     LanguageConfig language_config_;
     CalcConfig calc_config_;
     LoggerConfig logger_config_;
+    void DisplayHelp();
 };
 
 }  // namespace config
