@@ -97,6 +97,8 @@ void utils::key::validators::CheckIfNgraph() {
                 key_hit.GetFirstTimeStamp()};
             database_manager.GetNgraphContainer().AddEntry(ngraph_str,
                                                            time_stamps);
+            database_manager.GetMergedObjectsContainer().AddEntry(
+                database_manager.GetNgraphContainer().GetEntries().back());
         }
     };
 
@@ -126,6 +128,8 @@ void utils::key::validators::CheckIfKeyIsPressed(
                 if (key_hit.GetWasPressed()) {
                     key_hit.SetIsPressed(false);
                     key_hit.Calculate();
+                    database_manager.GetMergedObjectsContainer().AddEntry(
+                        key_hit);
                 }
                 break;
             }

@@ -7,6 +7,11 @@ database::DatabaseManager::GetKeyHitContainer() {
     return key_hit_container_;
 }
 
+database::containers::MergedObjectsContainer&
+database::DatabaseManager::GetMergedObjectsContainer() {
+    return merged_objects_container_;
+}
+
 database::containers::NgraphContainer&
 database::DatabaseManager::GetNgraphContainer() {
     return ngraph_container_;
