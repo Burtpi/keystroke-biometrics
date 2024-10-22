@@ -1,2 +1,4 @@
 .vscode
 output
+.vs
+vcpkg_installed
