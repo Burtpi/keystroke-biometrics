@@ -10,7 +10,10 @@
 namespace database::containers {
 using MergedObjectsVariant =
     std::variant<database::models::KeyHit, database::models::Ngraph>;
-class MergedObjectsContainer : public Container<MergedObjectsVariant> {};
+class MergedObjectsContainer : public Container<MergedObjectsVariant> {
+   public:
+    void Sort();
+};
 }  // namespace database::containers
 
 #endif

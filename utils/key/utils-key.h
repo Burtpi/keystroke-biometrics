@@ -14,6 +14,7 @@ void CreateKeyHits(database::models::KeyBuffer &key_state);
 void RemoveNotPressedHits();
 void LogAllHits();
 void LoadAllHits();
+void SetMergedObjects();
 }  // namespace utils::key
 
 #endif

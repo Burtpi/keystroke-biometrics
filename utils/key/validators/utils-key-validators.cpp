@@ -93,8 +93,8 @@ void utils::key::validators::CheckIfNgraph() {
             std::find(ngraph_size.begin(), ngraph_size.end(), ngraph_str);
         if (ngraph_find != ngraph_size.end()) {
             std::vector<int> time_stamps = {
-                key_hits[key_hits.size() - n].GetFirstTimeStamp(),
-                key_hit.GetFirstTimeStamp()};
+                key_hits[key_hits.size() - n].GetTimeStamp(),
+                key_hit.GetTimeStamp()};
             database_manager.GetNgraphContainer().AddEntry(ngraph_str,
                                                            time_stamps);
             database_manager.GetMergedObjectsContainer().AddEntry(

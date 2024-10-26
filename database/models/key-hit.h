@@ -19,7 +19,7 @@ class KeyHit {
     bool GetIsSpecial() const;
     bool GetIsBig() const;
     bool GetIsCalculated() const;
-    int GetFirstTimeStamp() const;
+    int GetTimeStamp() const;
     int GetDwellTime() const;
     double GetTotalEnergy() const;
     float GetMagnitude() const;

@@ -16,7 +16,9 @@ bool database::models::Ngraph::GetIsCalculated() { return is_calculated_; }
 void database::models::Ngraph::SetIsCalculated(bool is_calculated) {
     is_calculated_ = is_calculated;
 }
-
+int database::models::Ngraph::GetTimeStamp() const {
+    return time_stamps_.back();
+}
 int database::models::Ngraph::CalculateFlightTime() {
     return time_stamps_.back() - time_stamps_.front();
 }

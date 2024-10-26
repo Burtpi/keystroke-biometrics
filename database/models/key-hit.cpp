@@ -31,7 +31,7 @@ std::vector<float> database::models::KeyHit::GetPressures() {
     return pressures_;
 }
 bool database::models::KeyHit::GetIsPressed() const { return is_pressed_; }
-int database::models::KeyHit::GetFirstTimeStamp() const {
+int database::models::KeyHit::GetTimeStamp() const {
     return time_stamps_.front();
 }
 bool database::models::KeyHit::GetWasPressed() const { return was_pressed_; }

@@ -11,23 +11,22 @@
 #include <vector>
 
 void utils::calc::CalculateCurrentObjects() {
-    std::vector<database::models::KeyHit>& key_hits =
-        database_manager.GetKeyHitContainer().GetEntries();
-    std::vector<database::models::KeyHit>& modifier_keys =
-        database_manager.GetModifierKeyHitContainer().GetEntries();
+    database_manager.GetMergedObjectsContainer().Sort();
 
-    CalculateKeyHits(key_hits);
-    CalculateKeyHits(modifier_keys);
-    CalculateNgraphs();
-}
+    std::vector<database::containers::MergedObjectsVariant>& merged_objects =
+        database_manager.GetMergedObjectsContainer().GetEntries();
 
-void utils::calc::CalculateKeyHits(
-    std::vector<database::models::KeyHit>& key_hits) {
     std::vector<database::models::CalcTemplate>& calc_templates =
         database_manager.GetTemplateContainer().GetCalcTemplate();
 
-    for (database::models::KeyHit& key_hit : key_hits) {
-        CalculateKeyHit(key_hit, calc_templates);
+    for (database::containers::MergedObjectsVariant& object : merged_objects) {
+        if (database::models::KeyHit* key_hit =
+                std::get_if<database::models::KeyHit>(&object)) {
+            CalculateKeyHit(*key_hit, calc_templates);
+        } else if (database::models::Ngraph* ngraph =
+                       std::get_if<database::models::Ngraph>(&object)) {
+            CalculateNgraph(*ngraph, calc_templates);
+        }
     }
 }
 
@@ -79,26 +78,15 @@ void utils::calc::CalculateKeyHitTemplateScore(
     }
 }
 
-void utils::calc::CalculateNgraphs() {
-    std::vector<database::models::Ngraph>& ngraphs =
-        database_manager.GetNgraphContainer().GetEntries();
-    std::vector<database::models::CalcTemplate>& calc_templates =
-        database_manager.GetTemplateContainer().GetCalcTemplate();
-
-    for (database::models::Ngraph& ngraph : ngraphs) {
-        if (!ngraph.GetIsCalculated()) {
-            CalculateNgraph(ngraph, calc_templates);
-        }
-    }
-}
-
 void utils::calc::CalculateNgraph(
     database::models::Ngraph& ngraph,
     std::vector<database::models::CalcTemplate>& calc_templates) {
-    for (database::models::CalcTemplate& calc_template : calc_templates) {
-        CalculateNgraphTemplateScore(calc_template, ngraph);
+    if (!ngraph.GetIsCalculated()) {
+        for (database::models::CalcTemplate& calc_template : calc_templates) {
+            CalculateNgraphTemplateScore(calc_template, ngraph);
+        }
+        ngraph.SetIsCalculated(true);
     }
-    ngraph.SetIsCalculated(true);
 }
 
 void utils::calc::CalculateNgraphTemplateScore(
@@ -141,6 +129,9 @@ void utils::calc::CalculateZScores(
         double z_score =
             round(std::abs(utils::math::CalculateMean(z_scores)) * 10000) /
             10000;
+        if (z_score > 1) {
+            z_score *= 2;
+        }
         calc_template.score += (1 - z_score);
 
         if (calc_template.score >= 100) {

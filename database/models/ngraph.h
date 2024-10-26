@@ -14,6 +14,7 @@ class Ngraph {
     bool GetIsCalculated();
     void SetIsCalculated(bool is_calculated);
     int GetFlightTime() const;
+    int GetTimeStamp() const;
     void SetChars(std::string chars);
     void SetFlightTime(int flight_time);
     void PushBackTimeStamp(int time_stamp);
