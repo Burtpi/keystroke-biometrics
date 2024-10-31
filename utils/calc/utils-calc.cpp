@@ -10,7 +10,7 @@
 #include <optional>
 #include <vector>
 
-void utils::calc::CalculateCurrentObjects() {
+void utils::calc::CalculateCurrentObjects(std::vector<float> weights) {
     database_manager.GetMergedObjectsContainer().Sort();
 
     std::vector<database::containers::MergedObjectsVariant>& merged_objects =
@@ -22,20 +22,21 @@ void utils::calc::CalculateCurrentObjects() {
     for (database::containers::MergedObjectsVariant& object : merged_objects) {
         if (database::models::KeyHit* key_hit =
                 std::get_if<database::models::KeyHit>(&object)) {
-            CalculateKeyHit(*key_hit, calc_templates);
+            CalculateKeyHit(*key_hit, calc_templates, weights);
         } else if (database::models::Ngraph* ngraph =
                        std::get_if<database::models::Ngraph>(&object)) {
-            CalculateNgraph(*ngraph, calc_templates);
+            CalculateNgraph(*ngraph, calc_templates, weights);
         }
     }
 }
 
 void utils::calc::CalculateKeyHit(
     database::models::KeyHit& key_hit,
-    std::vector<database::models::CalcTemplate>& calc_templates) {
+    std::vector<database::models::CalcTemplate>& calc_templates,
+    std::vector<float> weights) {
     if (key_hit.GetIsPressed() == false && key_hit.GetIsCalculated() == false) {
         for (database::models::CalcTemplate& calc_template : calc_templates) {
-            CalculateKeyHitTemplateScore(calc_template, key_hit);
+            CalculateKeyHitTemplateScore(calc_template, key_hit, weights);
         }
         key_hit.SetIsCalculated(true);
     }
@@ -43,7 +44,7 @@ void utils::calc::CalculateKeyHit(
 
 void utils::calc::CalculateKeyHitTemplateScore(
     database::models::CalcTemplate& calc_template,
-    database::models::KeyHit& key_hit) {
+    database::models::KeyHit& key_hit, std::vector<float> weights) {
     std::vector<double> z_scores;
 
     std::optional<database::models::CalcKeyHit> calc_key_hit =
@@ -56,23 +57,29 @@ void utils::calc::CalculateKeyHitTemplateScore(
                 key_hit.GetDwellTime(), calc_key_hit->GetDwellTime().mean,
                 calc_key_hit->GetDwellTime().std_deviation);
             std::optional<double> z_score_dwell = CalculateScore(score);
-            if (z_score_dwell.has_value())
+            if (z_score_dwell.has_value()) {
+                z_score_dwell.value() *= weights[0];
                 z_scores.push_back(z_score_dwell.value());
+            }
         }
         if (global_config_manager.GetCalcConfig().GetPressure()) {
             score = utils::math::CalculateZScore(
                 key_hit.GetTotalEnergy(), calc_key_hit->GetTotalEnergy().mean,
                 calc_key_hit->GetTotalEnergy().std_deviation);
             std::optional<double> z_score_energy = CalculateScore(score);
-            if (z_score_energy.has_value())
+            if (z_score_energy.has_value()) {
+                z_score_energy.value() *= weights[1];
                 z_scores.push_back(z_score_energy.value());
+            }
 
             score = utils::math::CalculateZScore(
                 key_hit.GetMagnitude(), calc_key_hit->GetMagnitude().mean,
                 calc_key_hit->GetMagnitude().std_deviation);
             std::optional<double> z_score_magnitude = CalculateScore(score);
-            if (z_score_magnitude.has_value())
+            if (z_score_magnitude.has_value()) {
+                z_score_magnitude.value() *= weights[2];
                 z_scores.push_back(z_score_magnitude.value());
+            }
         }
         CalculateZScores(z_scores, calc_template);
     }
@@ -80,10 +87,11 @@ void utils::calc::CalculateKeyHitTemplateScore(
 
 void utils::calc::CalculateNgraph(
     database::models::Ngraph& ngraph,
-    std::vector<database::models::CalcTemplate>& calc_templates) {
+    std::vector<database::models::CalcTemplate>& calc_templates,
+    std::vector<float> weights) {
     if (!ngraph.GetIsCalculated()) {
         for (database::models::CalcTemplate& calc_template : calc_templates) {
-            CalculateNgraphTemplateScore(calc_template, ngraph);
+            CalculateNgraphTemplateScore(calc_template, ngraph, weights);
         }
         ngraph.SetIsCalculated(true);
     }
@@ -91,7 +99,7 @@ void utils::calc::CalculateNgraph(
 
 void utils::calc::CalculateNgraphTemplateScore(
     database::models::CalcTemplate& calc_template,
-    database::models::Ngraph& ngraph) {
+    database::models::Ngraph& ngraph, std::vector<float> weights) {
     std::vector<double> z_scores;
 
     std::optional<database::models::CalcNgraph> calc_ngraph =
@@ -105,7 +113,10 @@ void utils::calc::CalculateNgraphTemplateScore(
                 ngraph.GetFlightTime(), calc_ngraph->GetFlightTime().mean,
                 calc_ngraph->GetFlightTime().std_deviation);
             std::optional<double> z_score = CalculateScore(score);
-            if (z_score.has_value()) z_scores.push_back(z_score.value());
+            if (z_score.has_value()) {
+                z_score.value() *= weights[3];
+                z_scores.push_back(z_score.value());
+            }
         }
         CalculateZScores(z_scores, calc_template);
     }

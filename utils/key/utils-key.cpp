@@ -106,18 +106,7 @@ void utils::key::LogAllHits() {
 void utils::key::LoadAllHits() {
     database_manager.GetKeyHitContainer().LoadFromFile();
     database_manager.GetNgraphContainer().LoadFromFile();
-    SetMergedObjects();
-}
-
-void utils::key::SetMergedObjects() {
-    std::vector<database::containers::MergedObjectsVariant>& merged_objects =
-        database_manager.GetMergedObjectsContainer().GetEntries();
-    std::vector<database::models::KeyHit>& key_hits =
-        database_manager.GetKeyHitContainer().GetEntries();
-    std::vector<database::models::Ngraph>& ngraphs =
-        database_manager.GetNgraphContainer().GetEntries();
-
-    merged_objects.insert(merged_objects.end(), key_hits.begin(),
-                          key_hits.end());
-    merged_objects.insert(merged_objects.end(), ngraphs.begin(), ngraphs.end());
+    database_manager.GetMergedObjectsContainer().SetMergedObjects(
+        database_manager.GetKeyHitContainer().GetEntries(),
+        database_manager.GetNgraphContainer().GetEntries());
 }

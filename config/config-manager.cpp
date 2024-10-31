@@ -42,6 +42,9 @@ bool config::ConfigManager::ReadTerminalFlags(int argc, char *argv[]) {
             } else if (strcmp(argv[i], "-i") == 0 ||
                        strcmp(argv[i], "--init") == 0) {
                 calc_config_.SetIsTemplateInit(true);
+            } else if (strcmp(argv[i], "-o") == 0 ||
+                       strcmp(argv[i], "--optimize") == 0) {
+                app_config_.SetOptimize(true);
             } else if (strcmp(argv[i], "-l") == 0 ||
                        strcmp(argv[i], "--language") == 0) {
                 if (i + 1 < argc) {

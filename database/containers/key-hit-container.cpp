@@ -30,9 +30,9 @@ void database::containers::KeyHitContainer::SaveToFile() {
     file_key_hits.close();
 }
 
-void database::containers::KeyHitContainer::LoadFromFile() {
-    std::ifstream csv_key_hits(
-        global_config_manager.GetAppConfig().GetExternalDataKeyHitsPath());
+void database::containers::KeyHitContainer::LoadFromFile(
+    std::string base_path) {
+    std::ifstream csv_key_hits(base_path);
 
     if (csv_key_hits.is_open()) {
         std::string line;

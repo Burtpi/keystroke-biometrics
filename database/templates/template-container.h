@@ -9,11 +9,15 @@
 namespace database::templates {
 class TemplateContainer {
    public:
+    TemplateContainer();
+    TemplateContainer(std::string template_name) : name_(template_name) {}
     std::vector<database::models::CalcTemplate>& GetCalcTemplate();
-    void LoadTemplates();
+    std::string GetName();
+    void LoadTemplates(std::string base_path);
     void LogScores();
 
    private:
+    std::string name_;
     std::vector<database::models::CalcTemplate> calc_templates_;
     std::optional<database::containers::CalcKeyHitContainer>
     LoadAllCalcKeyHitContainers(std::string csv_file_path);

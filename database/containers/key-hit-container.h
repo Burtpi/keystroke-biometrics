@@ -1,6 +1,7 @@
 #ifndef KEY_HIT_CONTAINER_H_
 #define KEY_HIT_CONTAINER_H_
 
+#include <config/config-manager.h>
 #include <database/containers/container.h>
 #include <database/models/key-hit.h>
 
@@ -12,7 +13,9 @@ class KeyHitContainer : public Container<database::models::KeyHit> {
     void AddEntry(int hid, int elapsed_time, float pressure);
     void AddModifierEntry(int hid, int elapsed_time, float pressure);
     void SaveToFile();
-    void LoadFromFile();
+    void LoadFromFile(
+        std::string base_path =
+            global_config_manager.GetAppConfig().GetExternalDataKeyHitsPath());
 };
 }  // namespace database::containers
 

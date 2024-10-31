@@ -19,9 +19,9 @@ void database::containers::NgraphContainer::SaveToFile() {
     file_ngraphs.close();
 }
 
-void database::containers::NgraphContainer::LoadFromFile() {
-    std::ifstream csv_ngraphs(
-        global_config_manager.GetAppConfig().GetExternalDataNgraphsPath());
+void database::containers::NgraphContainer::LoadFromFile(
+    std::string base_path) {
+    std::ifstream csv_ngraphs(base_path);
 
     if (csv_ngraphs.is_open()) {
         std::string line;

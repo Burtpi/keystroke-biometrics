@@ -21,6 +21,10 @@ void config::AppConfig::SetIsExternalData(bool is_external_data) {
     is_external_data_ = is_external_data;
 }
 
+bool config::AppConfig::GetOptimize() { return optimize_; }
+
+void config::AppConfig::SetOptimize(bool optimize) { optimize_ = optimize; }
+
 std::string config::AppConfig::GetExternalDataKeyHitsPath() {
     return external_data_key_hits_path_;
 }

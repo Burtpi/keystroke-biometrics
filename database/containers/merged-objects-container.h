@@ -12,7 +12,16 @@ using MergedObjectsVariant =
     std::variant<database::models::KeyHit, database::models::Ngraph>;
 class MergedObjectsContainer : public Container<MergedObjectsVariant> {
    public:
+    MergedObjectsContainer();
+    MergedObjectsContainer(std::string container_name)
+        : name_(container_name) {}
     void Sort();
+    std::string GetName();
+    void SetMergedObjects(std::vector<database::models::KeyHit>& key_hits,
+                          std::vector<database::models::Ngraph>& ngraphs);
+
+   private:
+    std::string name_;
 };
 }  // namespace database::containers
 

@@ -5,14 +5,17 @@
 #include <fstream>
 #include <optional>
 
+database::templates::TemplateContainer::TemplateContainer() {}
+
 std::vector<database::models::CalcTemplate>&
 database::templates::TemplateContainer::GetCalcTemplate() {
     return calc_templates_;
 }
 
-void database::templates::TemplateContainer::LoadTemplates() {
-    std::string base_path = "templates";
+std::string database::templates::TemplateContainer::GetName() { return name_; }
 
+void database::templates::TemplateContainer::LoadTemplates(
+    std::string base_path) {
     for (const std::filesystem::directory_entry& entry :
          std::filesystem::directory_iterator(base_path)) {
         if (entry.is_directory()) {

@@ -14,6 +14,8 @@ class AppConfig {
     void SetKeyStatesLogging(bool key_states_logging);
     bool GetIsExternalData();
     void SetIsExternalData(bool is_external_data);
+    bool GetOptimize();
+    void SetOptimize(bool optimize);
     std::string GetExternalDataKeyHitsPath();
     std::string GetExternalDataNgraphsPath();
     void SetExternalDataKeyHitsPath(std::string path);
@@ -29,6 +31,7 @@ class AppConfig {
     bool key_logging_;
     bool key_states_logging_;
     bool is_external_data_;
+    bool optimize_;
     std::string external_data_key_hits_path_;
     std::string external_data_ngraphs_path_;
     int exit_hid_;

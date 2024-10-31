@@ -3,6 +3,7 @@
 
 namespace execute::external {
 void RunExternal();
-}
+void RunOptimize();
+}  // namespace execute::external
 
 #endif
