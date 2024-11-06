@@ -3,6 +3,7 @@
 #include <database/database.h>
 #include <database/templates/template-container.h>
 #include <execute/external/execute-external.h>
+#include <optimizer/swarm.h>
 #include <utils/biometric_template/utils-template.h>
 #include <utils/calc/utils-calc.h>
 #include <utils/key/utils-key.h>
@@ -26,4 +27,6 @@ void execute::external::RunOptimize() {
         utils::optimizer::LoadTemplatesWithNames();
     std::vector<database::containers::MergedObjectsContainer>
         merged_objects_containers = utils::optimizer::LoadAllOptimizationData();
+    optimizer::Swarm swarm;
+    swarm.Optimize(template_containers, merged_objects_containers);
 }

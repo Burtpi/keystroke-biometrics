@@ -10,14 +10,17 @@
 #include <optional>
 #include <vector>
 
-void utils::calc::CalculateCurrentObjects(std::vector<float> weights) {
-    database_manager.GetMergedObjectsContainer().Sort();
+void utils::calc::CalculateCurrentObjects(
+    std::vector<float> weights,
+    database::containers::MergedObjectsContainer& merged_objects_container,
+    database::templates::TemplateContainer& calc_templates_container) {
+    merged_objects_container.Sort();
 
     std::vector<database::containers::MergedObjectsVariant>& merged_objects =
-        database_manager.GetMergedObjectsContainer().GetEntries();
+        merged_objects_container.GetEntries();
 
     std::vector<database::models::CalcTemplate>& calc_templates =
-        database_manager.GetTemplateContainer().GetCalcTemplate();
+        calc_templates_container.GetCalcTemplate();
 
     for (database::containers::MergedObjectsVariant& object : merged_objects) {
         if (database::models::KeyHit* key_hit =

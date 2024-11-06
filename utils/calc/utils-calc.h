@@ -1,10 +1,16 @@
 #ifndef UTILS_CALC_H_
 #define UTILS_CALC_H_
 
+#include <database/database.h>
 #include <database/models/calc-template.h>
 
 namespace utils::calc {
-void CalculateCurrentObjects(std::vector<float> weights = {1, 1, 1, 1});
+void CalculateCurrentObjects(
+    std::vector<float> weights = {1, 1, 1, 1},
+    database::containers::MergedObjectsContainer& merged_objects_container =
+        database_manager.GetMergedObjectsContainer(),
+    database::templates::TemplateContainer& calc_templates_container =
+        database_manager.GetTemplateContainer());
 void CalculateKeyHit(
     database::models::KeyHit& key_hit,
     std::vector<database::models::CalcTemplate>& calc_templates,

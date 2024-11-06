@@ -14,6 +14,7 @@ add_library(execute STATIC execute/execute.cpp execute/external/execute-external
 add_library(utils STATIC utils/time/utils-time.cpp utils/key/utils-key.cpp utils/key/validators/utils-key-validators.cpp utils/biometric_template/utils-template.cpp utils/math/utils-math.cpp utils/calc/utils-calc.cpp utils/optimizer/utils-optimizer.cpp)
 add_library(config STATIC config/config-manager.cpp config/app-config.cpp config/language-config.cpp config/calc-config.cpp config/logger-config.cpp)
 add_library(database STATIC database/database.cpp)
+add_library(optimizer STATIC optimizer/particle.cpp optimizer/swarm.cpp)
 add_library(database_models STATIC database/models/calc-key-hit.cpp database/models/calc-ngraph.cpp database/models/key-hit.cpp database/models/ngraph.cpp)
 add_library(database_containers STATIC database/containers/key-hit-container.cpp database/containers/ngraph-container.cpp database/containers/calc-key-hit-container.cpp database/containers/calc-ngraph-container.cpp database/containers/merged-objects-container.cpp)
 add_library(database_templates STATIC database/templates/template-container.cpp)
@@ -36,5 +37,5 @@ target_link_libraries(keystroke_biometrics PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/
 target_link_libraries(keystroke_biometrics PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libs/libfftw3-3.lib")
 
 target_link_libraries(keystroke_biometrics PRIVATE spdlog::spdlog spdlog::spdlog_header_only GSL::gsl GSL::gslcblas)
-target_link_libraries(keystroke_biometrics PRIVATE key_logger execute utils config database database_models database_containers database_templates)
+target_link_libraries(keystroke_biometrics PRIVATE key_logger execute utils config database database_models database_containers database_templates optimizer)
 

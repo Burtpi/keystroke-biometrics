@@ -45,6 +45,7 @@ utils::optimizer::LoadAllOptimizationData() {
             }
         }
     }
+    return merged_objects_containers;
 }
 
 database::containers::MergedObjectsContainer

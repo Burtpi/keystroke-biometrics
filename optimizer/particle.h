@@ -10,14 +10,18 @@ namespace optimizer {
 class Particle {
    public:
     Particle();
+    std::vector<float>& GetWeights();
+    std::vector<float>& GetBestWeights();
+    std::vector<float>& GetVelocity();
+    float& GetBestFitness();
+    void SetFitness(float fitness);
     void UpdateBestPosition();
+    void Initialize();
 
    private:
     ParticleWeights particle_weights_;
     ParticleFitness particle_fitness_;
     std::vector<float> particle_velocity_;
-
-    void Initialize();
 };
 }  // namespace optimizer
 
