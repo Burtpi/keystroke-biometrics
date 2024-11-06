@@ -36,8 +36,10 @@ const std::vector<std::string>& config::LanguageConfig::GetTrigraph() const {
 
 bool config::LanguageConfig::SetModelLanguage(std::string model_language) {
     model_language_ = model_language;
-    const std::optional<std::vector<std::string>>& digraphs = ReadDigraph();
-    const std::optional<std::vector<std::string>>& trigraphs = ReadTrigraph();
+    const std::optional<std::vector<std::string>>& digraphs =
+        ReadNgraph("digraph.txt");
+    const std::optional<std::vector<std::string>>& trigraphs =
+        ReadNgraph("trigraph.txt");
     const std::optional<std::map<int, std::string>>& special_chars =
         ReadSpecial();
     if (digraphs.has_value() && trigraphs.has_value()) {
@@ -299,24 +301,9 @@ std::vector<std::string> config::LanguageConfig::SetTrigraph() {
     return trigraph;
 }
 
-std::optional<std::vector<std::string>> config::LanguageConfig::ReadDigraph() {
-    std::ifstream file("languages/" + model_language_ + "/digraph.txt");
-
-    if (file.is_open()) {
-        std::vector<std::string> digraphs;
-
-        std::string line;
-        while (getline(file, line)) {
-            digraphs.push_back(line);
-        }
-        file.close();
-        return digraphs;
-    } else {
-        return std::nullopt;
-    }
-}
-std::optional<std::vector<std::string>> config::LanguageConfig::ReadTrigraph() {
-    std::ifstream file("languages/" + model_language_ + "/trigraph.txt");
+std::optional<std::vector<std::string>> config::LanguageConfig::ReadNgraph(
+    std::string ngraph_path) {
+    std::ifstream file("languages/" + model_language_ + ngraph_path);
 
     if (file.is_open()) {
         std::vector<std::string> trigraphs;

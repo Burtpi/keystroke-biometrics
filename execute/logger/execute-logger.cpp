@@ -21,23 +21,29 @@ void execute::logger::RunLogger() {
             key_logger.ReadFullBuffer();
 
         if (!key_states.empty()) {
-            if (global_config_manager.GetAppConfig().GetKeyStatesLogging())
-                utils::key::LogKeyStates(key_states);
+            try {
+                if (global_config_manager.GetAppConfig().GetKeyStatesLogging())
+                    utils::key::LogKeyStates(key_states);
 
-            for (database::models::KeyBuffer key_state : key_states) {
-                utils::key::validators::CheckIfExit(key_state);
-                utils::key::CreateKeyHits(key_state);
-                utils::key::validators::CheckIfKeyIsPressed(key_state);
-            }
-            utils::key::RemoveNotPressedHits();
-
-            if (!global_config_manager.GetCalcConfig().GetIsTemplateInit()) {
-                utils::calc::CalculateCurrentObjects();
-                if (database_manager.GetKeyHitContainer().GetEntries().size() >
-                    200) {
-                    database_manager.GetTemplateContainer().LogScores();
-                    break;
+                for (database::models::KeyBuffer key_state : key_states) {
+                    utils::key::validators::CheckIfExit(key_state);
+                    utils::key::CreateKeyHits(key_state);
+                    utils::key::validators::CheckIfKeyIsPressed(key_state);
                 }
+                utils::key::RemoveNotPressedHits();
+
+                if (!global_config_manager.GetCalcConfig()
+                         .GetIsTemplateInit()) {
+                    utils::calc::CalculateCurrentObjects();
+                    if (database_manager.GetKeyHitContainer()
+                            .GetEntries()
+                            .size() > 200) {
+                        database_manager.GetTemplateContainer().LogScores();
+                        break;
+                    }
+                }
+            } catch (const std::exception &e) {
+                is_pressed_ = false;
             }
         }
 

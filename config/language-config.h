@@ -29,8 +29,7 @@ class LanguageConfig {
     std::map<int, std::string> SetModifierKeys();
     std::vector<std::string> SetDigraph();
     std::vector<std::string> SetTrigraph();
-    std::optional<std::vector<std::string>> ReadDigraph();
-    std::optional<std::vector<std::string>> ReadTrigraph();
+    std::optional<std::vector<std::string>> ReadNgraph(std::string ngraph_path);
     std::optional<std::map<int, std::string>> ReadSpecial();
 };
 }  // namespace config
