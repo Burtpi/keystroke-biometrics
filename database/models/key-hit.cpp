@@ -6,7 +6,6 @@
 #include <utils/math/utils-math.h>
 
 #include <cmath>
-#include <iostream>
 
 database::models::KeyHit::KeyHit(int hid, int elapsed_time, float pressure,
                                  bool is_big, bool is_special) {

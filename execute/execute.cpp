@@ -3,8 +3,6 @@
 #include <execute/external/execute-external.h>
 #include <execute/logger/execute-logger.h>
 
-#include <iostream>
-
 void execute::Run() {
     if (!global_config_manager.GetCalcConfig().GetIsTemplateInit() &&
         !global_config_manager.GetAppConfig().GetOptimize()) {

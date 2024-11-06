@@ -1,8 +1,6 @@
 #include <optimizer/swarm.h>
 #include <utils/calc/utils-calc.h>
 
-#include <iostream>
-
 optimizer::Swarm::Swarm() {
     number_of_particles_ = 50;
     max_iterations_ = 1000;
@@ -26,10 +24,6 @@ void optimizer::Swarm::Optimize(
 
     for (int iteration = 0; iteration < max_iterations_; iteration++) {
         for (Particle& particle : particles_) {
-            // for (float w : particle.GetWeights()) {
-            //     std::cout << w << " ";
-            // }
-            // std::cout << std::endl;
             std::vector<std::vector<bool>> is_genuine_overall;
             std::vector<std::vector<double>> scores_overall;
 
@@ -61,19 +55,6 @@ void optimizer::Swarm::Optimize(
 
         FindGlobalBestWeights(particles_);
         UpdateParticleVelocities(particles_);
-
-        std::cout << "Iteration " << iteration
-                  << " - Best EER: " << global_best_fitness << std::endl;
-        for (float w : global_best_weights) {
-            std::cout << w << " ";
-        }
-        std::cout << std::endl;
-    }
-    for (Particle& particle : particles_) {
-        for (float w : particle.GetWeights()) {
-            std::cout << w << " ";
-        }
-        std::cout << std::endl;
     }
 }
 

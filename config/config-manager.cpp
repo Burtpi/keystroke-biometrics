@@ -131,7 +131,7 @@ void config::ConfigManager::DisplayHelp() {
                  "calculated in identifying and verification scenario.\n";
     std::cout << "  -i or --init\t\t\t\t Create template with your keystroke "
                  "dynamics biometrics features.\n";
-    std::cout << "  - or --optimize\t\t\t\t Optimize weights for descriptors "
+    std::cout << "  -o or --optimize\t\t\t\t Optimize weights for descriptors "
                  "with Particle Swarm Optimization.\n";
     std::cout << "  -l <arg> or --language <arg>\t\t Choose language that will "
                  "be used in evaluation. It needs languages directory with "

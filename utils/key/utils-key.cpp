@@ -3,7 +3,6 @@
 #include <utils/key/validators/utils-key-validators.h>
 #include <utils/time/utils-time.h>
 
-#include <iostream>
 #include <string>
 
 std::vector<database::models::KeyBuffer> utils::key::SortKeyStates(

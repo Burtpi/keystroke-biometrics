@@ -4,8 +4,6 @@
 #include <utils/optimizer/utils-optimizer.h>
 
 #include <filesystem>
-#include <iostream>
-
 std::vector<database::templates::TemplateContainer>
 utils::optimizer::LoadTemplatesWithNames() {
     std::string base_path = "optimizer/templates";

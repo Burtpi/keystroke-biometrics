@@ -9,8 +9,6 @@
 #include <utils/key/utils-key.h>
 #include <utils/optimizer/utils-optimizer.h>
 
-#include <iostream>
-
 void execute::external::RunExternal() {
     utils::key::LoadAllHits();
     if (global_config_manager.GetCalcConfig().GetIsTemplateInit()) {

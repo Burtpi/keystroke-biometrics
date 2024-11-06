@@ -3,7 +3,6 @@
 #include <utils/key/validators/utils-key-validators.h>
 
 #include <algorithm>
-#include <iostream>
 #include <iterator>
 
 void utils::key::validators::CheckIfExit(

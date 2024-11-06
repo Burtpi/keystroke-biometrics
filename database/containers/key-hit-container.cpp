@@ -2,7 +2,6 @@
 #include <database/containers/key-hit-container.h>
 #include <utils/key/validators/utils-key-validators.h>
 
-#include <iostream>
 void database::containers::KeyHitContainer::AddEntry(int hid, int elapsed_time,
                                                      float pressure) {
     bool is_big = utils::key::validators::CheckIfBigChar();

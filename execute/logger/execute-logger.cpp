@@ -9,7 +9,6 @@
 #include <utils/time/utils-time.h>
 #include <wooting_sdk/key-logger.h>
 
-#include <iostream>
 #include <vector>
 
 void execute::logger::RunLogger() {
@@ -43,8 +42,7 @@ void execute::logger::RunLogger() {
                     }
                 }
             } catch (const std::exception &e) {
-                is_pressed_ = false;
-            }
+                        }
         }
 
         utils::time::SleepHighResolution();
