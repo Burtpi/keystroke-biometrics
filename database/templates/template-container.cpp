@@ -1,4 +1,5 @@
 #include <config/config-manager.h>
+#include <database/database.h>
 #include <database/templates/template-container.h>
 
 #include <filesystem>
@@ -41,9 +42,15 @@ void database::templates::TemplateContainer::LoadTemplates(
             }
         }
     }
+    if (database_manager.GetTemplateContainer().GetCalcTemplate().size() > 0) {
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+            "Successfully loaded the templates.");
+    } else {
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+            "No templates were loaded. Switching to template init mode");
 
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
-        "Successfully loaded the templates.");
+        global_config_manager.GetCalcConfig().SetIsTemplateInit(true);
+    }
 }
 
 std::optional<database::containers::CalcKeyHitContainer>

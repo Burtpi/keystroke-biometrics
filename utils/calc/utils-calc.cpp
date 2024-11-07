@@ -13,7 +13,7 @@ void utils::calc::CalculateCurrentObjects(
     std::vector<float> weights,
     database::containers::MergedObjectsContainer& merged_objects_container,
     database::templates::TemplateContainer& calc_templates_container) {
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Calculating current objects scores.");
 
     merged_objects_container.Sort();
@@ -45,7 +45,7 @@ void utils::calc::CalculateCurrentObjects(
             }
         }
     }
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Successfully calculated current objects scores.");
 }
 
@@ -53,7 +53,7 @@ void utils::calc::CalculateKeyHit(
     database::models::KeyHit& key_hit,
     std::vector<database::models::CalcTemplate>& calc_templates,
     std::vector<float> weights) {
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Calculating key hits scores.");
 
     if (key_hit.GetIsPressed() == false && key_hit.GetIsCalculated() == false) {
@@ -62,7 +62,7 @@ void utils::calc::CalculateKeyHit(
         }
         key_hit.SetIsCalculated(true);
     }
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Successfully calculated key hits scores.");
 }
 
@@ -113,7 +113,7 @@ void utils::calc::CalculateNgraph(
     database::models::Ngraph& ngraph,
     std::vector<database::models::CalcTemplate>& calc_templates,
     std::vector<float> weights) {
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Calculating ngraph scores.");
 
     if (!ngraph.GetIsCalculated()) {
@@ -122,7 +122,7 @@ void utils::calc::CalculateNgraph(
         }
         ngraph.SetIsCalculated(true);
     }
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Successfully calculated ngraph scores.");
 }
 

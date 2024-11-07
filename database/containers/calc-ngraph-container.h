@@ -13,7 +13,7 @@ class CalcNgraphContainer : public Container<database::models::CalcNgraph> {
    public:
     void AddEntry(std::string ngraph,
                   std::vector<database::models::Ngraph> ngraph_data);
-    void SaveToFile();
+    void SaveToFile(std::string path);
     void LoadFromFile(std::string csv_file_path);
     std::optional<database::models::CalcNgraph> FindEntry(
         database::models::Ngraph ngraph) const;

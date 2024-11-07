@@ -84,8 +84,21 @@ void utils::biometric_template::SaveToFile() {
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
         "Saving the templates to files.");
 
-    database_manager.GetCalcKeyHitContainer().SaveToFile();
-    database_manager.GetCalcNgraphContainer().SaveToFile();
+    std::string date = utils::time::GetDateInString(
+        global_config_manager.GetLoggerConfig().GetStartDate());
+
+    std::string date_folder =
+        global_config_manager.GetLoggerConfig().GetDateFolder();
+
+    database_manager.GetCalcKeyHitContainer().SaveToFile(date_folder +
+                                                         "/template_hits.csv");
+    database_manager.GetCalcNgraphContainer().SaveToFile(
+        date_folder + "/template_ngraph.csv");
+
+    database_manager.GetCalcKeyHitContainer().SaveToFile("templates/" + date +
+                                                         "/template_hits.csv");
+    database_manager.GetCalcNgraphContainer().SaveToFile(
+        "templates/" + date + "/template_ngraph.csv");
 
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
         "Successfully saved the templates to files.");

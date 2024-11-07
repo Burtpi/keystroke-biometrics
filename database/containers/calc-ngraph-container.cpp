@@ -12,10 +12,10 @@ void database::containers::CalcNgraphContainer::AddEntry(
     entries_.emplace_back(ngraph, ngraph_data);
 }
 
-void database::containers::CalcNgraphContainer::SaveToFile() {
-    std::string date_folder =
-        global_config_manager.GetLoggerConfig().GetDateFolder();
-    std::ofstream file_ngraphs(date_folder + "/template_ngraph.csv");
+void database::containers::CalcNgraphContainer::SaveToFile(std::string path) {
+    std::filesystem::path directory = std::filesystem::path(path).parent_path();
+    std::filesystem::create_directories(directory);
+    std::ofstream file_ngraphs(path);
 
     file_ngraphs << "ngraph,flight_time_mean,flight_time_std_deviation\n";
 

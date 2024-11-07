@@ -93,14 +93,14 @@ void database::models::KeyHit::UpdateKeyHit(int elapsed_time, float pressure) {
 }
 
 void database::models::KeyHit::Calculate() {
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Calculating descriptors for a key hit.");
 
     CalculateDwellTime();
     Interpolate();
     CalculateDFTOfPressure();
 
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Successfully calculated descriptors for a key hit.");
 }
 

@@ -11,7 +11,7 @@ class ConfigManager {
    public:
     AppConfig &GetAppConfig();
     const LanguageConfig &GetLanguageConfig() const;
-    const CalcConfig &GetCalcConfig() const;
+    CalcConfig &GetCalcConfig();
     LoggerConfig &GetLoggerConfig();
     bool ReadTerminalFlags(int argc, char *argv[]);
 
