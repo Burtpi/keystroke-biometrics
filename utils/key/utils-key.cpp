@@ -109,8 +109,14 @@ void utils::key::RemoveNotPressedHits() {
 }
 
 void utils::key::LogAllHits() {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Logging all hits to files.");
+
     database_manager.GetKeyHitContainer().SaveToFile();
     database_manager.GetNgraphContainer().SaveToFile();
+
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully logged all hits to files.");
 }
 
 void utils::key::LoadAllHits() {
