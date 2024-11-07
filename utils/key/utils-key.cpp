@@ -58,6 +58,9 @@ void utils::key::CreateKeyHits(database::models::KeyBuffer& key_state) {
     if (existing_key != key_hits.end()) {
         existing_key->UpdateKeyHit(elapsed_time, key_state.pressure);
     } else {
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+            "Adding new key hit entry.");
+
         if (is_modifier) {
             database_manager.GetModifierKeyHitContainer().AddModifierEntry(
                 key_state.hid, elapsed_time, key_state.pressure);
@@ -66,6 +69,8 @@ void utils::key::CreateKeyHits(database::models::KeyBuffer& key_state) {
                 key_state.hid, elapsed_time, key_state.pressure);
             utils::key::validators::CheckIfNgraph();
         }
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+            "Successfully added new key hit entry.");
     }
 }
 
@@ -74,11 +79,13 @@ void utils::key::RemoveNotPressedHits() {
         database_manager.GetModifierKeyHitContainer().GetEntries();
 
     auto modifier_key = modifier_keys.begin();
+    int counter = 0;
 
     while (modifier_key != modifier_keys.end()) {
         if (!modifier_key->GetWasPressed()) {
             modifier_key =
                 database_manager.GetKeyHitContainer().RemoveEntry(modifier_key);
+            counter++;
         } else {
             ++modifier_key;
         }
@@ -91,10 +98,14 @@ void utils::key::RemoveNotPressedHits() {
         if (!key_hit->GetWasPressed()) {
             key_hit =
                 database_manager.GetKeyHitContainer().RemoveEntry(key_hit);
+            counter++;
         } else {
             ++key_hit;
         }
     }
+    if (counter > 0)
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+            "Successfully removed {} entries.", counter);
 }
 
 void utils::key::LogAllHits() {
@@ -103,9 +114,15 @@ void utils::key::LogAllHits() {
 }
 
 void utils::key::LoadAllHits() {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Loading all hits from files.");
+
     database_manager.GetKeyHitContainer().LoadFromFile();
     database_manager.GetNgraphContainer().LoadFromFile();
     database_manager.GetMergedObjectsContainer().SetMergedObjects(
         database_manager.GetKeyHitContainer().GetEntries(),
         database_manager.GetNgraphContainer().GetEntries());
+
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully loaded all hits from files.");
 }

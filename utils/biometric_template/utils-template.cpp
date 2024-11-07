@@ -13,8 +13,14 @@
 #include <vector>
 
 void utils::biometric_template::CreateTemplate() {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Creating templates.");
+
     ProcessKeyHits();
     ProcessNgraphs();
+
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully created the templates");
 }
 
 void utils::biometric_template::ProcessKeyHits() {
@@ -75,8 +81,14 @@ utils::biometric_template::GroupNgraphs() {
 }
 
 void utils::biometric_template::SaveToFile() {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Saving the templates to files.");
+
     database_manager.GetCalcKeyHitContainer().SaveToFile();
     database_manager.GetCalcNgraphContainer().SaveToFile();
+
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully saved the templates to files.");
 }
 
 std::vector<std::string> utils::biometric_template::SplitLine(

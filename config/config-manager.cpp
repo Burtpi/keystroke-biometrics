@@ -22,7 +22,8 @@ bool config::ConfigManager::ReadTerminalFlags(int argc, char *argv[]) {
     if (argc < 2) {
         return true;
     }
-
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Reading flags from terminal.");
     for (int i = 1; i < argc; ++i) {
         if (argv[i][0] == '-') {
             if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
@@ -114,6 +115,8 @@ bool config::ConfigManager::ReadTerminalFlags(int argc, char *argv[]) {
             return false;
         }
     }
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully read the flags from the terminal.");
     return true;
 }
 

@@ -16,6 +16,9 @@ std::string database::templates::TemplateContainer::GetName() { return name_; }
 
 void database::templates::TemplateContainer::LoadTemplates(
     std::string base_path) {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Loading templates.");
+
     for (const std::filesystem::directory_entry& entry :
          std::filesystem::directory_iterator(base_path)) {
         if (entry.is_directory()) {
@@ -38,6 +41,9 @@ void database::templates::TemplateContainer::LoadTemplates(
             }
         }
     }
+
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully loaded the templates.");
 }
 
 std::optional<database::containers::CalcKeyHitContainer>
@@ -68,6 +74,9 @@ database::templates::TemplateContainer::LoadAllCalcNGraphs(
 }
 
 void database::templates::TemplateContainer::LogScores() {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Logging all scores.");
+
     std::string date_folder =
         global_config_manager.GetLoggerConfig().GetDateFolder();
 
@@ -77,4 +86,7 @@ void database::templates::TemplateContainer::LogScores() {
         file_scores << calc_template.score << std::endl;
     }
     file_scores.close();
+
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully logged all scores.");
 }

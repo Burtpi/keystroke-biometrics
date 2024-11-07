@@ -1,3 +1,4 @@
+#include <config/config-manager.h>
 #include <optimizer/particle.h>
 
 #include <random>
@@ -31,6 +32,9 @@ void optimizer::Particle::SetFitness(float fitness) {
 }
 
 void optimizer::Particle::Initialize() {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Initializing particles.");
+
     std::random_device random_device;
     std::mt19937 num_generator(random_device());
     std::uniform_real_distribution<float> u_r_distrib(-5, 5);
@@ -38,6 +42,8 @@ void optimizer::Particle::Initialize() {
         weight = u_r_distrib(num_generator);
     }
     particle_weights_.best_weights = particle_weights_.weights;
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Particles initialized.");
 }
 
 void optimizer::Particle::UpdateBestPosition() {

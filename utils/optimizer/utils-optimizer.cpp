@@ -9,6 +9,9 @@ utils::optimizer::LoadTemplatesWithNames() {
     std::string base_path = "optimizer/templates";
     std::vector<database::templates::TemplateContainer> template_containers;
 
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Loading templates with names.");
+
     for (const std::filesystem::directory_entry& entry :
          std::filesystem::directory_iterator(base_path)) {
         if (entry.is_directory()) {
@@ -19,6 +22,9 @@ utils::optimizer::LoadTemplatesWithNames() {
             template_containers.emplace_back(template_container);
         }
     }
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully loaded the templates with names.");
+
     return template_containers;
 }
 
@@ -27,6 +33,9 @@ utils::optimizer::LoadAllOptimizationData() {
     std::string base_path = "optimizer/data";
     std::vector<database::containers::MergedObjectsContainer>
         merged_objects_containers;
+
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Loading optimization data.");
 
     for (const std::filesystem::directory_entry& entry :
          std::filesystem::directory_iterator(base_path)) {
@@ -43,6 +52,9 @@ utils::optimizer::LoadAllOptimizationData() {
             }
         }
     }
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully loaded the optimizatin data.");
+
     return merged_objects_containers;
 }
 

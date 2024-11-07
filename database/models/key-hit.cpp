@@ -1,3 +1,4 @@
+#include <config/config-manager.h>
 #include <database/models/key-hit.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_spline.h>
@@ -92,15 +93,23 @@ void database::models::KeyHit::UpdateKeyHit(int elapsed_time, float pressure) {
 }
 
 void database::models::KeyHit::Calculate() {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Calculating descriptors for a key hit.");
+
     CalculateDwellTime();
     Interpolate();
     CalculateDFTOfPressure();
+
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully calculated descriptors for a key hit.");
 }
 
 void database::models::KeyHit::CalculateDwellTime() {
     try {
         dwell_time_ = time_stamps_.back() - time_stamps_.front();
     } catch (const std::exception &e) {
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->error(
+            "Error occured {}", e.what());
         is_pressed_ = false;
     }
 }
@@ -149,6 +158,8 @@ void database::models::KeyHit::Interpolate() {
         gsl_spline_free(spline);
         gsl_interp_accel_free(acc);
     } catch (const std::exception &e) {
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->error(
+            e.what());
         is_pressed_ = false;
     }
 }
@@ -175,6 +186,8 @@ void database::models::KeyHit::CalculateDFTOfPressure() {
         fftw_free(in);
         fftw_free(out);
     } catch (const std::exception &e) {
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->error(
+            e.what());
         is_pressed_ = false;
     }
 }

@@ -7,8 +7,9 @@
 
 void utils::key::validators::CheckIfExit(
     database::models::KeyBuffer &key_state) {
-    if (key_state.hid == global_config_manager.GetAppConfig().GetExitHid())
+    if (key_state.hid == global_config_manager.GetAppConfig().GetExitHid()) {
         global_config_manager.GetAppConfig().SetKeyLogging(false);
+    }
 }
 
 utils::key::validators::KeyHitIterator utils::key::validators::CheckIfExists(
@@ -94,10 +95,17 @@ void utils::key::validators::CheckIfNgraph() {
             std::vector<int> time_stamps = {
                 key_hits[key_hits.size() - n].GetTimeStamp(),
                 key_hit.GetTimeStamp()};
+
+            global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+                "Adding new ngraph entry.");
+
             database_manager.GetNgraphContainer().AddEntry(ngraph_str,
                                                            time_stamps);
             database_manager.GetMergedObjectsContainer().AddEntry(
                 database_manager.GetNgraphContainer().GetEntries().back());
+
+            global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+                "Successfully added new ngraph entry.");
         }
     };
 

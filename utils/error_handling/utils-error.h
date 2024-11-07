@@ -6,8 +6,7 @@
 
 void GSLErrorHandler(const char* reason, const char* file, int line,
                      int gsl_errno) {
-    throw std::runtime_error("GSL Error occured: " + std::string(reason) +
-                             " at " + file + ":" + std::to_string(line));
+    throw std::runtime_error("GSL Error occured: " + std::string(reason));
 }
 
 void FFTWErrorHandler() {

@@ -6,7 +6,6 @@
 #include <utils/calc/utils-calc.h>
 #include <utils/math/utils-math.h>
 
-#include <iostream>
 #include <optional>
 #include <vector>
 
@@ -14,6 +13,9 @@ void utils::calc::CalculateCurrentObjects(
     std::vector<float> weights,
     database::containers::MergedObjectsContainer& merged_objects_container,
     database::templates::TemplateContainer& calc_templates_container) {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Calculating current objects scores.");
+
     merged_objects_container.Sort();
 
     std::vector<database::containers::MergedObjectsVariant>& merged_objects =
@@ -25,24 +27,43 @@ void utils::calc::CalculateCurrentObjects(
     for (database::containers::MergedObjectsVariant& object : merged_objects) {
         if (database::models::KeyHit* key_hit =
                 std::get_if<database::models::KeyHit>(&object)) {
-            CalculateKeyHit(*key_hit, calc_templates, weights);
+            try {
+                CalculateKeyHit(*key_hit, calc_templates, weights);
+            } catch (const std::exception& e) {
+                global_config_manager.GetLoggerConfig()
+                    .GetGeneralLogger()
+                    ->error("Error occured {}", e.what());
+            }
         } else if (database::models::Ngraph* ngraph =
                        std::get_if<database::models::Ngraph>(&object)) {
-            CalculateNgraph(*ngraph, calc_templates, weights);
+            try {
+                CalculateNgraph(*ngraph, calc_templates, weights);
+            } catch (const std::exception& e) {
+                global_config_manager.GetLoggerConfig()
+                    .GetGeneralLogger()
+                    ->error("Error occured {}", e.what());
+            }
         }
     }
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully calculated current objects scores.");
 }
 
 void utils::calc::CalculateKeyHit(
     database::models::KeyHit& key_hit,
     std::vector<database::models::CalcTemplate>& calc_templates,
     std::vector<float> weights) {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Calculating key hits scores.");
+
     if (key_hit.GetIsPressed() == false && key_hit.GetIsCalculated() == false) {
         for (database::models::CalcTemplate& calc_template : calc_templates) {
             CalculateKeyHitTemplateScore(calc_template, key_hit, weights);
         }
         key_hit.SetIsCalculated(true);
     }
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully calculated key hits scores.");
 }
 
 void utils::calc::CalculateKeyHitTemplateScore(
@@ -92,12 +113,17 @@ void utils::calc::CalculateNgraph(
     database::models::Ngraph& ngraph,
     std::vector<database::models::CalcTemplate>& calc_templates,
     std::vector<float> weights) {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Calculating ngraph scores.");
+
     if (!ngraph.GetIsCalculated()) {
         for (database::models::CalcTemplate& calc_template : calc_templates) {
             CalculateNgraphTemplateScore(calc_template, ngraph, weights);
         }
         ngraph.SetIsCalculated(true);
     }
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully calculated ngraph scores.");
 }
 
 void utils::calc::CalculateNgraphTemplateScore(

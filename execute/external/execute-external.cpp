@@ -10,6 +10,8 @@
 #include <utils/optimizer/utils-optimizer.h>
 
 void execute::external::RunExternal() {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Loading all hits from files.");
     utils::key::LoadAllHits();
     if (global_config_manager.GetCalcConfig().GetIsTemplateInit()) {
         utils::biometric_template::CreateTemplate();
@@ -25,6 +27,10 @@ void execute::external::RunOptimize() {
         utils::optimizer::LoadTemplatesWithNames();
     std::vector<database::containers::MergedObjectsContainer>
         merged_objects_containers = utils::optimizer::LoadAllOptimizationData();
+
     optimizer::Swarm swarm;
     swarm.Optimize(template_containers, merged_objects_containers);
+
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully optimized the weights for descriptors.");
 }

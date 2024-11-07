@@ -1,3 +1,4 @@
+#include <fmt/ranges.h>
 #include <optimizer/swarm.h>
 #include <utils/calc/utils-calc.h>
 
@@ -18,6 +19,9 @@ void optimizer::Swarm::Optimize(
     std::vector<database::templates::TemplateContainer>& template_containers,
     std::vector<database::containers::MergedObjectsContainer>&
         merged_objects_containers) {
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Running optimizer.");
+
     for (Particle& p : particles_) {
         p.Initialize();
     }
@@ -52,10 +56,18 @@ void optimizer::Swarm::Optimize(
 
             particle.UpdateBestPosition();
         }
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+            "Iteration " + std::to_string(iteration) +
+            " - Best EER: " + std::to_string(global_best_fitness));
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+            "Current global best weights: {}",
+            fmt::join(global_best_weights, " "));
 
         FindGlobalBestWeights(particles_);
         UpdateParticleVelocities(particles_);
     }
+    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+        "Successfully optimized the weights for descriptors.");
 }
 
 float optimizer::Swarm::CalculateEER(

@@ -1,3 +1,4 @@
+#include <config/config-manager.h>
 #include <database/database.h>
 #include <execute/execute.h>
 #include <execute/external/execute-external.h>
