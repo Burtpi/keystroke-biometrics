@@ -20,8 +20,6 @@ void database::containers::CalcKeyHitContainer::SaveToFile(std::string path) {
     std::filesystem::create_directories(directory);
     std::ofstream file_key_hits(path);
 
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(path);
-
     file_key_hits << "hid,is_special,is_big,dwell_time_mean,dwell_time_std_"
                      "deviation,total_energy_mean,total_energy_std_deviation,"
                      "magnitude_mean,magnitude_std_deviation\n";

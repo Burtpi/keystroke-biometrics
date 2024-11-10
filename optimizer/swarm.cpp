@@ -42,9 +42,13 @@ void optimizer::Swarm::Optimize(
                                                          template_container);
                     for (database::models::CalcTemplate& calc_template :
                          template_container.GetCalcTemplate()) {
-                        is_genuine.emplace_back(merged_objects.GetName() ==
-                                                template_container.GetName());
-                        scores.emplace_back(calc_template.score);
+                        if (merged_objects.GetLanguage() ==
+                            calc_template.language) {
+                            is_genuine.emplace_back(
+                                merged_objects.GetName() ==
+                                template_container.GetName());
+                            scores.emplace_back(calc_template.score);
+                        }
                     }
                 }
                 is_genuine_overall.emplace_back(is_genuine);

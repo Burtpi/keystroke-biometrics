@@ -1,6 +1,7 @@
 #include <config/config-manager.h>
 #include <database/database.h>
 #include <database/templates/template-container.h>
+#include <utils/optimizer/utils-optimizer.h>
 
 #include <filesystem>
 #include <fstream>
@@ -15,6 +16,10 @@ database::templates::TemplateContainer::GetCalcTemplate() {
 
 std::string database::templates::TemplateContainer::GetName() { return name_; }
 
+std::string database::templates::TemplateContainer::GetLanguage() {
+    return language_;
+}
+
 void database::templates::TemplateContainer::LoadTemplates(
     std::string base_path) {
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
@@ -28,6 +33,9 @@ void database::templates::TemplateContainer::LoadTemplates(
                 entry.path().string() + "/template_hits.csv";
             std::string csv_template_ngraphs_path =
                 entry.path().string() + "/template_hits.csv";
+
+            std::string language = utils::optimizer::LoadLanguage(
+                entry.path().string() + "/language.txt");
             std::optional<database::containers::CalcKeyHitContainer>
                 calc_key_hit_container =
                     LoadAllCalcKeyHitContainers(csv_template_key_hits_path);
@@ -37,7 +45,7 @@ void database::templates::TemplateContainer::LoadTemplates(
             if (calc_key_hit_container && calc_ngraph_container) {
                 database::models::CalcTemplate calc_template(
                     calc_key_hit_container.value(),
-                    calc_ngraph_container.value());
+                    calc_ngraph_container.value(), language);
                 calc_templates_.push_back(calc_template);
             }
         }

@@ -14,14 +14,14 @@ void CalculateCurrentObjects(
 void CalculateKeyHit(
     database::models::KeyHit& key_hit,
     std::vector<database::models::CalcTemplate>& calc_templates,
-    std::vector<float> weights);
+    std::vector<float> weights, std::string language);
 void CalculateKeyHitTemplateScore(database::models::CalcTemplate& calc_template,
                                   database::models::KeyHit& key_hit,
                                   std::vector<float> weights);
 void CalculateNgraph(
     database::models::Ngraph& ngraph,
     std::vector<database::models::CalcTemplate>& calc_templates,
-    std::vector<float> weights);
+    std::vector<float> weights, std::string language);
 void CalculateNgraphTemplateScore(database::models::CalcTemplate& calc_template,
                                   database::models::Ngraph& ngraph,
                                   std::vector<float> weights);

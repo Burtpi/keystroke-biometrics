@@ -10,8 +10,6 @@
 #include <utils/optimizer/utils-optimizer.h>
 
 void execute::external::RunExternal() {
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
-        "Loading all hits from files.");
     utils::key::LoadAllHits();
     if (global_config_manager.GetCalcConfig().GetIsTemplateInit()) {
         utils::biometric_template::CreateTemplate();
@@ -20,6 +18,7 @@ void execute::external::RunExternal() {
         utils::calc::CalculateCurrentObjects();
         database_manager.GetTemplateContainer().LogScores();
     }
+    utils::optimizer::SaveLanguage();
 }
 
 void execute::external::RunOptimize() {
@@ -30,7 +29,4 @@ void execute::external::RunOptimize() {
 
     optimizer::Swarm swarm;
     swarm.Optimize(template_containers, merged_objects_containers);
-
-    global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
-        "Successfully optimized the weights for descriptors.");
 }

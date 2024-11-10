@@ -29,7 +29,7 @@ set_target_properties(keystroke_biometrics PROPERTIES
 
 set(DIRECTORIES_TO_CREATE 
     "$<TARGET_FILE_DIR:keystroke_biometrics>/templates"
-    "$<TARGET_FILE_DIR:keystroke_biometrics>/optimization"
+    "$<TARGET_FILE_DIR:keystroke_biometrics>/optimizer"
     "$<TARGET_FILE_DIR:keystroke_biometrics>/logs"
 )
 

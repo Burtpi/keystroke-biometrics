@@ -5,7 +5,8 @@
 int main(int argc, char *argv[]) {
     bool argv_read = global_config_manager.ReadTerminalFlags(argc, argv);
     if (argv_read) {
-        global_config_manager.GetLoggerConfig().GetGeneralLogger()->info("");
+        global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+            "Starting the program.");
         execute::Run();
         return EXIT_SUCCESS;
     } else {

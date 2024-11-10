@@ -34,6 +34,10 @@ const std::vector<std::string>& config::LanguageConfig::GetTrigraph() const {
     return trigraph_;
 }
 
+const std::string& config::LanguageConfig::GetModelLanguage() const {
+    return model_language_;
+}
+
 bool config::LanguageConfig::SetModelLanguage(std::string model_language) {
     model_language_ = model_language;
     const std::optional<std::vector<std::string>>& digraphs =

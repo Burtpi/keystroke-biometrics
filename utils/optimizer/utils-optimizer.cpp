@@ -1,3 +1,4 @@
+#include <config/config-manager.h>
 #include <database/containers/key-hit-container.h>
 #include <database/containers/merged-objects-container.h>
 #include <database/containers/ngraph-container.h>
@@ -65,8 +66,32 @@ utils::optimizer::LoadAllOptimizationMergedData(std::string base_path,
     key_hit_container.LoadFromFile(base_path + "/key_hits.csv");
     database::containers::NgraphContainer ngraph_container;
     ngraph_container.LoadFromFile(base_path + "/ngraphs.csv");
-    database::containers::MergedObjectsContainer merged_objects_container(name);
+    std::string language = LoadLanguage(base_path + "/language.txt");
+    database::containers::MergedObjectsContainer merged_objects_container(
+        name, language);
     merged_objects_container.SetMergedObjects(key_hit_container.GetEntries(),
                                               ngraph_container.GetEntries());
     return merged_objects_container;
+}
+
+std::string utils::optimizer::LoadLanguage(std::string txt_file_path) {
+    if (std::filesystem::exists(txt_file_path)) {
+        std::ifstream language_file(txt_file_path);
+        std::string line;
+
+        std::getline(language_file, line);
+
+        return line;
+    } else {
+        return global_config_manager.GetLanguageConfig().GetModelLanguage();
+    }
+}
+
+void utils::optimizer::SaveLanguage() {
+    std::string path = global_config_manager.GetLoggerConfig().GetDateFolder();
+    std::ofstream language_file(path + "/language.txt");
+
+    language_file
+        << global_config_manager.GetLanguageConfig().GetModelLanguage();
+    language_file.close();
 }

@@ -15,6 +15,7 @@ class LanguageConfig {
     const std::map<int, std::string>& GetModifierKeys() const;
     const std::vector<std::string>& GetDigraph() const;
     const std::vector<std::string>& GetTrigraph() const;
+    const std::string& GetModelLanguage() const;
     bool SetModelLanguage(std::string model_language);
 
    private:

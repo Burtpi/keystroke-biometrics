@@ -20,6 +20,10 @@ std::string database::containers::MergedObjectsContainer::GetName() {
     return name_;
 }
 
+std::string database::containers::MergedObjectsContainer::GetLanguage() {
+    return language_;
+}
+
 void database::containers::MergedObjectsContainer::SetMergedObjects(
     std::vector<database::models::KeyHit>& key_hits,
     std::vector<database::models::Ngraph>& ngraphs) {

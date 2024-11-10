@@ -12,6 +12,8 @@ std::vector<database::containers::MergedObjectsContainer>
 LoadAllOptimizationData();
 database::containers::MergedObjectsContainer LoadAllOptimizationMergedData(
     std::string base_path, std::string name);
+std::string LoadLanguage(std::string txt_file_path);
+void SaveLanguage();
 }  // namespace utils::optimizer
 
 #endif

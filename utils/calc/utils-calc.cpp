@@ -28,7 +28,8 @@ void utils::calc::CalculateCurrentObjects(
         if (database::models::KeyHit* key_hit =
                 std::get_if<database::models::KeyHit>(&object)) {
             try {
-                CalculateKeyHit(*key_hit, calc_templates, weights);
+                CalculateKeyHit(*key_hit, calc_templates, weights,
+                                merged_objects_container.GetLanguage());
             } catch (const std::exception& e) {
                 global_config_manager.GetLoggerConfig()
                     .GetGeneralLogger()
@@ -37,7 +38,8 @@ void utils::calc::CalculateCurrentObjects(
         } else if (database::models::Ngraph* ngraph =
                        std::get_if<database::models::Ngraph>(&object)) {
             try {
-                CalculateNgraph(*ngraph, calc_templates, weights);
+                CalculateNgraph(*ngraph, calc_templates, weights,
+                                merged_objects_container.GetLanguage());
             } catch (const std::exception& e) {
                 global_config_manager.GetLoggerConfig()
                     .GetGeneralLogger()
@@ -52,13 +54,14 @@ void utils::calc::CalculateCurrentObjects(
 void utils::calc::CalculateKeyHit(
     database::models::KeyHit& key_hit,
     std::vector<database::models::CalcTemplate>& calc_templates,
-    std::vector<float> weights) {
+    std::vector<float> weights, std::string language) {
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Calculating key hits scores.");
 
     if (key_hit.GetIsPressed() == false && key_hit.GetIsCalculated() == false) {
         for (database::models::CalcTemplate& calc_template : calc_templates) {
-            CalculateKeyHitTemplateScore(calc_template, key_hit, weights);
+            if (calc_template.language == language)
+                CalculateKeyHitTemplateScore(calc_template, key_hit, weights);
         }
         key_hit.SetIsCalculated(true);
     }
@@ -112,13 +115,14 @@ void utils::calc::CalculateKeyHitTemplateScore(
 void utils::calc::CalculateNgraph(
     database::models::Ngraph& ngraph,
     std::vector<database::models::CalcTemplate>& calc_templates,
-    std::vector<float> weights) {
+    std::vector<float> weights, std::string language) {
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Calculating ngraph scores.");
 
     if (!ngraph.GetIsCalculated()) {
         for (database::models::CalcTemplate& calc_template : calc_templates) {
-            CalculateNgraphTemplateScore(calc_template, ngraph, weights);
+            if (calc_template.language == language)
+                CalculateNgraphTemplateScore(calc_template, ngraph, weights);
         }
         ngraph.SetIsCalculated(true);
     }

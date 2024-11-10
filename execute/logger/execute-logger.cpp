@@ -7,6 +7,7 @@
 #include <utils/calc/utils-calc.h>
 #include <utils/key/utils-key.h>
 #include <utils/key/validators/utils-key-validators.h>
+#include <utils/optimizer/utils-optimizer.h>
 #include <utils/time/utils-time.h>
 #include <wooting_sdk/key-logger.h>
 
@@ -52,6 +53,7 @@ void execute::logger::RunLogger() {
         utils::time::SleepHighResolution();
     }
     utils::key::LogAllHits();
+    utils::optimizer::SaveLanguage();
 
     if (global_config_manager.GetCalcConfig().GetIsTemplateInit()) {
         utils::biometric_template::CreateTemplate();

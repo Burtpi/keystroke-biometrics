@@ -13,15 +13,17 @@ using MergedObjectsVariant =
 class MergedObjectsContainer : public Container<MergedObjectsVariant> {
    public:
     MergedObjectsContainer();
-    MergedObjectsContainer(std::string container_name)
-        : name_(container_name) {}
+    MergedObjectsContainer(std::string container_name, std::string language)
+        : name_(container_name), language_(language) {}
     void Sort();
     std::string GetName();
+    std::string GetLanguage();
     void SetMergedObjects(std::vector<database::models::KeyHit>& key_hits,
                           std::vector<database::models::Ngraph>& ngraphs);
 
    private:
     std::string name_;
+    std::string language_;
 };
 }  // namespace database::containers
 
