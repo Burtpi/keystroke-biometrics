@@ -23,8 +23,8 @@ class Swarm {
     float inertia_;
     float cognitive_;
     float social_;
-    std::vector<float> global_best_weights;
-    float global_best_fitness;
+    std::vector<float> global_best_weights_;
+    float global_best_fitness_;
     std::vector<Particle> particles_;
     std::mt19937 num_generator_;
     std::uniform_real_distribution<float> u_r_distrib_;

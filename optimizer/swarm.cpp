@@ -9,8 +9,8 @@ optimizer::Swarm::Swarm() {
     cognitive_ = 1.5;
     social_ = 1.5;
     particles_ = std::vector<Particle>(number_of_particles_, Particle());
-    global_best_weights = {1, 1, 1, 1};
-    global_best_fitness = std::numeric_limits<float>::max();
+    global_best_weights_ = {1, 1, 1, 1};
+    global_best_fitness_ = std::numeric_limits<float>::max();
     num_generator_ = std::mt19937(std::random_device{}());
     u_r_distrib_ = std::uniform_real_distribution<float>(0, 2);
 }
@@ -62,10 +62,10 @@ void optimizer::Swarm::Optimize(
         }
         global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
             "Iteration " + std::to_string(iteration) +
-            " - Best EER: " + std::to_string(global_best_fitness));
+            " - Best EER: " + std::to_string(global_best_fitness_));
         global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
             "Current global best weights: {}",
-            fmt::join(global_best_weights, " "));
+            fmt::join(global_best_weights_, " "));
 
         FindGlobalBestWeights(particles_);
         UpdateParticleVelocities(particles_);
@@ -136,9 +136,9 @@ float optimizer::Swarm::CalculateFRR(
 void optimizer::Swarm::FindGlobalBestWeights(
     const std::vector<Particle>& particles) {
     for (Particle particle : particles) {
-        if (particle.GetBestFitness() < global_best_fitness) {
-            global_best_fitness = particle.GetBestFitness();
-            global_best_weights = particle.GetBestWeights();
+        if (particle.GetBestFitness() < global_best_fitness_) {
+            global_best_fitness_ = particle.GetBestFitness();
+            global_best_weights_ = particle.GetBestWeights();
         }
     }
 }
@@ -154,7 +154,7 @@ void optimizer::Swarm::UpdateParticleVelocities(
                 cognitive_ * r1 *
                     (particle.GetBestWeights()[i] - particle.GetWeights()[i]) +
                 social_ * r2 *
-                    (global_best_weights[i] - particle.GetWeights()[i]);
+                    (global_best_weights_[i] - particle.GetWeights()[i]);
             particle.GetVelocity()[i] =
                 std::max(-2.0f, std::min(particle.GetVelocity()[i], 2.0f));
 
