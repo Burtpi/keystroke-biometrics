@@ -9,6 +9,16 @@
 
 namespace database::containers {
 class KeyHitContainer : public Container<database::models::KeyHit> {
+    // -----------------------------------------------------------
+    // Inherits from container.h
+    // Container for KeyHits
+    //
+    // Changes:
+    //  - AddEntry logic modified
+    //  - AddModifierEntry for adding objects to ModifierKeyHitContainer
+    //  - SaveToFile and LoadFromFile used for reuse of calculated data
+    //  - GenerateCalcKeyHitHashMap and FindEntry for easier lookup
+    // -----------------------------------------------------------
    public:
     void AddEntry(int hid, int elapsed_time, float pressure);
     void AddModifierEntry(int hid, int elapsed_time, float pressure);

@@ -29,28 +29,37 @@ database::models::KeyHit::KeyHit() {
 }
 
 int database::models::KeyHit::GetHid() const { return hid_; }
+
 std::vector<float> database::models::KeyHit::GetPressures() {
     return pressures_;
 }
 bool database::models::KeyHit::GetIsPressed() const { return is_pressed_; }
+
 int database::models::KeyHit::GetTimeStamp() const {
     return time_stamps_.front();
 }
+
 bool database::models::KeyHit::GetWasPressed() const { return was_pressed_; }
+
 bool database::models::KeyHit::GetIsSpecial() const { return is_special_char_; }
+
 bool database::models::KeyHit::GetIsBig() const { return is_big_char_; }
+
 bool database::models::KeyHit::GetIsCalculated() const {
     return is_calculated_;
 }
 int database::models::KeyHit::GetDwellTime() const { return dwell_time_; }
+
 double database::models::KeyHit::GetTotalEnergy() const {
     return total_energy_;
 }
+
 float database::models::KeyHit::GetMagnitude() const { return magnitude_; }
 
 void database::models::KeyHit::PushBackTimeStamp(int time_stamp) {
     time_stamps_.push_back(time_stamp);
 }
+
 void database::models::KeyHit::PushBackPressure(float pressure) {
     pressures_.push_back(pressure);
 }
@@ -109,7 +118,7 @@ void database::models::KeyHit::CalculateDwellTime() {
         dwell_time_ = time_stamps_.back() - time_stamps_.front();
     } catch (const std::exception &e) {
         global_config_manager.GetLoggerConfig().GetGeneralLogger()->error(
-            "Error occured {}", e.what());
+            "Error occured: {}", e.what());
         is_pressed_ = false;
     }
 }
@@ -122,6 +131,7 @@ void database::models::KeyHit::Interpolate() {
         std::vector<float> pressure_copy = pressures_;
 
         for (int i = 0; i < pressure_copy.size();) {
+            // Remove all maximum pressure values (1.0) for proper interpolation
             if (pressure_copy[i] == 1.0) {
                 time_stamps_copy.erase(time_stamps_copy.begin() + i);
                 pressure_copy.erase(pressure_copy.begin() + i);
@@ -132,6 +142,7 @@ void database::models::KeyHit::Interpolate() {
         double *time_stamps_array = new double[time_stamps_copy.size()];
         double *pressure_array = new double[pressure_copy.size()];
 
+        // Make a copy for GSL
         for (size_t i = 0; i < time_stamps_copy.size(); ++i) {
             time_stamps_array[i] = static_cast<double>(time_stamps_copy[i]);
             pressure_array[i] = static_cast<double>(pressure_copy[i]);
@@ -144,6 +155,7 @@ void database::models::KeyHit::Interpolate() {
         gsl_spline_init(spline, time_stamps_array, pressure_array,
                         time_stamps_copy.size());
 
+        // Copy all interpolated data to private members of an object
         for (int i = time_stamps_copy.front(); i <= time_stamps_copy.back();
              ++i) {
             time_stamps_interp_.push_back(i);
@@ -171,6 +183,7 @@ void database::models::KeyHit::CalculateDFTOfPressure() {
         in = (fftw_complex *)fftw_malloc(sizeof(fftw_complex) * N);
         out = (fftw_complex *)fftw_malloc(sizeof(fftw_complex) * N);
         for (int i = 0; i < N; i++) {
+            // in[i][0] is real part and in[i][1] is imaginary part
             in[i][0] = pressures_interp_[i];
             in[i][1] = 0.0;
         }
@@ -195,6 +208,7 @@ void database::models::KeyHit::CalculateDFTOfPressure() {
 void database::models::KeyHit::CalculateMagnitude(fftw_complex *out, int size) {
     std::vector<float> magnitudes;
     for (int i = 0; i < size; i++) {
+        // out[i][0] is real part and out[i][1] is imaginary part
         float magnitude = static_cast<float>(
             std::sqrt(std::pow(out[i][0], 2) + std::pow(out[i][1], 2)));
         magnitudes.push_back(magnitude);
@@ -204,6 +218,7 @@ void database::models::KeyHit::CalculateMagnitude(fftw_complex *out, int size) {
 
 void database::models::KeyHit::CalculateTotalEnergy(fftw_complex *out,
                                                     int size) {
+    // out[i][0] is real part and out[i][1] is imaginary part
     for (int i = 0; i < size; i++) {
         total_energy_ += std::pow(out[i][0], 2) + std::pow(out[i][1], 2);
     }

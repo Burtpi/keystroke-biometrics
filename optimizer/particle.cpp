@@ -8,7 +8,7 @@ optimizer::Particle::Particle() {
     particle_weights_.best_weights = std::vector<float>(4, 0);
     particle_fitness_.fitness = std::numeric_limits<float>::max();
     particle_fitness_.best_fitness = std::numeric_limits<float>::max();
-    particle_velocity_ = std::vector<float>(4, 0.0f);
+    particle_velocity_ = std::vector<float>(4, 0);
 }
 
 std::vector<float>& optimizer::Particle::GetWeights() {
@@ -35,6 +35,7 @@ void optimizer::Particle::Initialize() {
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
         "Initializing particles.");
 
+    // Assign randomly generated weights for the descriptors
     std::random_device random_device;
     std::mt19937 num_generator(random_device());
     std::uniform_real_distribution<float> u_r_distrib(-5, 5);
@@ -42,6 +43,7 @@ void optimizer::Particle::Initialize() {
         weight = u_r_distrib(num_generator);
     }
     particle_weights_.best_weights = particle_weights_.weights;
+
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
         "Particles initialized.");
 }

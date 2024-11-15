@@ -8,6 +8,13 @@
 
 namespace wooting_sdk {
 class KeyLogger {
+    // -----------------------------------------------------------
+    // KeyLogger class based on Wooting SDK for Analog keyboards
+    // https://github.com/WootingKb/wooting-analog-sdk
+    //
+    // Used to acquire data about pressed keys (hid, pressure) from the
+    // keyboard's buffer
+    // -----------------------------------------------------------
    public:
     KeyLogger(int buffer_size = 64);
     std::vector<database::models::KeyBuffer> ReadFullBuffer();

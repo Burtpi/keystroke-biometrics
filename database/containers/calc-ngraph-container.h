@@ -10,6 +10,15 @@
 
 namespace database::containers {
 class CalcNgraphContainer : public Container<database::models::CalcNgraph> {
+    // -----------------------------------------------------------
+    // Inherits from container.h
+    // Container for Ngraph template descriptor
+    //
+    // Changes:
+    //  - AddEntry logic modified
+    //  - SaveToFile and LoadFromFile used for reuse of templates
+    //  - FindEntry for easier lookup
+    // -----------------------------------------------------------
    public:
     void AddEntry(std::string ngraph,
                   std::vector<database::models::Ngraph> ngraph_data);

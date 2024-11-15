@@ -9,6 +9,15 @@
 
 namespace database::models {
 class CalcNgraph {
+    // -----------------------------------------------------------
+    // Model for Ngraph templates
+    // Used by CalcNgraphContainer
+    //
+    // Data about each n-graph's (chars) flight time is
+    // stored for calculation in the identification scenario
+    //
+    // For flight time, the mean and standard deviation are stored
+    // -----------------------------------------------------------
    public:
     CalcNgraph(std::string ngraph, std::vector<Ngraph>& ngraph_data);
     CalcNgraph(std::vector<std::string> row);

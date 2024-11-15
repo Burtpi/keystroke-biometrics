@@ -45,6 +45,7 @@ void database::containers::CalcNgraphContainer::LoadFromFile(
 std::optional<database::models::CalcNgraph>
 database::containers::CalcNgraphContainer::FindEntry(
     database::models::Ngraph ngraph) const {
+    // Find if there is a calc template for the given ngraph (chars)
     std::vector<database::models::CalcNgraph>::const_iterator
         calc_ngraph_iterator = std::find_if(
             entries_.begin(), entries_.end(),

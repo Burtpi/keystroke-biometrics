@@ -41,9 +41,9 @@ const std::string& config::LanguageConfig::GetModelLanguage() const {
 bool config::LanguageConfig::SetModelLanguage(std::string model_language) {
     model_language_ = model_language;
     const std::optional<std::vector<std::string>>& digraphs =
-        ReadNgraph("digraph.txt");
+        ReadNgraph("/digraph.txt");
     const std::optional<std::vector<std::string>>& trigraphs =
-        ReadNgraph("trigraph.txt");
+        ReadNgraph("/trigraph.txt");
     const std::optional<std::map<int, std::string>>& special_chars =
         ReadSpecial();
     if (digraphs.has_value() && trigraphs.has_value()) {
@@ -59,6 +59,8 @@ bool config::LanguageConfig::SetModelLanguage(std::string model_language) {
 }
 
 std::map<int, std::string> config::LanguageConfig::SetHidToAscii() {
+    // Use hard-coded hid to ascii map
+    // Based on: https://aeb.win.tue.nl/linux/kbd/scancodes-10.html#scancodesets
     std::map<int, std::string> hid_to_ascii = {
         {53, "`"},          {30, "1"},         {31, "2"},
         {32, "3"},          {33, "4"},         {34, "5"},
@@ -119,6 +121,8 @@ std::map<int, std::string> config::LanguageConfig::SetModifierKeys() {
 
 std::vector<std::string> config::LanguageConfig::SetDigraph() {
     std::vector<std::string> digraph = {};
+
+    // If no language was selected, use hard-coded digraphs
     if (model_language_ == "en") {
         digraph = {
             "er", "in", "ti", "on", "es", "te", "at", "al", "an", "re", "en",
@@ -187,6 +191,8 @@ std::vector<std::string> config::LanguageConfig::SetDigraph() {
 
 std::vector<std::string> config::LanguageConfig::SetTrigraph() {
     std::vector<std::string> trigraph = {};
+
+    // If no language was selected, use hard-coded trigraphs
     if (model_language_ == "en") {
         trigraph = {
             "ing", "ati", "ess", "ion", "ter", "nes", "tio", "ate", "ent",

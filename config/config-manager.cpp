@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 
+// Initializing manager for global use
 config::ConfigManager global_config_manager;
 
 config::AppConfig &config::ConfigManager::GetAppConfig() { return app_config_; }

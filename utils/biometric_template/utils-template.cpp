@@ -47,6 +47,7 @@ void utils::biometric_template::ProcessNgraphs() {
 
 utils::biometric_template::GroupedKeyHits
 utils::biometric_template::GroupKeyHits() {
+    // Merge key hits and modifier key hits containers
     utils::biometric_template::GroupedKeyHits grouped_key_hits;
     const std::vector<database::models::KeyHit>& key_hits =
         database_manager.GetKeyHitContainer().GetEntries();
@@ -60,6 +61,7 @@ utils::biometric_template::GroupKeyHits() {
     merged_key_hits.insert(merged_key_hits.end(), modifier_keys.begin(),
                            modifier_keys.end());
 
+    // Group all merged key hits by their key (hid, is_special, is_big)
     for (const database::models::KeyHit& key_hit : merged_key_hits) {
         utils::biometric_template::KeyHitType key = std::make_tuple(
             key_hit.GetHid(), key_hit.GetIsSpecial(), key_hit.GetIsBig());
@@ -74,6 +76,7 @@ utils::biometric_template::GroupNgraphs() {
     const std::vector<database::models::Ngraph>& ngraphs =
         database_manager.GetNgraphContainer().GetEntries();
 
+    // Group all n-graphs
     for (const database::models::Ngraph& ngraph : ngraphs) {
         grouped_ngraphs[ngraph.GetChars()].push_back(ngraph);
     }

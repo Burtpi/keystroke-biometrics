@@ -8,6 +8,11 @@
 
 namespace database::templates {
 class TemplateContainer {
+    // -----------------------------------------------------------
+    // Container for templates (CalcTemplate)
+    //
+    //
+    // -----------------------------------------------------------
    public:
     TemplateContainer();
     TemplateContainer(std::string template_name) : name_(template_name) {}

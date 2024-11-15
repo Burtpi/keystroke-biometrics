@@ -16,15 +16,12 @@ database::templates::TemplateContainer::GetCalcTemplate() {
 
 std::string database::templates::TemplateContainer::GetName() { return name_; }
 
-std::string database::templates::TemplateContainer::GetLanguage() {
-    return language_;
-}
-
 void database::templates::TemplateContainer::LoadTemplates(
     std::string base_path) {
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
         "Loading templates.");
 
+    // Iterating through all directories with template files
     for (const std::filesystem::directory_entry& entry :
          std::filesystem::directory_iterator(base_path)) {
         if (entry.is_directory()) {
@@ -33,9 +30,10 @@ void database::templates::TemplateContainer::LoadTemplates(
                 entry.path().string() + "/template_hits.csv";
             std::string csv_template_ngraphs_path =
                 entry.path().string() + "/template_hits.csv";
+            std::string language_path = entry.path().string() + "/language.txt";
 
-            std::string language = utils::optimizer::LoadLanguage(
-                entry.path().string() + "/language.txt");
+            std::string language =
+                utils::optimizer::LoadLanguage(language_path);
             std::optional<database::containers::CalcKeyHitContainer>
                 calc_key_hit_container =
                     LoadAllCalcKeyHitContainers(csv_template_key_hits_path);

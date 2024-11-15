@@ -8,6 +8,10 @@
 
 namespace config {
 class LanguageConfig {
+    // -----------------------------------------------------------
+    // Part of config-manager.h
+    // Config used for easier access to n-graphs and characters
+    // -----------------------------------------------------------
    public:
     LanguageConfig(std::string model_language = "en");
     const std::map<int, std::string>& GetHidToAscii() const;

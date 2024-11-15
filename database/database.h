@@ -11,6 +11,12 @@
 
 namespace database {
 class DatabaseManager {
+    // -----------------------------------------------------------
+    // Database manager used for easier access to all of the available
+    // containers
+    //
+    // Used for easier access to variety of templates
+    // -----------------------------------------------------------
    public:
     database::containers::KeyHitContainer& GetKeyHitContainer();
     database::containers::NgraphContainer& GetNgraphContainer();

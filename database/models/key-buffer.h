@@ -3,6 +3,12 @@
 
 namespace database::models {
 struct KeyBuffer {
+    // -----------------------------------------------------------
+    // Struct for easier key data reading
+    // Used by ReadFullBuffer function of KeyLogger
+    //
+    // Operator< was modified for preferred sorting
+    // -----------------------------------------------------------
     int hid;
     float pressure;
 

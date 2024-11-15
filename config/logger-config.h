@@ -14,6 +14,10 @@
 
 namespace config {
 class LoggerConfig {
+    // -----------------------------------------------------------
+    // Part of config-manager.h
+    // Config used for easier access to loggers
+    // -----------------------------------------------------------
    public:
     LoggerConfig();
     std::chrono::time_point<std::chrono::system_clock> GetStartDate();

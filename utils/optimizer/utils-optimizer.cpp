@@ -13,6 +13,7 @@ utils::optimizer::LoadTemplatesWithNames() {
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
         "Loading templates with names.");
 
+    // Iterating through all directories with template directories
     for (const std::filesystem::directory_entry& entry :
          std::filesystem::directory_iterator(base_path)) {
         if (entry.is_directory()) {
@@ -38,10 +39,13 @@ utils::optimizer::LoadAllOptimizationData() {
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
         "Loading optimization data.");
 
+    // Iterating through all directories with data directories
     for (const std::filesystem::directory_entry& entry :
          std::filesystem::directory_iterator(base_path)) {
         if (entry.is_directory()) {
             std::string folder_name = entry.path().filename().string();
+
+            // Iterating through all directories with data
             for (const std::filesystem::directory_entry& entry_sub :
                  std::filesystem::directory_iterator(base_path + "/" +
                                                      folder_name)) {
@@ -67,8 +71,11 @@ utils::optimizer::LoadAllOptimizationMergedData(std::string base_path,
     database::containers::NgraphContainer ngraph_container;
     ngraph_container.LoadFromFile(base_path + "/ngraphs.csv");
     std::string language = LoadLanguage(base_path + "/language.txt");
+
     database::containers::MergedObjectsContainer merged_objects_container(
         name, language);
+
+    // Merge all loaded data and set language
     merged_objects_container.SetMergedObjects(key_hit_container.GetEntries(),
                                               ngraph_container.GetEntries());
     return merged_objects_container;

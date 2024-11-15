@@ -8,6 +8,11 @@
 
 namespace optimizer {
 class Particle {
+    // -----------------------------------------------------------
+    // Part of a swarm
+    //
+    // Used for finding optimal weights for the descriptors
+    // -----------------------------------------------------------
    public:
     Particle();
     std::vector<float>& GetWeights();

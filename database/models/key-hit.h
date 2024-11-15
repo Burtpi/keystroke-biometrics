@@ -8,6 +8,14 @@
 
 namespace database::models {
 class KeyHit {
+    // -----------------------------------------------------------
+    // KeyHit Model
+    // Used by KeyHitContainer
+    //
+    // Data for each press is stored in an object of this class
+    //
+    // Calculated data: dwell time, pressure (interpolation + DFT)
+    // -----------------------------------------------------------
    public:
     KeyHit(int hid, int elapsed_time, float pressure, bool is_big,
            bool is_special);

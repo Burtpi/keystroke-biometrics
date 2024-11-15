@@ -9,6 +9,15 @@
 
 namespace database::models {
 class CalcKeyHit {
+    // -----------------------------------------------------------
+    // Model for KeyHit templates
+    // Used by CalcKeyHitContainer
+    //
+    // Data about each key's (hid, is_special, is_big) descriptors is
+    // stored for calculation in the identification scenario
+    //
+    // For each of the descriptors, the mean and standard deviation are stored
+    // -----------------------------------------------------------
    public:
     CalcKeyHit();
     CalcKeyHit(std::tuple<int, bool, bool> key_hit,

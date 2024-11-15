@@ -15,6 +15,8 @@ void utils::key::validators::CheckIfExit(
 utils::key::validators::KeyHitIterator utils::key::validators::CheckIfExists(
     database::models::KeyBuffer key_state,
     std::vector<database::models::KeyHit> &key_hits) {
+    // Check whether the data from buffer refers to any existing object of the
+    // currently pressed keys
     KeyHitIterator key =
         std::find_if(key_hits.begin(), key_hits.end(),
                      [key_state](database::models::KeyHit &key_hit) {
@@ -31,6 +33,7 @@ bool utils::key::validators::CheckIfSpecialChar(int hid) {
     const std::map<int, std::string> &special_chars_ascii =
         global_config_manager.GetLanguageConfig().GetSpecialCharsAscii();
 
+    // Check if Right Alt key is currently pressed
     std::vector<database::models::KeyHit>::const_iterator ralt = std::find_if(
         modifier_keys.begin(), modifier_keys.end(),
         [](const database::models::KeyHit &key_hit) {
@@ -47,6 +50,7 @@ bool utils::key::validators::CheckIfBigChar() {
     const std::vector<database::models::KeyHit> &modifier_keys =
         database_manager.GetModifierKeyHitContainer().GetEntries();
 
+    // Check if any Shift key is currently pressed
     std::vector<database::models::KeyHit>::const_iterator shift = std::find_if(
         modifier_keys.begin(), modifier_keys.end(),
         [](const database::models::KeyHit &key_hit) {
@@ -60,6 +64,7 @@ bool utils::key::validators::CheckIfModifierKey(int hid) {
     const std::map<int, std::string> &modifier_keys =
         global_config_manager.GetLanguageConfig().GetModifierKeys();
 
+    // Check if pressed key is a modifier key (any Shift, Right Alt)
     std::_Tree<std::map<int, std::string>>::const_iterator modifier_key =
         modifier_keys.find(hid);
     return modifier_key != modifier_keys.end();
@@ -76,6 +81,7 @@ void utils::key::validators::CheckIfNgraph() {
     const config::LanguageConfig &language_config =
         global_config_manager.GetLanguageConfig();
 
+    // Get mapped char value depending on whether the key hit is special
     auto get_char = [&](database::models::KeyHit key_hit) -> std::string {
         return key_hit.GetIsSpecial() ? language_config.GetSpecialCharsAscii()
                                             .find(key_hit.GetHid())
@@ -85,12 +91,15 @@ void utils::key::validators::CheckIfNgraph() {
                                             ->second;
     };
 
+    // Check if n-graph
     auto process_n_graph = [&](const std::string &ngraph_str, int n) {
         const std::vector<std::string> &ngraph_size =
             n == 2 ? language_config.GetDigraph()
                    : language_config.GetTrigraph();
+
         std::vector<std::string>::const_iterator ngraph_find =
             std::find(ngraph_size.begin(), ngraph_size.end(), ngraph_str);
+
         if (ngraph_find != ngraph_size.end()) {
             std::vector<int> time_stamps = {
                 key_hits[key_hits.size() - n].GetTimeStamp(),
@@ -101,6 +110,9 @@ void utils::key::validators::CheckIfNgraph() {
 
             database_manager.GetNgraphContainer().AddEntry(ngraph_str,
                                                            time_stamps);
+
+            // Add new n-graph to the merged objects container for easier
+            // calculation
             database_manager.GetMergedObjectsContainer().AddEntry(
                 database_manager.GetNgraphContainer().GetEntries().back());
 
@@ -132,6 +144,8 @@ void utils::key::validators::CheckIfKeyIsPressed(
         for (database::models::KeyHit &key_hit : key_hits) {
             if (key_hit.GetHid() == key_state.hid && key_hit.GetIsPressed()) {
                 utils::key::validators::CheckIfKeyWasPressed(key_hit);
+
+                // Calculate descriptors only if key was pressed
                 if (key_hit.GetWasPressed()) {
                     key_hit.SetIsPressed(false);
                     key_hit.Calculate();
@@ -146,7 +160,10 @@ void utils::key::validators::CheckIfKeyIsPressed(
 
 void utils::key::validators::CheckIfKeyWasPressed(
     database::models::KeyHit &key_hit) {
+    // Proceed only if there is enough pressure data for interpolation
     if (key_hit.GetPressures().size() > 8) {
+        // Check if any pressure value was above the minimum actuation point set
+        // in config
         for (float pressure : key_hit.GetPressures()) {
             if (pressure >
                 global_config_manager.GetAppConfig().GetActuationPoint())

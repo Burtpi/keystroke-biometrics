@@ -1,3 +1,4 @@
+#include <config/config-manager.h>
 #include <database/containers/merged-objects-container.h>
 
 #include <algorithm>
@@ -24,9 +25,14 @@ std::string database::containers::MergedObjectsContainer::GetLanguage() {
     return language_;
 }
 
+void database::containers::MergedObjectsContainer::SetLanguage() {
+    language_ = global_config_manager.GetLanguageConfig().GetModelLanguage();
+}
+
 void database::containers::MergedObjectsContainer::SetMergedObjects(
     std::vector<database::models::KeyHit>& key_hits,
     std::vector<database::models::Ngraph>& ngraphs) {
+    // Merge KeyHit and Ngraph containers
     entries_.insert(entries_.end(), key_hits.begin(), key_hits.end());
     entries_.insert(entries_.end(), ngraphs.begin(), ngraphs.end());
 }

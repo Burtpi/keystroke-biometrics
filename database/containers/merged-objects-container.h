@@ -11,6 +11,15 @@ namespace database::containers {
 using MergedObjectsVariant =
     std::variant<database::models::KeyHit, database::models::Ngraph>;
 class MergedObjectsContainer : public Container<MergedObjectsVariant> {
+    // -----------------------------------------------------------
+    // Inherits from container.h
+    // Container for merged KeyHit and Ngraph containers
+    //
+    // Changes:
+    //  - Sort for proper calculation
+    //  - GetName and GetLanguage for optimizer and calculation
+    //  - SetMergedObjects for merging KeyHit and Ngraph containers
+    // -----------------------------------------------------------
    public:
     MergedObjectsContainer();
     MergedObjectsContainer(std::string container_name, std::string language)
@@ -20,6 +29,7 @@ class MergedObjectsContainer : public Container<MergedObjectsVariant> {
     std::string GetLanguage();
     void SetMergedObjects(std::vector<database::models::KeyHit>& key_hits,
                           std::vector<database::models::Ngraph>& ngraphs);
+    void SetLanguage();
 
    private:
     std::string name_;

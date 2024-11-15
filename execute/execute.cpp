@@ -7,7 +7,7 @@
 void execute::Run() {
     if (!global_config_manager.GetCalcConfig().GetIsTemplateInit() &&
         !global_config_manager.GetAppConfig().GetOptimize()) {
-        // Load templates for identification scenario
+        // Load templates for the identification scenario
         database_manager.GetTemplateContainer().LoadTemplates("templates");
     }
 

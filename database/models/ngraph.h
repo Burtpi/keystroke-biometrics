@@ -7,6 +7,14 @@
 
 namespace database::models {
 class Ngraph {
+    // -----------------------------------------------------------
+    // Ngraph Model
+    // Used by NgraphContainer
+    //
+    // Data for each ngraph is stored in an object of this class
+    //
+    // Calculated data: flight time
+    // -----------------------------------------------------------
    public:
     Ngraph(std::string chars, std::vector<int> time_stamps);
     Ngraph();

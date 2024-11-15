@@ -3,6 +3,10 @@
 
 namespace config {
 class CalcConfig {
+    // -----------------------------------------------------------
+    // Part of config-manager.h
+    // Config used for evaluating which descriptors to use
+    // -----------------------------------------------------------
    public:
     CalcConfig(bool dwell_time = true, bool ngraph = true, bool pressure = true,
                bool is_template_init = false);

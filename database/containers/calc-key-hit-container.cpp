@@ -47,10 +47,11 @@ void database::containers::CalcKeyHitContainer::LoadFromFile(
 }
 
 void database::containers::CalcKeyHitContainer::GenerateCalcKeyHitHashMap() {
+    // Generate hashmap for the key (hid, is_special, is_big)
     for (database::models::CalcKeyHit& calc_key_hit : entries_) {
         std::tuple<int, bool, bool> key =
-            std::make_tuple(calc_key_hit.GetHid(), calc_key_hit.GetIsBig(),
-                            calc_key_hit.GetIsSpecial());
+            std::make_tuple(calc_key_hit.GetHid(), calc_key_hit.GetIsSpecial(),
+                            calc_key_hit.GetIsBig());
         calc_key_hit_hash_map_[key] = calc_key_hit;
     }
 }
@@ -58,8 +59,9 @@ void database::containers::CalcKeyHitContainer::GenerateCalcKeyHitHashMap() {
 std::optional<database::models::CalcKeyHit>
 database::containers::CalcKeyHitContainer::FindEntry(
     database::models::KeyHit key_hit) const {
+    // Find if there is a calc template for the key (hid, is_special, is_big)
     std::tuple<int, bool, bool> key = std::make_tuple(
-        key_hit.GetHid(), key_hit.GetIsBig(), key_hit.GetIsSpecial());
+        key_hit.GetHid(), key_hit.GetIsSpecial(), key_hit.GetIsBig());
     auto it = calc_key_hit_hash_map_.find(key);
     if (it != calc_key_hit_hash_map_.end()) {
         return it->second;

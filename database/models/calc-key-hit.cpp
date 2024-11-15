@@ -31,6 +31,8 @@ void database::models::CalcKeyHit::Calculate(
     std::vector<int> dwell_times;
     std::vector<float> magnitudes;
     std::vector<double> total_energy;
+
+    // Store all of the descriptors data from grouped key hits
     for (const auto& key_hit : key_hit_data) {
         dwell_times.emplace_back(key_hit.GetDwellTime());
         magnitudes.emplace_back(key_hit.GetMagnitude());

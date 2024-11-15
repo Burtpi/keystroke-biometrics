@@ -16,6 +16,7 @@ void utils::calc::CalculateCurrentObjects(
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Calculating current objects scores.");
 
+    // Sort the objects in merged container for proper calculation
     merged_objects_container.Sort();
 
     std::vector<database::containers::MergedObjectsVariant>& merged_objects =
@@ -25,6 +26,7 @@ void utils::calc::CalculateCurrentObjects(
         calc_templates_container.GetCalcTemplate();
 
     for (database::containers::MergedObjectsVariant& object : merged_objects) {
+        // Check whether the current iteration object is a key hit or an n-graph
         if (database::models::KeyHit* key_hit =
                 std::get_if<database::models::KeyHit>(&object)) {
             try {
@@ -58,9 +60,13 @@ void utils::calc::CalculateKeyHit(
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Calculating key hits scores.");
 
+    // Calculate only if the key is not pressed any more and is not calculated
     if (key_hit.GetIsPressed() == false && key_hit.GetIsCalculated() == false) {
+        // Calculate score for each template
         for (database::models::CalcTemplate& calc_template : calc_templates) {
-            if (calc_template.language == language)
+            // Calculate only if the template's language matches the data
+            // language
+            if (calc_template.language.compare(language) == 0)
                 CalculateKeyHitTemplateScore(calc_template, key_hit, weights);
         }
         key_hit.SetIsCalculated(true);
@@ -78,6 +84,8 @@ void utils::calc::CalculateKeyHitTemplateScore(
         calc_template.calc_key_hit_container.FindEntry(key_hit);
     if (calc_key_hit.has_value()) {
         double score;
+
+        // Calculate z scores for each of key hit descriptors
         if (global_config_manager.GetCalcConfig().GetDwellTime() &&
             key_hit.GetDwellTime() <= 500) {
             score = utils::math::CalculateZScore(
@@ -108,7 +116,7 @@ void utils::calc::CalculateKeyHitTemplateScore(
                 z_scores.push_back(z_score_magnitude.value());
             }
         }
-        CalculateZScores(z_scores, calc_template);
+        if (z_scores.size() == 3) CalculateZScores(z_scores, calc_template);
     }
 }
 
@@ -119,9 +127,13 @@ void utils::calc::CalculateNgraph(
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Calculating ngraph scores.");
 
+    // Calculate only if the n-graph is not calculated
     if (!ngraph.GetIsCalculated()) {
+        // Calculate score for each template
         for (database::models::CalcTemplate& calc_template : calc_templates) {
-            if (calc_template.language == language)
+            // Calculate only if the template's language matches the data
+            // language
+            if (calc_template.language.compare(language) == 0)
                 CalculateNgraphTemplateScore(calc_template, ngraph, weights);
         }
         ngraph.SetIsCalculated(true);
@@ -140,6 +152,8 @@ void utils::calc::CalculateNgraphTemplateScore(
 
     if (calc_ngraph.has_value()) {
         double score;
+
+        // Calculate z score for n-graph flight time
         if (global_config_manager.GetCalcConfig().GetNgraph() &&
             ngraph.GetFlightTime() <= 1000) {
             score = utils::math::CalculateZScore(
@@ -156,6 +170,7 @@ void utils::calc::CalculateNgraphTemplateScore(
 }
 
 std::optional<double> utils::calc::CalculateScore(double score) {
+    // Use z scores that are in <-5, 5> range
     if (score >= 3 && score <= 5)
         return 3;
     else if (score <= -3 && score >= -5)
@@ -178,6 +193,7 @@ void utils::calc::CalculateZScores(
         }
         calc_template.score += (1 - z_score);
 
+        // Maximum score is 100 and minimum is 0
         if (calc_template.score >= 100) {
             calc_template.score = 100;
         } else if (calc_template.score <= 0) {

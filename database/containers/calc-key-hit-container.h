@@ -13,6 +13,15 @@
 
 namespace database::containers {
 class CalcKeyHitContainer : public Container<database::models::CalcKeyHit> {
+    // -----------------------------------------------------------
+    // Inherits from container.h
+    // Container for KeyHit template descriptors
+    //
+    // Changes:
+    //  - AddEntry logic modified
+    //  - SaveToFile and LoadFromFile used for reuse of templates
+    //  - GenerateCalcKeyHitHashMap and FindEntry for easier lookup
+    // -----------------------------------------------------------
    public:
     void AddEntry(std::tuple<int, bool, bool> key_hit,
                   std::vector<database::models::KeyHit> key_hit_data);

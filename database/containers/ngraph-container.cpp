@@ -45,6 +45,8 @@ void database::containers::NgraphContainer::LoadFromFile(
             std::getline(ss, other_str, '}');
             std::stringstream time_stamps_ss(other_str);
             std::string time_stamp;
+
+            // Read all timestamps
             while (time_stamps_ss >> time_stamp) {
                 ngraph.PushBackTimeStamp(stoi(time_stamp));
                 time_stamps_ss >> comma;

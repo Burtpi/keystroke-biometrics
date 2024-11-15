@@ -30,6 +30,7 @@ std::string utils::time::CalculateElapsedTime() {
 }
 
 void utils::time::SleepHighResolution() {
+    // Begin period with 1ms Timer Resolution
     timeBeginPeriod(1);
     Sleep(1);
     timeEndPeriod(1);

@@ -8,6 +8,9 @@
 
 namespace config {
 class ConfigManager {
+    // -----------------------------------------------------------
+    // Config manager used for the easier access to all of the configs
+    // -----------------------------------------------------------
    public:
     AppConfig &GetAppConfig();
     const LanguageConfig &GetLanguageConfig() const;
@@ -25,6 +28,7 @@ class ConfigManager {
 
 }  // namespace config
 
+// Create global instance of config manager
 extern config::ConfigManager global_config_manager;
 
 #endif

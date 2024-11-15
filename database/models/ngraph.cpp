@@ -11,8 +11,11 @@ database::models::Ngraph::Ngraph(std::string chars,
 database::models::Ngraph::Ngraph() { is_calculated_ = false; }
 
 std::string database::models::Ngraph::GetChars() const { return chars_; }
+
 int database::models::Ngraph::GetFlightTime() const { return flight_time_; }
+
 bool database::models::Ngraph::GetIsCalculated() { return is_calculated_; }
+
 void database::models::Ngraph::SetIsCalculated(bool is_calculated) {
     is_calculated_ = is_calculated;
 }
@@ -39,9 +42,11 @@ void database::models::Ngraph::SaveNgraphToCsv(std::ofstream &file) const {
 }
 
 void database::models::Ngraph::SetChars(std::string chars) { chars_ = chars; }
+
 void database::models::Ngraph::SetFlightTime(int flight_time) {
     flight_time_ = flight_time;
 }
+
 void database::models::Ngraph::PushBackTimeStamp(int time_stamp) {
     time_stamps_.emplace_back(time_stamp);
 }

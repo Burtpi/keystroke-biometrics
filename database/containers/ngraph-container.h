@@ -10,6 +10,14 @@
 
 namespace database::containers {
 class NgraphContainer : public Container<database::models::Ngraph> {
+    // -----------------------------------------------------------
+    // Inherits from container.h
+    // Container for Ngraphs
+    //
+    // Changes:
+    //  - AddEntry logic modified
+    //  - SaveToFile and LoadFromFile used for reuse of calculated data
+    // -----------------------------------------------------------
    public:
     void AddEntry(std::string ngraph, std::vector<int>& time_stamps);
     void SaveToFile();

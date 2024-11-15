@@ -15,6 +15,8 @@ database::models::CalcNgraph::CalcNgraph(std::vector<std::string> row) {
 
 void database::models::CalcNgraph::Calculate(std::vector<Ngraph>& ngraph_data) {
     std::vector<int> flight_times;
+
+    // Store flight time data from grouped n-graphs
     for (const auto& ngraph : ngraph_data) {
         flight_times.emplace_back(ngraph.GetFlightTime());
     }

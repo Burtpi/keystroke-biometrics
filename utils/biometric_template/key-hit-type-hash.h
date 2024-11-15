@@ -7,6 +7,9 @@
 
 namespace utils::biometric_template {
 struct TupleHash {
+    // -----------------------------------------------------------
+    // Struct for using tuple (int, bool, bool) as a key for a map
+    // -----------------------------------------------------------
     std::size_t operator()(const std::tuple<int, bool, bool>& key) const {
         auto [a, b, c] = key;
         std::size_t hash1 = std::hash<int>{}(a);
@@ -17,6 +20,9 @@ struct TupleHash {
 };
 
 struct TupleEqual {
+    // -----------------------------------------------------------
+    // Struct for comparing two tuples (int, bool, bool)
+    // -----------------------------------------------------------
     bool operator()(const std::tuple<int, bool, bool>& left_hash,
                     const std::tuple<int, bool, bool>& right_hash) const {
         return left_hash == right_hash;

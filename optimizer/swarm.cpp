@@ -12,7 +12,7 @@ optimizer::Swarm::Swarm() {
     global_best_weights_ = {1, 1, 1, 1};
     global_best_fitness_ = std::numeric_limits<float>::max();
     num_generator_ = std::mt19937(std::random_device{}());
-    u_r_distrib_ = std::uniform_real_distribution<float>(0, 2);
+    u_r_distrib_ = std::uniform_real_distribution<float>(0, 1);
 }
 
 void optimizer::Swarm::Optimize(
@@ -31,6 +31,7 @@ void optimizer::Swarm::Optimize(
             std::vector<std::vector<bool>> is_genuine_overall;
             std::vector<std::vector<double>> scores_overall;
 
+            // For each of the data sets, calculate scores for all templates
             for (database::containers::MergedObjectsContainer merged_objects :
                  merged_objects_containers) {
                 std::vector<bool> is_genuine;
@@ -40,10 +41,14 @@ void optimizer::Swarm::Optimize(
                     utils::calc::CalculateCurrentObjects(particle.GetWeights(),
                                                          merged_objects,
                                                          template_container);
+
+                    // Save scores and information about genuity of verification
                     for (database::models::CalcTemplate& calc_template :
                          template_container.GetCalcTemplate()) {
-                        if (merged_objects.GetLanguage() ==
-                            calc_template.language) {
+                        // Get scores only for the templates that match language
+                        // with the data set
+                        if (calc_template.language.compare(
+                                merged_objects.GetLanguage()) == 0) {
                             is_genuine.emplace_back(
                                 merged_objects.GetName() ==
                                 template_container.GetName());
@@ -55,6 +60,7 @@ void optimizer::Swarm::Optimize(
                 scores_overall.emplace_back(scores);
             }
 
+            // Get current position for particle
             particle.SetFitness(
                 CalculateEER(is_genuine_overall, scores_overall));
 
@@ -98,6 +104,7 @@ float optimizer::Swarm::CalculateEER(
 float optimizer::Swarm::CalculateFAR(
     const std::vector<std::vector<bool>>& is_genuine,
     const std::vector<std::vector<double>>& scores, float threshold) {
+    // Calculate how many data sets were falsely accepted
     int false_accepts = 0;
     int impostors = 0;
 
@@ -117,6 +124,7 @@ float optimizer::Swarm::CalculateFAR(
 float optimizer::Swarm::CalculateFRR(
     const std::vector<std::vector<bool>>& is_genuine,
     const std::vector<std::vector<double>>& scores, float threshold) {
+    // Calculate how many data sets were falsely rejected
     int false_rejects = 0;
     int genuine = 0;
 
@@ -149,12 +157,21 @@ void optimizer::Swarm::UpdateParticleVelocities(
         for (size_t i = 0; i < particle.GetWeights().size(); i++) {
             float r1 = u_r_distrib_(num_generator_);
             float r2 = u_r_distrib_(num_generator_);
+
+            // Particle velocity formula where:
+            //  inertia - controls momentum of the particle
+            //  cognitive - balance individual influence
+            //  social - balance group influence
+            //  r1, r2 - random values in the range [0, 1]
             particle.GetVelocity()[i] =
                 inertia_ * particle.GetVelocity()[i] +
                 cognitive_ * r1 *
                     (particle.GetBestWeights()[i] - particle.GetWeights()[i]) +
                 social_ * r2 *
                     (global_best_weights_[i] - particle.GetWeights()[i]);
+
+            // Clamp the particle's velocity to the range [-2.0, 2.0] to prevent
+            // overshooting
             particle.GetVelocity()[i] =
                 std::max(-2.0f, std::min(particle.GetVelocity()[i], 2.0f));
 

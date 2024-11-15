@@ -1,5 +1,6 @@
 #include <database/database.h>
 
+// Initializing manager for global use
 database::DatabaseManager database_manager;
 
 database::containers::KeyHitContainer&

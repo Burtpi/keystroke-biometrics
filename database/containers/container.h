@@ -6,6 +6,9 @@
 namespace database::containers {
 template <typename T>
 class Container {
+    // -----------------------------------------------------------
+    // Base container model
+    // -----------------------------------------------------------
    public:
     std::vector<T>& GetEntries() { return entries_; }
     void AddEntry(T entry) { entries_.emplace_back(entry); }

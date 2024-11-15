@@ -10,6 +10,13 @@
 
 namespace optimizer {
 class Swarm {
+    // -----------------------------------------------------------
+    // Optimizer class based on Particle Swarm Optimization
+    //
+    // Used as a search space for particles to find the optimal weights
+    // for the descriptors, based on minimizing the Equal Error Rate of the
+    // given optimization data
+    // -----------------------------------------------------------
    public:
     Swarm();
     void Optimize(std::vector<database::templates::TemplateContainer>&

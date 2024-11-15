@@ -5,6 +5,9 @@
 
 namespace optimizer {
 struct ParticleWeights {
+    // -----------------------------------------------------------
+    // Struct for storing weights data for a Particle
+    // -----------------------------------------------------------
     std::vector<float> weights;
     std::vector<float> best_weights;
 };

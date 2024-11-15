@@ -6,6 +6,10 @@
 
 namespace config {
 class AppConfig {
+    // -----------------------------------------------------------
+    // Part of config-manager.h
+    // Config used for evaluating execution of the program
+    // -----------------------------------------------------------
    public:
     int GetActuationPoint();
     bool GetKeyLogging();

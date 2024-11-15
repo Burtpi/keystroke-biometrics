@@ -62,6 +62,8 @@ void database::containers::KeyHitContainer::LoadFromFile(
             std::getline(ss, other_str, '}');
             std::stringstream time_stamps_ss(other_str);
             int time_stamp;
+
+            // Load all timestamps
             while (time_stamps_ss >> time_stamp) {
                 key_hit.PushBackTimeStamp(time_stamp);
                 time_stamps_ss >> comma;
@@ -71,6 +73,8 @@ void database::containers::KeyHitContainer::LoadFromFile(
             std::stringstream pressures_ss(other_str);
             float pressure;
             pressures_ss >> comma >> comma;
+
+            // Load all pressures
             while (pressures_ss >> pressure) {
                 key_hit.PushBackPressure(pressure);
                 pressures_ss >> comma;

@@ -3,6 +3,9 @@
 
 namespace optimizer {
 struct ParticleFitness {
+    // -----------------------------------------------------------
+    // Struct for storing calculated data of descriptors
+    // -----------------------------------------------------------
     float fitness;
     float best_fitness;
 };

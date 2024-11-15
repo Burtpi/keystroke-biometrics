@@ -3,6 +3,9 @@
 
 namespace database::models {
 struct Statistics {
+    // -----------------------------------------------------------
+    // Struct for storing calculated data of descriptors
+    // -----------------------------------------------------------
     double mean;
     double std_deviation;
 };
