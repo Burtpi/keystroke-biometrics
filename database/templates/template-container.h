@@ -10,8 +10,8 @@ namespace database::templates {
 class TemplateContainer {
     // -----------------------------------------------------------
     // Container for templates (CalcTemplate)
-    //
-    //
+    // 
+    // Used for easier access to variety of templates
     // -----------------------------------------------------------
    public:
     TemplateContainer();

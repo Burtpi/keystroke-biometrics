@@ -128,11 +128,11 @@ void config::ConfigManager::DisplayHelp() {
     std::cout
         << "  --no-logs\t\t\t\t Logs from hit logger will not be saved.\n";
     std::cout << "  -nn or --no-ngraph\t\t\t Ngraph feature will not be "
-                 "calculated in identifying and verification scenario.\n";
+                 "calculated in identification and verification scenario.\n";
     std::cout << "  -nd or --no-dwell\t\t\t Dwell Time feature will not be "
-                 "calculated in identifying and verification scenario.\n";
+                 "calculated in identification and verification scenario.\n";
     std::cout << "  -np or --no-pressure\t\t\t Pressure feature will not be "
-                 "calculated in identifying and verification scenario.\n";
+                 "calculated in identification and verification scenario.\n";
     std::cout << "  -i or --init\t\t\t\t Create template with your keystroke "
                  "dynamics biometrics features.\n";
     std::cout << "  -o or --optimize\t\t\t\t Optimize weights for descriptors "

@@ -49,6 +49,15 @@ void utils::calc::CalculateCurrentObjects(
             }
         }
     }
+    // std::stringstream ss;
+    // for (database::models::CalcTemplate& calc_template : calc_templates) {
+    //     if (calc_template.language.compare(
+    //             merged_objects_container.GetLanguage()) == 0)
+    //         ss << std::to_string(calc_template.score) + ", ";
+    // }
+    // global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
+    //     "Scores: {}", ss.str());
+
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Successfully calculated current objects scores.");
 }
@@ -63,11 +72,13 @@ void utils::calc::CalculateKeyHit(
     // Calculate only if the key is not pressed any more and is not calculated
     if (key_hit.GetIsPressed() == false && key_hit.GetIsCalculated() == false) {
         // Calculate score for each template
+        int counter;
         for (database::models::CalcTemplate& calc_template : calc_templates) {
             // Calculate only if the template's language matches the data
             // language
-            if (calc_template.language.compare(language) == 0)
+            if (calc_template.language.compare(language) == 0) {
                 CalculateKeyHitTemplateScore(calc_template, key_hit, weights);
+            }
         }
         key_hit.SetIsCalculated(true);
     }
@@ -153,7 +164,7 @@ void utils::calc::CalculateNgraphTemplateScore(
     if (calc_ngraph.has_value()) {
         double score;
 
-        // Calculate z score for n-graph flight time
+        // Calculate z-score for n-graph's flight time
         if (global_config_manager.GetCalcConfig().GetNgraph() &&
             ngraph.GetFlightTime() <= 1000) {
             score = utils::math::CalculateZScore(
@@ -188,9 +199,6 @@ void utils::calc::CalculateZScores(
         double z_score =
             round(std::abs(utils::math::CalculateMean(z_scores)) * 10000) /
             10000;
-        if (z_score > 1) {
-            z_score *= 2;
-        }
         calc_template.score += (1 - z_score);
 
         // Maximum score is 100 and minimum is 0

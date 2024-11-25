@@ -32,6 +32,7 @@ class Swarm {
     float social_;
     std::vector<float> global_best_weights_;
     float global_best_fitness_;
+    float global_best_fitness_threshold_;
     std::vector<Particle> particles_;
     std::mt19937 num_generator_;
     std::uniform_real_distribution<float> u_r_distrib_;
@@ -41,8 +42,9 @@ class Swarm {
     float CalculateFRR(const std::vector<std::vector<bool>>& is_genuine,
                        const std::vector<std::vector<double>>& scores,
                        float threshold);
-    float CalculateEER(const std::vector<std::vector<bool>>& is_genuine,
-                       const std::vector<std::vector<double>>& scores);
+    std::pair<float, float> CalculateEER(
+        const std::vector<std::vector<bool>>& is_genuine,
+        const std::vector<std::vector<double>>& scores);
     void UpdateParticleVelocities(std::vector<Particle>& particles);
     void FindGlobalBestWeights(const std::vector<Particle>& particles);
 };

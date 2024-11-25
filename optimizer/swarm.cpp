@@ -38,8 +38,10 @@ void optimizer::Swarm::Optimize(
                 std::vector<double> scores;
                 for (database::templates::TemplateContainer template_container :
                      template_containers) {
+                    database::containers::MergedObjectsContainer
+                        merged_objects_copy = merged_objects;
                     utils::calc::CalculateCurrentObjects(particle.GetWeights(),
-                                                         merged_objects,
+                                                         merged_objects_copy,
                                                          template_container);
 
                     // Save scores and information about genuity of verification
@@ -59,35 +61,37 @@ void optimizer::Swarm::Optimize(
                 is_genuine_overall.emplace_back(is_genuine);
                 scores_overall.emplace_back(scores);
             }
-
             // Get current position for particle
             particle.SetFitness(
                 CalculateEER(is_genuine_overall, scores_overall));
 
             particle.UpdateBestPosition();
         }
+        FindGlobalBestWeights(particles_);
+        UpdateParticleVelocities(particles_);
+
         global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
             "Iteration " + std::to_string(iteration) +
-            " - Best EER: " + std::to_string(global_best_fitness_));
+            " - Best EER: " + std::to_string(global_best_fitness_) + " with " +
+            std::to_string(global_best_fitness_threshold_) + " threshold.");
         global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
             "Current global best weights: {}",
             fmt::join(global_best_weights_, " "));
-
-        FindGlobalBestWeights(particles_);
-        UpdateParticleVelocities(particles_);
     }
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
         "Successfully optimized the weights for descriptors.");
 }
 
-float optimizer::Swarm::CalculateEER(
+std::pair<float, float> optimizer::Swarm::CalculateEER(
     const std::vector<std::vector<bool>>& is_genuine,
     const std::vector<std::vector<double>>& scores) {
     float best_threshold = 0;
     float min_diff = std::numeric_limits<float>::max();
     float eer = 0;
+    float far1;
+    float frr1;
 
-    for (float threshold = 0; threshold <= 100; threshold += 0.1) {
+    for (float threshold = 0; threshold <= 100; threshold += 0.001) {
         float false_acc_rate = CalculateFAR(is_genuine, scores, threshold);
         float false_rej_rate = CalculateFRR(is_genuine, scores, threshold);
         float diff = abs(false_acc_rate - false_rej_rate);
@@ -95,10 +99,14 @@ float optimizer::Swarm::CalculateEER(
         if (diff < min_diff) {
             min_diff = diff;
             best_threshold = threshold;
+            // Approximate EER
             eer = (false_acc_rate + false_rej_rate) / 2;
+            far1 = false_acc_rate;
+            frr1 = false_rej_rate;
         }
     }
-    return eer;
+    std::ostringstream oss;
+    return std::make_pair(eer, best_threshold);
 }
 
 float optimizer::Swarm::CalculateFAR(
@@ -147,6 +155,7 @@ void optimizer::Swarm::FindGlobalBestWeights(
         if (particle.GetBestFitness() < global_best_fitness_) {
             global_best_fitness_ = particle.GetBestFitness();
             global_best_weights_ = particle.GetBestWeights();
+            global_best_fitness_threshold_ = particle.GetBestFitnessThreshold();
         }
     }
 }
@@ -160,8 +169,8 @@ void optimizer::Swarm::UpdateParticleVelocities(
 
             // Particle velocity formula where:
             //  inertia - controls momentum of the particle
-            //  cognitive - balance individual influence
-            //  social - balance group influence
+            //  cognitive - balances individual influence
+            //  social - balances group influence
             //  r1, r2 - random values in the range [0, 1]
             particle.GetVelocity()[i] =
                 inertia_ * particle.GetVelocity()[i] +

@@ -8,6 +8,8 @@ optimizer::Particle::Particle() {
     particle_weights_.best_weights = std::vector<float>(4, 0);
     particle_fitness_.fitness = std::numeric_limits<float>::max();
     particle_fitness_.best_fitness = std::numeric_limits<float>::max();
+    particle_fitness_.fitness_threshold = 0;
+    particle_fitness_.best_fitness_threshold = 0;
     particle_velocity_ = std::vector<float>(4, 0);
 }
 
@@ -27,8 +29,13 @@ float& optimizer::Particle::GetBestFitness() {
     return particle_fitness_.best_fitness;
 }
 
-void optimizer::Particle::SetFitness(float fitness) {
-    particle_fitness_.fitness = fitness;
+float& optimizer::Particle::GetBestFitnessThreshold() {
+    return particle_fitness_.best_fitness_threshold;
+}
+
+void optimizer::Particle::SetFitness(std::pair<float, float> fitness) {
+    particle_fitness_.fitness = fitness.first;
+    particle_fitness_.fitness_threshold = fitness.second;
 }
 
 void optimizer::Particle::Initialize() {
@@ -52,5 +59,7 @@ void optimizer::Particle::UpdateBestPosition() {
     if (particle_fitness_.fitness < particle_fitness_.best_fitness) {
         particle_weights_.best_weights = particle_weights_.weights;
         particle_fitness_.best_fitness = particle_fitness_.fitness;
+        particle_fitness_.best_fitness_threshold =
+            particle_fitness_.fitness_threshold;
     }
 }

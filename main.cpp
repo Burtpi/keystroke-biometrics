@@ -4,6 +4,8 @@
 
 int main(int argc, char *argv[]) {
     bool argv_read = global_config_manager.ReadTerminalFlags(argc, argv);
+
+    // Run only if terminal flags were correctly read
     if (argv_read) {
         global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
             "Starting the program.");

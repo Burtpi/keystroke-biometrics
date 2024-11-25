@@ -19,7 +19,8 @@ class Particle {
     std::vector<float>& GetBestWeights();
     std::vector<float>& GetVelocity();
     float& GetBestFitness();
-    void SetFitness(float fitness);
+    float& GetBestFitnessThreshold();
+    void SetFitness(std::pair<float, float> fitness);
     void UpdateBestPosition();
     void Initialize();
 
