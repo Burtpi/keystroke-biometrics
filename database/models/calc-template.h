@@ -20,7 +20,7 @@ struct CalcTemplate {
                  std::string language)
         : calc_key_hit_container(calc_key_hit),
           calc_ngraph_container(calc_ngraph),
-          score(100),
+          score(70),
           language(language) {};
     database::containers::CalcKeyHitContainer calc_key_hit_container;
     database::containers::CalcNgraphContainer calc_ngraph_container;
