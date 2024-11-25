@@ -148,6 +148,7 @@ void utils::key::LoadAllHits() {
     database_manager.GetMergedObjectsContainer().SetMergedObjects(
         database_manager.GetKeyHitContainer().GetEntries(),
         database_manager.GetNgraphContainer().GetEntries());
+    database_manager.GetMergedObjectsContainer().SetLanguage();
 
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
         "Successfully loaded all hits from files.");
