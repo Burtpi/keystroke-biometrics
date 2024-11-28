@@ -36,17 +36,22 @@ class Swarm {
     std::vector<Particle> particles_;
     std::mt19937 num_generator_;
     std::uniform_real_distribution<float> u_r_distrib_;
-    float CalculateFAR(const std::vector<std::vector<bool>>& is_genuine,
-                       const std::vector<std::vector<double>>& scores,
-                       float threshold);
-    float CalculateFRR(const std::vector<std::vector<bool>>& is_genuine,
-                       const std::vector<std::vector<double>>& scores,
-                       float threshold);
-    std::pair<float, float> CalculateEER(
+    static float CalculateFAR(const std::vector<std::vector<bool>>& is_genuine,
+                              const std::vector<std::vector<double>>& scores,
+                              float threshold);
+    static float CalculateFRR(const std::vector<std::vector<bool>>& is_genuine,
+                              const std::vector<std::vector<double>>& scores,
+                              float threshold);
+    static std::pair<float, float> CalculateEER(
         const std::vector<std::vector<bool>>& is_genuine,
         const std::vector<std::vector<double>>& scores);
     void UpdateParticleVelocities(std::vector<Particle>& particles);
     void FindGlobalBestWeights(const std::vector<Particle>& particles);
+    static void ProcessParticle(
+        Particle& particle,
+        std::vector<database::templates::TemplateContainer> template_containers,
+        std::vector<database::containers::MergedObjectsContainer>
+            merged_objects_containers);
 };
 }  // namespace optimizer
 

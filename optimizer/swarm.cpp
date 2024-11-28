@@ -2,10 +2,12 @@
 #include <optimizer/swarm.h>
 #include <utils/calc/utils-calc.h>
 
+#include <thread>
+
 optimizer::Swarm::Swarm() {
-    number_of_particles_ = 50;
+    number_of_particles_ = 64;
     max_iterations_ = 1000;
-    inertia_ = 0.7;
+    inertia_ = 0.9;
     cognitive_ = 1.5;
     social_ = 1.5;
     particles_ = std::vector<Particle>(number_of_particles_, Particle());
@@ -27,45 +29,14 @@ void optimizer::Swarm::Optimize(
     }
 
     for (int iteration = 0; iteration < max_iterations_; iteration++) {
+        std::vector<std::thread> threads;
         for (Particle& particle : particles_) {
-            std::vector<std::vector<bool>> is_genuine_overall;
-            std::vector<std::vector<double>> scores_overall;
-
-            // For each of the data sets, calculate scores for all templates
-            for (database::containers::MergedObjectsContainer merged_objects :
-                 merged_objects_containers) {
-                std::vector<bool> is_genuine;
-                std::vector<double> scores;
-                for (database::templates::TemplateContainer template_container :
-                     template_containers) {
-                    database::containers::MergedObjectsContainer
-                        merged_objects_copy = merged_objects;
-                    utils::calc::CalculateCurrentObjects(particle.GetWeights(),
-                                                         merged_objects_copy,
-                                                         template_container);
-
-                    // Save scores and information about genuity of verification
-                    for (database::models::CalcTemplate& calc_template :
-                         template_container.GetCalcTemplate()) {
-                        // Get scores only for the templates that match language
-                        // with the data set
-                        if (calc_template.language.compare(
-                                merged_objects.GetLanguage()) == 0) {
-                            is_genuine.emplace_back(
-                                merged_objects.GetName() ==
-                                template_container.GetName());
-                            scores.emplace_back(calc_template.score);
-                        }
-                    }
-                }
-                is_genuine_overall.emplace_back(is_genuine);
-                scores_overall.emplace_back(scores);
-            }
-            // Get current position for particle
-            particle.SetFitness(
-                CalculateEER(is_genuine_overall, scores_overall));
-
-            particle.UpdateBestPosition();
+            threads.emplace_back(&optimizer::Swarm::ProcessParticle,
+                                 std::ref(particle), template_containers,
+                                 merged_objects_containers);
+        }
+        for (std::thread& thread : threads) {
+            thread.join();
         }
         FindGlobalBestWeights(particles_);
         UpdateParticleVelocities(particles_);
@@ -80,6 +51,48 @@ void optimizer::Swarm::Optimize(
     }
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
         "Successfully optimized the weights for descriptors.");
+}
+
+void optimizer::Swarm::ProcessParticle(
+    Particle& particle,
+    std::vector<database::templates::TemplateContainer> template_containers,
+    std::vector<database::containers::MergedObjectsContainer>
+        merged_objects_containers) {
+    std::vector<std::vector<bool>> is_genuine_overall;
+    std::vector<std::vector<double>> scores_overall;
+
+    // For each of the data sets, calculate scores for all templates
+    for (database::containers::MergedObjectsContainer merged_objects :
+         merged_objects_containers) {
+        std::vector<bool> is_genuine;
+        std::vector<double> scores;
+        for (database::templates::TemplateContainer template_container :
+             template_containers) {
+            database::containers::MergedObjectsContainer merged_objects_copy =
+                merged_objects;
+            utils::calc::CalculateCurrentObjects(
+                particle.GetWeights(), merged_objects_copy, template_container);
+
+            // Save scores and information about genuity of verification
+            for (database::models::CalcTemplate& calc_template :
+                 template_container.GetCalcTemplate()) {
+                // Get scores only for the templates that match language
+                // with the data set
+                if (calc_template.language.compare(
+                        merged_objects.GetLanguage()) == 0) {
+                    is_genuine.emplace_back(merged_objects.GetName() ==
+                                            template_container.GetName());
+                    scores.emplace_back(calc_template.score);
+                }
+            }
+        }
+        is_genuine_overall.emplace_back(is_genuine);
+        scores_overall.emplace_back(scores);
+    }
+    // Get current position for particle
+    particle.SetFitness(CalculateEER(is_genuine_overall, scores_overall));
+
+    particle.UpdateBestPosition();
 }
 
 std::pair<float, float> optimizer::Swarm::CalculateEER(
