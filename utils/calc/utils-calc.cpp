@@ -49,14 +49,6 @@ void utils::calc::CalculateCurrentObjects(
             }
         }
     }
-    // std::stringstream ss;
-    // for (database::models::CalcTemplate& calc_template : calc_templates) {
-    //     if (calc_template.language.compare(
-    //             merged_objects_container.GetLanguage()) == 0)
-    //         ss << std::to_string(calc_template.score) + ", ";
-    // }
-    // global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
-    //     "Scores: {}", ss.str());
 
     global_config_manager.GetLoggerConfig().GetGeneralLogger()->debug(
         "Successfully calculated current objects scores.");
@@ -105,7 +97,7 @@ void utils::calc::CalculateKeyHitTemplateScore(
             std::optional<double> z_score_dwell = CalculateScore(score);
             if (z_score_dwell.has_value()) {
                 z_score_dwell.value() *= weights[0];
-                z_scores.push_back(z_score_dwell.value());
+                if (weights[0] != 0) z_scores.push_back(z_score_dwell.value());
             }
         }
         if (global_config_manager.GetCalcConfig().GetPressure()) {
@@ -115,7 +107,7 @@ void utils::calc::CalculateKeyHitTemplateScore(
             std::optional<double> z_score_energy = CalculateScore(score);
             if (z_score_energy.has_value()) {
                 z_score_energy.value() *= weights[1];
-                z_scores.push_back(z_score_energy.value());
+                if (weights[1] != 0) z_scores.push_back(z_score_energy.value());
             }
 
             score = utils::math::CalculateZScore(
@@ -124,10 +116,13 @@ void utils::calc::CalculateKeyHitTemplateScore(
             std::optional<double> z_score_magnitude = CalculateScore(score);
             if (z_score_magnitude.has_value()) {
                 z_score_magnitude.value() *= weights[2];
-                z_scores.push_back(z_score_magnitude.value());
+                if (weights[2] != 0)
+                    z_scores.push_back(z_score_magnitude.value());
             }
         }
-        if (z_scores.size() == 3) CalculateZScores(z_scores, calc_template);
+        if (z_scores.size() == 3 ||
+            (weights[0] == 0 || weights[1] == 0 || weights[2] == 0))
+            CalculateZScores(z_scores, calc_template);
     }
 }
 

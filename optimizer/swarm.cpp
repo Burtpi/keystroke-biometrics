@@ -88,10 +88,8 @@ std::pair<float, float> optimizer::Swarm::CalculateEER(
     float best_threshold = 0;
     float min_diff = std::numeric_limits<float>::max();
     float eer = 0;
-    float far1;
-    float frr1;
 
-    for (float threshold = 0; threshold <= 100; threshold += 0.001) {
+    for (float threshold = 0; threshold <= 100; threshold += 0.01) {
         float false_acc_rate = CalculateFAR(is_genuine, scores, threshold);
         float false_rej_rate = CalculateFRR(is_genuine, scores, threshold);
         float diff = abs(false_acc_rate - false_rej_rate);
@@ -101,11 +99,9 @@ std::pair<float, float> optimizer::Swarm::CalculateEER(
             best_threshold = threshold;
             // Approximate EER
             eer = (false_acc_rate + false_rej_rate) / 2;
-            far1 = false_acc_rate;
-            frr1 = false_rej_rate;
         }
     }
-    std::ostringstream oss;
+
     return std::make_pair(eer, best_threshold);
 }
 

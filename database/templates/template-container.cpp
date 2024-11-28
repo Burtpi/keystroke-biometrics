@@ -29,7 +29,7 @@ void database::templates::TemplateContainer::LoadTemplates(
             std::string csv_template_key_hits_path =
                 entry.path().string() + "/template_hits.csv";
             std::string csv_template_ngraphs_path =
-                entry.path().string() + "/template_hits.csv";
+                entry.path().string() + "/template_ngraph.csv";
             std::string language_path = entry.path().string() + "/language.txt";
 
             std::string language =
@@ -48,7 +48,7 @@ void database::templates::TemplateContainer::LoadTemplates(
             }
         }
     }
-    if (database_manager.GetTemplateContainer().GetCalcTemplate().size() > 0) {
+    if (calc_templates_.size() > 0) {
         global_config_manager.GetLoggerConfig().GetGeneralLogger()->info(
             "Successfully loaded the templates.");
     } else {
